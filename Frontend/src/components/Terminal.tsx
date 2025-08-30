@@ -112,11 +112,11 @@ export default function Terminal({ onClose, openApp, minimizeApp }: TerminalProp
 
   return (
     <div className="bg-black text-green-400 font-mono p-4 rounded-lg shadow-md absolute top-4 left-1/2 -translate-x-1/2 w-11/12 md:w-3/4 lg:w-2/3 z-50 max-h-[70vh] overflow-y-auto">
-      <div className="flex items-center gap-2 mb-2">
+      {/* <div className="flex items-center gap-2 mb-2">
         <span className="w-3 h-3 rounded-full bg-red-500"></span>
         <span className="w-3 h-3 rounded-full bg-yellow-500"></span>
         <span className="w-3 h-3 rounded-full bg-green-500"></span>
-      </div>
+      </div> */}
       <div className="space-y-1">
         {history.map((c, idx) => (
           <div key={idx}>

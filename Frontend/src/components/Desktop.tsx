@@ -41,7 +41,7 @@ export default function Desktop() {
   ];
 
   return (
-    <div className="w-screen h-screen relative bg-[url('/fondo-escritorio.jpg')] bg-cover overflow-hidden">
+    <div className="w-screen h-screen relative bg-[url('/home/siulvid/Documentos/Poratfolio/Frontend/src/assets/ubuntu-disco.jpg')] bg-cover overflow-hidden">
       <Menubar />
 
       {/* Esquina superior izquierda */}
