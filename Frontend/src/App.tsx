@@ -4,15 +4,14 @@ import Desktop from "./components/Desktop";
 
 export default function App() {
   const [booting, setBooting] = useState(true);
-  const [activeWindow, setActiveWindow] = useState<string | null>(null);
-
+  
   if (booting) {
     return <BootScreen onFinish={() => setBooting(false)} />;
   }
 
   return (
     <div className="h-screen w-screen bg-gradient-to-br from-gray-900 to-black overflow-hidden">
-      <Desktop activeWindow={activeWindow} setActiveWindow={setActiveWindow} />
+      <Desktop/>
 
       {/* <AnimatePresence>
         {activeWindow === "SobreMi" && !minimized.includes("SobreMi") && (
