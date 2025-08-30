@@ -1,0 +1,97 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* Variables globales y tipografía estilo macOS */
+:root {
+  --font-sans: -apple-system, BlinkMacSystemFont, "San Francisco", Helvetica, Arial, sans-serif;
+  --transition-fast: 0.25s;
+}
+
+/* Fuente, suavizado de texto y esquema de color */
+html {
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Body base */
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+  background-color: #242424; /* dark mode default */
+  color: rgba(255, 255, 255, 0.87);
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+/* Enlaces */
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+a:hover {
+  color: #535bf2;
+}
+
+/* Encabezados */
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+/* Botones base */
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  color: #fff;
+  cursor: pointer;
+  transition: border-color var(--transition-fast), background-color var(--transition-fast);
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+/* Light mode automático con preferencia del usuario */
+@media (prefers-color-scheme: light) {
+  body {
+    background-color: #ffffff;
+    color: #213547;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+    color: #213547;
+  }
+}
+
+/* Dark mode con Tailwind class */
+.dark body {
+  background-color: #242424;
+  color: rgba(255, 255, 255, 0.87);
+}
+.dark a:hover {
+  color: #535bf2;
+}
+.dark button {
+  background-color: #1a1a1a;
+  color: #fff;
+}
