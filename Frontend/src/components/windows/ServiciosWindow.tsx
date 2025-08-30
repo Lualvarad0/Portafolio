@@ -29,9 +29,27 @@ export default function ServicesWindow({ isActive}: Props) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
-          // className="w-full h-full bg-gradient-to-br from-purple-800 via-indigo-800 to-blue-800 text-white font-sans flex flex-col p-8 gap-8 rounded-2xl shadow-2xl overflow-auto"
+          className="w-full h-full bg-gradient-to-br from-purple-800 via-indigo-800 to-blue-800 text-white font-sans flex flex-col p-4 sm:p-6 lg:p-8 gap-4 sm:gap-6 lg:gap-8 rounded-none sm:rounded-2xl shadow-2xl overflow-auto"
         >
-
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.1 }}
+            className="flex justify-between items-center mb-2 sm:mb-0"
+          >
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold">
+              {selectedService ? selectedService : "Mis Servicios"}
+            </h2>
+            {selectedService && (
+              <button
+                onClick={() => setSelectedService(null)}
+                className="px-3 py-1 sm:px-4 sm:py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors text-sm sm:text-base"
+              >
+                ← Volver
+              </button>
+            )}
+          </motion.div>
 
           {/* Grid de servicios */}
           {!selectedService ? (
@@ -39,28 +57,52 @@ export default function ServicesWindow({ isActive}: Props) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 flex-1"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 flex-1"
             >
               {services.map((service, index) => (
                 <motion.div
                   key={index}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   onClick={() => setSelectedService(service.title)}
-                  className="p-6 border rounded-2xl shadow-md hover:shadow-xl transition-transform duration-300 bg-white/10 backdrop-blur-md flex flex-col items-start gap-4 cursor-pointer"
+                  className="p-4 sm:p-6 border rounded-xl sm:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 bg-white/10 backdrop-blur-md flex flex-col items-start gap-3 sm:gap-4 cursor-pointer min-h-[160px] sm:min-h-[180px] lg:min-h-[200px]"
                 >
-                  <div className="text-5xl text-blue-400"><service.icon /></div>
-                  <h3 className="text-2xl font-bold">{service.title}</h3>
-                  <p className="text-white/90">{service.description}</p>
+                  {/* Icono responsivo */}
+                  <div className="text-3xl sm:text-4xl lg:text-5xl text-blue-400 flex-shrink-0">
+                    <service.icon />
+                  </div>
+                  
+                  {/* Título responsivo */}
+                  <h3 className="text-lg sm:text-xl lg:text-2xl font-bold leading-tight">
+                    {service.title}
+                  </h3>
+                  
+                  {/* Descripción responsiva */}
+                  <p className="text-white/90 text-sm sm:text-base leading-relaxed flex-1">
+                    {service.description}
+                  </p>
+                  
+                  {/* Indicador de acción */}
+                  <div className="text-xs sm:text-sm text-blue-300 opacity-70 mt-auto">
+                    Toca para más detalles →
+                  </div>
                 </motion.div>
               ))}
             </motion.div>
           ) : (
             // Formulario detallado para el servicio seleccionado
-            <ServiceForm 
-              serviceName={selectedService} 
-              onBack={() => setSelectedService(null)} 
-            />
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -50 }}
+              transition={{ duration: 0.3 }}
+              className="flex-1 overflow-auto"
+            >
+              <ServiceForm 
+                serviceName={selectedService} 
+                onBack={() => setSelectedService(null)} 
+              />
+            </motion.div>
           )}
         </motion.div>
       )}
