@@ -1,0 +1,142 @@
+{
+  "nav": {
+    "services": "Services",
+    "projects": "Projects",
+    "security": "Security",
+    "contact": "Contact",
+    "hire": "Hire Me"
+  },
+  "avail": "AVAILABLE FOR PROJECTS — Q2 2026 · Guayaquil, Ecuador",
+  "hero": {
+    "tag": "Full Stack · Security · DevOps",
+    "name1": "DAVID",
+    "name2": "ALVARADO",
+    "sub": "Full-stack development with security baked in from day one. I build robust apps — then audit them so they stay that way.",
+    "cta1": "View Services",
+    "cta2": "GitHub Profile"
+  },
+  "stats": {
+    "repos": "repositories",
+    "years": "years dev",
+    "security": "security focused",
+    "cloud": "cloud ready"
+  },
+  "services": {
+    "title": "Services",
+    "subtitle": "From pixel-perfect frontends to hardened backends — built right the first time.",
+    "s1": {
+      "name": "Frontend Development",
+      "desc": "SPAs, dashboards, landing pages and admin panels. Fast, accessible and pixel-perfect interfaces.",
+      "tags": ["React", "Next.js", "TypeScript", "Angular", "Tailwind"]
+    },
+    "s2": {
+      "name": "Backend & APIs",
+      "desc": "REST and GraphQL APIs, microservices, authentication systems and database design at scale.",
+      "tags": ["Node.js", "NestJS", ".NET", "PostgreSQL", "REST/GraphQL"]
+    },
+    "s3": {
+      "name": "DevOps & Cloud",
+      "desc": "CI/CD pipelines, Docker containerization, AWS infrastructure and Nginx/Cloudflare configuration.",
+      "tags": ["Docker", "AWS", "CI/CD", "Nginx", "Cloudflare"]
+    },
+    "s4": {
+      "name": "Security Audit",
+      "desc": "Full web application pentesting following OWASP Top 10. Detailed vulnerability report with remediation steps.",
+      "tags": ["OWASP", "Burp Suite", "Nmap", "Pentest Report"]
+    },
+    "s5": {
+      "name": "Security Consulting",
+      "desc": "Security built into the dev process — not bolted on. Threat modeling, code review, hardening and AppSec training for your team.",
+      "tags": ["Threat Modeling", "AppSec", "Code Review", "Hardening"]
+    }
+  },
+  "process": {
+    "title": "How I Work",
+    "subtitle": "A clear process from kickoff to production.",
+    "steps": [
+      { "num": "01", "label": "Discovery", "desc": "Scope, goals and tech requirements defined." },
+      { "num": "02", "label": "Design", "desc": "Architecture, wireframes and tech stack choice." },
+      { "num": "03", "label": "Build", "desc": "Iterative dev with weekly demos and feedback." },
+      { "num": "04", "label": "Audit", "desc": "Security review before any deploy goes live." },
+      { "num": "05", "label": "Deploy", "desc": "Production deploy + handoff + ongoing support." }
+    ]
+  },
+  "projects": {
+    "title": "Projects",
+    "subtitle": "A selection of open-source work — more on GitHub.",
+    "more": "More on GitHub",
+    "viewCode": "View Code",
+    "viewAll": "View All Projects"
+  },
+  "security": {
+    "title": "Security Labs",
+    "subtitle": "Hands-on security projects — from recon scripts to OWASP walkthroughs.",
+    "card1": {
+      "name": "Python Security Toolkit",
+      "lang": "PYTHON · RECON",
+      "tags": ["nmap", "recon", "python3", "pentesting", "automation"]
+    },
+    "card2": {
+      "name": "OWASP Top 10 Lab",
+      "lang": "NODE.JS · APPSEC",
+      "tags": ["owasp", "sqli", "xss", "broken-auth", "nodejs"]
+    },
+    "card3": {
+      "name": "Web Pentest Notes",
+      "lang": "DOCS · METHODOLOGY",
+      "tags": ["writeups", "burpsuite", "tryhackme", "methodology"]
+    },
+    "cta": {
+      "title": "Need a Security Audit?",
+      "desc": "I test your app before attackers do. Full OWASP-based pentest with a clear remediation report.",
+      "btn": "Request an Audit"
+    }
+  },
+  "testimonials": {
+    "title": "Client Feedback",
+    "subtitle": "What people say about working with me.",
+    "t1": {
+      "text": "David delivered a secure, production-ready API in record time. He also flagged two security issues we hadn't noticed — incredibly valuable.",
+      "author": "CTO · Startup · Quito"
+    },
+    "t2": {
+      "text": "The security audit found critical vulnerabilities before launch. The remediation report was clear and actionable — saved us from a disaster.",
+      "author": "Product Manager · SaaS"
+    },
+    "t3": {
+      "text": "React frontend + NestJS backend delivered on schedule. Code quality and documentation made it easy for our team to take over.",
+      "author": "Engineering Lead · Agency"
+    }
+  },
+  "contact": {
+    "title": "Get In Touch",
+    "subtitle": "Have a project in mind? Let's talk.",
+    "email_label": "Email",
+    "calendly_label": "Schedule a free 30-min call",
+    "github_label": "GitHub",
+    "linkedin_label": "LinkedIn",
+    "form": {
+      "name": "Your Name",
+      "email": "Your Email",
+      "service": "Select a Service",
+      "message": "Your Message",
+      "submit": "Send Message",
+      "sending": "Sending...",
+      "success": "Message sent! I'll get back to you soon.",
+      "error": "Something went wrong. Please try again.",
+      "services": [
+        "Frontend Development",
+        "Backend & APIs",
+        "DevOps / AWS",
+        "Security Audit",
+        "Consulting",
+        "Full Project"
+      ]
+    }
+  },
+  "footer": {
+    "tagline": "Full Stack Development · Security · DevOps",
+    "rights": "All rights reserved.",
+    "builtWith": "Built with Next.js + Tailwind CSS"
+  }
+}
