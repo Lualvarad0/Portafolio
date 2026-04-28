@@ -29,7 +29,7 @@ interface ScopeEntry {
 }
 
 interface ScriptEntry {
-  greeting: string;
+  greetIntro: string;
   serviceChips: string[];
   scopeQ: Record<string, ScopeEntry>;
   budgetIntro: string;
@@ -42,22 +42,25 @@ interface ScriptEntry {
   typing: string;
   inputPlaceholder: string;
   inputDone: string;
+  selectPrompt: string;
+  invalidChoice: string;
+  tooShort: string;
 }
 
 // ─── Scripted conversation ────────────────────────────────────────────────────
 
 const SCRIPT: Record<"en" | "es", ScriptEntry> = {
   en: {
-    greeting: "Hi! I'm Alex 👋 What kind of project do you need help with?",
+    greetIntro: "Hi! I'm Alex 👋 I'm David's assistant. Which service are you looking for?",
     serviceChips: ["Frontend", "Backend", "Security Audit", "Security Consulting", "Full Project"],
     scopeQ: {
       Frontend: { q: "Is this a new site / app or improving an existing one?", chips: ["New website", "New app", "Improve existing", "Not sure"] },
       Backend: { q: "Do you need a new API / backend or integrations with existing systems?", chips: ["New API", "Integrations", "Both", "Not sure"] },
       "Security Audit": { q: "What do you want audited?", chips: ["Web app", "Mobile app", "Infrastructure", "All"] },
       "Security Consulting": { q: "What type of consulting are you after?", chips: ["Ongoing advice", "One-time consult", "Compliance", "Not sure"] },
-      "Full Project": { q: "Briefly describe what you want to build:", chips: [] },
+      "Full Project": { q: "Describe briefly what you want to build (at least 15 characters):", chips: [] },
     },
-    budgetIntro: "Got it! To match you with David's availability — what's your rough budget?",
+    budgetIntro: "Almost there! What's your rough budget for this project?",
     budgetChips: ["Under $500", "$500–$2,000", "$2,000–$5,000", "$5,000+", "Not sure yet"],
     lowBudget: "David focuses on larger projects, but leave your email and we'll reach out if something fits!",
     highBudget: "David would love to connect! Book a free 30-min discovery call below 👇",
@@ -67,16 +70,19 @@ const SCRIPT: Record<"en" | "es", ScriptEntry> = {
     typing: "Alex is typing...",
     inputPlaceholder: "Type your message...",
     inputDone: "Conversation ended",
+    selectPrompt: "Type a number or tap an option to select.",
+    invalidChoice: "Please pick one of the options — type a number or tap a chip:",
+    tooShort: "Could you tell me a bit more? At least 15 characters helps David understand your project. Give it another go:",
   },
   es: {
-    greeting: "¡Hola! Soy Alex 👋 ¿En qué tipo de proyecto necesitas ayuda?",
+    greetIntro: "¡Hola! Soy Alex 👋 el asistente de David. ¿Qué tipo de servicio buscas?",
     serviceChips: ["Frontend", "Backend", "Auditoría de Seguridad", "Consultoría de Seguridad", "Proyecto Completo"],
     scopeQ: {
       Frontend: { q: "¿Es un sitio / app nuevo o vas a mejorar uno existente?", chips: ["Sitio nuevo", "App nueva", "Mejorar existente", "No sé aún"] },
       Backend: { q: "¿Necesitas una API nueva o integraciones con sistemas existentes?", chips: ["Nueva API", "Integraciones", "Ambas", "No sé aún"] },
       "Auditoría de Seguridad": { q: "¿Qué quieres auditar?", chips: ["App web", "App móvil", "Infraestructura", "Todo"] },
       "Consultoría de Seguridad": { q: "¿Qué tipo de consultoría buscas?", chips: ["Asesoría continua", "Consulta única", "Cumplimiento", "No sé aún"] },
-      "Proyecto Completo": { q: "Describe brevemente qué quieres construir:", chips: [] },
+      "Proyecto Completo": { q: "Describe brevemente qué quieres construir (mínimo 15 caracteres):", chips: [] },
     },
     budgetIntro: "¡Casi listo! ¿Tienes un presupuesto aproximado en mente?",
     budgetChips: ["Menos de $500", "$500–$2,000", "$2,000–$5,000", "$5,000+", "No sé aún"],
@@ -88,6 +94,9 @@ const SCRIPT: Record<"en" | "es", ScriptEntry> = {
     typing: "Alex está escribiendo...",
     inputPlaceholder: "Escribe tu mensaje...",
     inputDone: "Conversación finalizada",
+    selectPrompt: "Escribe un número o toca una opción para elegir.",
+    invalidChoice: "Por favor elige una de las opciones — escribe un número o toca un chip:",
+    tooShort: "¿Puedes contarme un poco más? Al menos 15 caracteres ayudan a David a entender tu proyecto. Inténtalo de nuevo:",
   },
 };
 
@@ -97,30 +106,79 @@ const LOW_BUDGET = new Set(["Under $500", "Menos de $500"]);
 
 const GENERAL: Record<"en" | "es", Record<string, string>> = {
   en: {
-    greet: "Hey! 👋 I'm Alex, David's assistant. Ask me anything or pick a service below to get started.",
-    page: "This is David Alvarado's portfolio — he's a Full Stack Developer & Security Engineer from Guayaquil, Ecuador. He builds robust web apps and audits them for security. Check out his services, projects, and security labs on the page!",
-    owner: "David Alvarado is a Full Stack Developer and Security Engineer based in Guayaquil, Ecuador. He specializes in React/Next.js frontends, Node.js/NestJS backends, cloud infrastructure, and web security audits following OWASP Top 10.",
-    services: "David offers: Frontend Development (React, Next.js, TypeScript), Backend & APIs (Node.js, NestJS, .NET), DevOps & Cloud (Docker, AWS, CI/CD), Security Audits (OWASP pentesting), and Security Consulting. Pick one below to learn more!",
+    // greet: prefix is prepended dynamically based on time of day
+    greet:
+      "👋 Great to meet you. I'm Alex — David Alvarado's virtual assistant. David is a Full Stack Developer & Security Engineer, and I'm here to help you figure out what you need and connect you with him.\n\nFeel free to ask me anything, or pick a service below to get started!",
+    creator:
+      "The creator of this page, David Alvarado, designed me to help you! 😄 I'm Alex — built by David so visitors like you can find the right service and connect with him easily. Pretty meta, right? What can I help you with?",
+    about_alex:
+      "I'm Alex, David's virtual assistant 🤖 I'm not David himself — I handle the first chat so David can focus on building great software. I can tell you about his services, his work, or help you figure out your next project. What do you need?",
+    page:
+      "This is David Alvarado's portfolio 💻 He's a Full Stack Developer & Security Engineer from Guayaquil, Ecuador. He builds robust web apps with security baked in from day one — then audits them to keep them that way. Explore his Services, Projects, and Security Labs on the page!",
+    owner:
+      "David Alvarado is a Full Stack Developer and Security Engineer based in Guayaquil, Ecuador 🇪🇨 He specializes in React/Next.js frontends, Node.js/NestJS backends, cloud infrastructure (AWS, Docker), and web security audits following OWASP Top 10. Want to know about his services?",
+    services:
+      "David offers 5 services:\n\n1. Frontend Dev — React, Next.js, TypeScript\n2. Backend & APIs — Node.js, NestJS, .NET\n3. DevOps & Cloud — Docker, AWS, CI/CD\n4. Security Audit — OWASP pentest + report\n5. Security Consulting — threat modeling, code review\n\nPick one below or type a number!",
   },
   es: {
-    greet: "¡Hola! 👋 Soy Alex, el asistente de David. Pregúntame lo que quieras o elige un servicio abajo para empezar.",
-    page: "Este es el portafolio de David Alvarado — Desarrollador Full Stack e Ingeniero de Seguridad de Guayaquil, Ecuador. Construye apps web robustas y las audita en seguridad. ¡Explora sus servicios, proyectos y labs de seguridad en la página!",
-    owner: "David Alvarado es un Desarrollador Full Stack e Ingeniero de Seguridad de Guayaquil, Ecuador. Se especializa en frontends con React/Next.js, backends con Node.js/NestJS, infraestructura cloud y auditorías de seguridad web siguiendo OWASP Top 10.",
-    services: "David ofrece: Desarrollo Frontend (React, Next.js, TypeScript), Backend y APIs (Node.js, NestJS, .NET), DevOps y Cloud (Docker, AWS, CI/CD), Auditorías de Seguridad (pentest OWASP) y Consultoría de Seguridad. ¡Elige uno abajo para saber más!",
+    // greet: prefijo agregado dinámicamente según la hora del día
+    greet:
+      "👋 Mucho gusto. Soy Alex — el asistente virtual de David Alvarado. David es Desarrollador Full Stack e Ingeniero de Seguridad, y estoy aquí para ayudarte a entender qué necesitas y conectarte con él.\n\n¡Pregúntame lo que quieras o elige un servicio abajo para empezar!",
+    creator:
+      "¡El creador de esta página, David Alvarado, me diseñó para ayudarte! 😄 Soy Alex — David me construyó para que visitantes como tú puedan encontrar el servicio correcto y conectarse con él fácilmente. Bastante meta, ¿no? ¿En qué te puedo ayudar?",
+    about_alex:
+      "Soy Alex, el asistente virtual de David 🤖 No soy David — me encargo del primer chat para que él pueda concentrarse en construir software de calidad. Puedo contarte sobre sus servicios, su trabajo o ayudarte a definir tu próximo proyecto. ¿Qué necesitas?",
+    page:
+      "Este es el portafolio de David Alvarado 💻 Es un Desarrollador Full Stack e Ingeniero de Seguridad de Guayaquil, Ecuador. Construye apps web robustas con seguridad integrada desde el primer día — y luego las audita para mantenerlas así. ¡Explora sus Servicios, Proyectos y Labs de Seguridad en la página!",
+    owner:
+      "David Alvarado es un Desarrollador Full Stack e Ingeniero de Seguridad de Guayaquil, Ecuador 🇪🇨 Se especializa en frontends con React/Next.js, backends con Node.js/NestJS, infraestructura cloud (AWS, Docker) y auditorías de seguridad web siguiendo OWASP Top 10. ¿Quieres saber sobre sus servicios?",
+    services:
+      "David ofrece 5 servicios:\n\n1. Desarrollo Frontend — React, Next.js, TypeScript\n2. Backend y APIs — Node.js, NestJS, .NET\n3. DevOps y Cloud — Docker, AWS, CI/CD\n4. Auditoría de Seguridad — pentest OWASP + reporte\n5. Consultoría de Seguridad — threat modeling, revisión de código\n\n¡Elige uno abajo o escribe un número!",
   },
 };
 
-function detectGeneralIntent(text: string): "greet" | "page" | "owner" | "services" | null {
+function detectGeneralIntent(
+  text: string
+): "greet" | "creator" | "about_alex" | "page" | "owner" | "services" | null {
   const t = text
     .toLowerCase()
     .normalize("NFD")
     .replace(/[̀-ͯ]/g, "")
     .trim();
 
-  if (/^(hola|hello|hi|hey|buenas|buenos dias|buenas tardes|buenas noches|que tal|como estas|saludos|greetings|good morning|good afternoon|good evening|sup|what'?s up)[\s!?.]*$/.test(t)) return "greet";
-  if (/(de que trata|trata la|de que va|sobre que|que es esta|que es el|pagina|portafolio|portfolio|page|website|sitio|this site|this page|what is this|what'?s this)/.test(t)) return "page";
-  if (/(dueno|owner|david|quien es|who is|quien hizo|quien creo|who made|who built|about|acerca|sobre el)/.test(t)) return "owner";
-  if (/(servicios|services|que ofrece|que hace|what does|what do you|what can|ofreces|haces|offer|provide)/.test(t)) return "services";
+  // Specific intents first so they don't get swallowed by greet
+  if (
+    /(de que trata|trata la pagina|de que va|sobre que es|que es esta pagina|que es el portafolio|portafolio|portfolio|page|website|sitio web|this site|this page|what is this|what'?s this about)/.test(t)
+  )
+    return "page";
+
+  if (
+    /(dueno|owner|david alvarado|quien es david|who is david|quien hizo (la pagina|el sitio)|sobre david|acerca de david)/.test(t)
+  )
+    return "owner";
+
+  if (
+    /(servicios|services|que ofrece|que hace david|what does david|what do you offer|que puedes hacer|what can you do|offer|provide|precios|pricing|cuanto cuesta|how much)/.test(t)
+  )
+    return "services";
+
+  // Who created Alex
+  if (
+    /(quien te creo|quien te hizo|quien te diseño|quien te programo|who created you|who made you|who built you|who designed you|your creator|tu creador|te creo|te hizo|te diseño|te programo)/.test(t)
+  )
+    return "creator";
+
+  // Alex identity
+  if (
+    /(quien eres|que eres|eres un bot|eres ia|eres una ia|are you (a |an )?(bot|ai|robot|human|real)|who are you|what are you|eres real|eres humano|como funciona[sz]?)/.test(t)
+  )
+    return "about_alex";
+
+  // Greeting: matches any message that starts with a greeting word
+  if (
+    /^(hola|hello|hi|hey|buenas|buenos|saludos|greetings|good (morning|afternoon|evening|day)|sup|what'?s up|howdy|yo |salut|ciao|ola |que tal|como (estas|andas|va)|que hay)\b/.test(t)
+  )
+    return "greet";
 
   return null;
 }
@@ -133,6 +191,33 @@ function uid() {
 
 function formatTime(d: Date) {
   return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+}
+
+function numberedList(items: string[]): string {
+  return items.map((item, i) => `${i + 1}. ${item}`).join("\n");
+}
+
+function resolveChoice(input: string, options: string[]): string | null {
+  const trimmed = input.trim();
+  if (options.includes(trimmed)) return trimmed;
+  const lower = trimmed.toLowerCase();
+  const caseMatch = options.find((o) => o.toLowerCase() === lower);
+  if (caseMatch) return caseMatch;
+  const n = parseInt(trimmed, 10);
+  if (!isNaN(n) && n >= 1 && n <= options.length) return options[n - 1];
+  return null;
+}
+
+function timeGreeting(lang: "en" | "es"): string {
+  const h = new Date().getHours();
+  if (lang === "es") {
+    if (h >= 6 && h < 12) return "¡Buenos días!";
+    if (h >= 12 && h < 19) return "¡Buenas tardes!";
+    return "¡Buenas noches!";
+  }
+  if (h >= 6 && h < 12) return "Good morning!";
+  if (h >= 12 && h < 18) return "Good afternoon!";
+  return "Good evening!";
 }
 
 function buildTranscript(msgs: ChatMessage[]): string {
@@ -326,10 +411,11 @@ export default function Chatbot() {
     setIsTyping(true);
     setTimeout(() => {
       setIsTyping(false);
+      const list = numberedList(s.serviceChips);
       const msg: ChatMessage = {
         id: uid(),
         role: "bot",
-        content: s.greeting,
+        content: `${s.greetIntro}\n\n${list}\n\n${s.selectPrompt}`,
         timestamp: new Date(),
       };
       setMsgs([msg]);
@@ -374,7 +460,9 @@ export default function Chatbot() {
     if (currentStep !== "done" && currentStep !== "calendly") {
       const intent = detectGeneralIntent(content);
       if (intent) {
-        const response = GENERAL[lang][intent];
+        let response = GENERAL[lang][intent];
+        // Prepend time-aware greeting
+        if (intent === "greet") response = `${timeGreeting(lang)} ${response}`;
         const fallbackChips = savedChips.length > 0 ? savedChips : [...s.serviceChips];
         await botReply(response, withUser, { chips: fallbackChips });
         return;
@@ -382,26 +470,80 @@ export default function Chatbot() {
     }
 
     if (currentStep === "greeting") {
-      const newLead = { ...leadRef.current, service: content };
+      // Require a valid service selection (by chip text or number)
+      const resolved = resolveChoice(content, s.serviceChips);
+      if (!resolved) {
+        const chips2 = savedChips.length > 0 ? savedChips : [...s.serviceChips];
+        await botReply(
+          `${s.invalidChoice}\n\n${numberedList(s.serviceChips)}`,
+          withUser,
+          { chips: chips2 }
+        );
+        return;
+      }
+      const newLead = { ...leadRef.current, service: resolved };
       setLead(newLead);
       const scopeEntry: ScopeEntry =
-        s.scopeQ[content] ?? s.scopeQ["Full Project"] ?? s.scopeQ["Proyecto Completo"];
-      await botReply(scopeEntry.q, withUser, {
+        s.scopeQ[resolved] ?? s.scopeQ["Full Project"] ?? s.scopeQ["Proyecto Completo"];
+      const scopeMsg =
+        scopeEntry.chips.length > 0
+          ? `${scopeEntry.q}\n\n${numberedList(scopeEntry.chips)}\n\n${s.selectPrompt}`
+          : scopeEntry.q;
+      await botReply(scopeMsg, withUser, {
         chips: [...scopeEntry.chips],
         nextStep: "scope",
       });
     } else if (currentStep === "scope") {
-      const newLead = { ...leadRef.current, scope: content };
+      const currentService = leadRef.current.service ?? "";
+      const scopeEntry =
+        s.scopeQ[currentService] ?? s.scopeQ["Full Project"] ?? s.scopeQ["Proyecto Completo"];
+
+      let resolvedScope: string;
+      if (scopeEntry.chips.length > 0) {
+        // Selection from a list → require valid number or chip
+        const resolved = resolveChoice(content, scopeEntry.chips);
+        if (!resolved) {
+          const chips2 = savedChips.length > 0 ? savedChips : [...scopeEntry.chips];
+          await botReply(
+            `${s.invalidChoice}\n\n${numberedList(scopeEntry.chips)}`,
+            withUser,
+            { chips: chips2 }
+          );
+          return;
+        }
+        resolvedScope = resolved;
+      } else {
+        // Free text (Full Project) → require minimum length
+        if (content.trim().length < 15) {
+          await botReply(s.tooShort, withUser, {});
+          return;
+        }
+        resolvedScope = content.trim();
+      }
+
+      const newLead = { ...leadRef.current, scope: resolvedScope };
       setLead(newLead);
-      await botReply(s.budgetIntro, withUser, {
+      const budgetMsg = `${s.budgetIntro}\n\n${numberedList(s.budgetChips)}\n\n${s.selectPrompt}`;
+      await botReply(budgetMsg, withUser, {
         chips: [...s.budgetChips],
         nextStep: "budget",
       });
     } else if (currentStep === "budget") {
-      const newLead = { ...leadRef.current, budget: content };
+      // Require a valid budget selection (by chip text or number)
+      const resolved = resolveChoice(content, s.budgetChips);
+      if (!resolved) {
+        const chips2 = savedChips.length > 0 ? savedChips : [...s.budgetChips];
+        await botReply(
+          `${s.invalidChoice}\n\n${numberedList(s.budgetChips)}`,
+          withUser,
+          { chips: chips2 }
+        );
+        return;
+      }
+      const newLead = { ...leadRef.current, budget: resolved };
       setLead(newLead);
 
-      if (LOW_BUDGET.has(content)) {
+      if (LOW_BUDGET.has(resolved)) {
         await botReply(s.lowBudget, withUser, {
           showEmail: true,
           nextStep: "low_budget",
@@ -455,18 +597,56 @@ export default function Chatbot() {
           width: 380px;
           height: 520px;
           border-radius: 2px;
+          z-index: 9999;
         }
+        .chat-backdrop {
+          display: none;
+        }
+        /* Mobile: full-width bottom sheet that shrinks with keyboard (dvh) */
         @media (max-width: 640px) {
           .chat-panel {
-            width: 100vw;
+            width: 100%;
             right: 0;
             left: 0;
             bottom: 0;
-            height: 70vh;
-            border-radius: 12px 12px 0 0;
+            height: 85dvh;
+            max-height: 100dvh;
+            border-radius: 18px 18px 0 0;
+          }
+          .chat-backdrop {
+            display: block;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            z-index: 9998;
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
+          }
+          /* Prevent iOS auto-zoom on input focus (font must be >= 16px) */
+          .chat-input {
+            font-size: 16px !important;
+          }
+          /* Bigger touch targets for chips */
+          .chat-chip {
+            min-height: 38px !important;
+            padding: 8px 14px !important;
+            font-size: 0.78rem !important;
+          }
+          /* Bottom safe-area so input isn't under home indicator */
+          .chat-input-area {
+            padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px)) !important;
           }
         }
       `}</style>
+
+      {/* ── Mobile backdrop (tap outside to close) ────────────────── */}
+      {isOpen && (
+        <div
+          className="chat-backdrop"
+          onClick={() => setIsOpen(false)}
+          aria-hidden="true"
+        />
+      )}
 
       {/* ── Panel ─────────────────────────────────────────────────────── */}
       {isOpen && (
@@ -561,6 +741,8 @@ export default function Chatbot() {
               gap: 10,
               scrollbarWidth: "thin",
               scrollbarColor: "rgba(34,211,238,0.15) transparent",
+              WebkitOverflowScrolling: "touch",
+              overscrollBehavior: "contain",
             }}
           >
             {messages.map((msg) => (
@@ -634,6 +816,7 @@ export default function Chatbot() {
                   <button
                     key={chip}
                     onClick={() => handleUserMessage(chip)}
+                    className="chat-chip"
                     style={{
                       background: "transparent",
                       border: "1px solid rgba(34,211,238,0.5)",
@@ -645,6 +828,7 @@ export default function Chatbot() {
                       cursor: "pointer",
                       letterSpacing: "0.04em",
                       transition: "background 0.15s",
+                      touchAction: "manipulation",
                     }}
                     onMouseEnter={(e) =>
                       ((e.currentTarget as HTMLButtonElement).style.background =
@@ -665,6 +849,7 @@ export default function Chatbot() {
           {/* Input area */}
           {showEmailInput ? (
             <div
+              className="chat-input-area"
               style={{
                 borderTop: "1px solid rgba(34,211,238,0.12)",
                 padding: "10px 14px",
@@ -680,7 +865,7 @@ export default function Chatbot() {
                 onChange={(e) => setEmailValue(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSubmitEmail()}
                 placeholder={s.emailPlaceholder}
-                autoFocus
+                className="chat-input"
                 style={{
                   flex: 1,
                   background: "#0b0d12",
@@ -723,6 +908,7 @@ export default function Chatbot() {
             </div>
           ) : (
             <div
+              className="chat-input-area"
               style={{
                 borderTop: "1px solid rgba(34,211,238,0.12)",
                 padding: "10px 14px",
@@ -748,6 +934,7 @@ export default function Chatbot() {
                 placeholder={
                   isDone ? s.inputDone : isTyping ? s.typing : s.inputPlaceholder
                 }
+                className="chat-input"
                 style={{
                   flex: 1,
                   background: "#0b0d12",
@@ -783,6 +970,7 @@ export default function Chatbot() {
                       ? "#22d3ee"
                       : "rgba(34,211,238,0.15)",
                   border: "none",
+                  touchAction: "manipulation",
                   cursor:
                     inputValue.trim() && !isTyping && !isDone
                       ? "pointer"
@@ -835,7 +1023,8 @@ export default function Chatbot() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          zIndex: 9999,
+          zIndex: 10000,
+          touchAction: "manipulation",
           boxShadow: isOpen
             ? "none"
             : "0 8px 32px rgba(34,211,238,0.35), 0 2px 8px rgba(0,0,0,0.4)",
