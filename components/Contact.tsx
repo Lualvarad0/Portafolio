@@ -176,6 +176,7 @@ export default function Contact() {
           CONFIG.emailjs.templateId,
           {
             name: data.name,
+            email: data.email,
             message: `Service: ${data.service}\n\n${data.message}`,
             time: new Date().toLocaleString("es-EC", {
               timeZone: "America/Guayaquil",
