@@ -5,6 +5,7 @@ import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import Chatbot from "@/components/Chatbot";
+import { Analytics } from "@vercel/analytics/next";
 import "../globals.css";
 
 const barlow = Barlow({
@@ -80,6 +81,7 @@ export default async function LocaleLayout({
         <NextIntlClientProvider messages={messages}>
           {children}
           <Chatbot />
+          <Analytics />
         </NextIntlClientProvider>
       </body>
     </html>
