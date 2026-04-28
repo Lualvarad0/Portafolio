@@ -54,11 +54,11 @@
     "title": "Cómo Trabajo",
     "subtitle": "Un proceso claro desde el inicio hasta producción.",
     "steps": [
-      { "num": "01", "label": "Discovery", "desc": "Alcance, objetivos y requisitos técnicos definidos." },
+      { "num": "01", "label": "Análisis", "desc": "Alcance, objetivos y requisitos técnicos definidos." },
       { "num": "02", "label": "Diseño", "desc": "Arquitectura, wireframes y elección del stack." },
-      { "num": "03", "label": "Build", "desc": "Dev iterativo con demos semanales y feedback." },
-      { "num": "04", "label": "Auditoría", "desc": "Revisión de seguridad antes de cualquier deploy." },
-      { "num": "05", "label": "Deploy", "desc": "Deploy a producción + handoff + soporte continuo." }
+      { "num": "03", "label": "Desarrollo", "desc": "Desarrollo iterativo con demos semanales y retroalimentación." },
+      { "num": "04", "label": "Auditoría", "desc": "Revisión de seguridad antes de cualquier despliegue." },
+      { "num": "05", "label": "Despliegue", "desc": "Despliegue a producción + entrega + soporte continuo." }
     ]
   },
   "projects": {

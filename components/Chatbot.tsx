@@ -93,6 +93,38 @@ const SCRIPT: Record<"en" | "es", ScriptEntry> = {
 
 const LOW_BUDGET = new Set(["Under $500", "Menos de $500"]);
 
+// ─── General intent responses ─────────────────────────────────────────────────
+
+const GENERAL: Record<"en" | "es", Record<string, string>> = {
+  en: {
+    greet: "Hey! 👋 I'm Alex, David's assistant. Ask me anything or pick a service below to get started.",
+    page: "This is David Alvarado's portfolio — he's a Full Stack Developer & Security Engineer from Guayaquil, Ecuador. He builds robust web apps and audits them for security. Check out his services, projects, and security labs on the page!",
+    owner: "David Alvarado is a Full Stack Developer and Security Engineer based in Guayaquil, Ecuador. He specializes in React/Next.js frontends, Node.js/NestJS backends, cloud infrastructure, and web security audits following OWASP Top 10.",
+    services: "David offers: Frontend Development (React, Next.js, TypeScript), Backend & APIs (Node.js, NestJS, .NET), DevOps & Cloud (Docker, AWS, CI/CD), Security Audits (OWASP pentesting), and Security Consulting. Pick one below to learn more!",
+  },
+  es: {
+    greet: "¡Hola! 👋 Soy Alex, el asistente de David. Pregúntame lo que quieras o elige un servicio abajo para empezar.",
+    page: "Este es el portafolio de David Alvarado — Desarrollador Full Stack e Ingeniero de Seguridad de Guayaquil, Ecuador. Construye apps web robustas y las audita en seguridad. ¡Explora sus servicios, proyectos y labs de seguridad en la página!",
+    owner: "David Alvarado es un Desarrollador Full Stack e Ingeniero de Seguridad de Guayaquil, Ecuador. Se especializa en frontends con React/Next.js, backends con Node.js/NestJS, infraestructura cloud y auditorías de seguridad web siguiendo OWASP Top 10.",
+    services: "David ofrece: Desarrollo Frontend (React, Next.js, TypeScript), Backend y APIs (Node.js, NestJS, .NET), DevOps y Cloud (Docker, AWS, CI/CD), Auditorías de Seguridad (pentest OWASP) y Consultoría de Seguridad. ¡Elige uno abajo para saber más!",
+  },
+};
+
+function detectGeneralIntent(text: string): "greet" | "page" | "owner" | "services" | null {
+  const t = text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .trim();
+
+  if (/^(hola|hello|hi|hey|buenas|buenos dias|buenas tardes|buenas noches|que tal|como estas|saludos|greetings|good morning|good afternoon|good evening|sup|what'?s up)[\s!?.]*$/.test(t)) return "greet";
+  if (/(de que trata|trata la|de que va|sobre que|que es esta|que es el|pagina|portafolio|portfolio|page|website|sitio|this site|this page|what is this|what'?s this)/.test(t)) return "page";
+  if (/(dueno|owner|david|quien es|who is|quien hizo|quien creo|who made|who built|about|acerca|sobre el)/.test(t)) return "owner";
+  if (/(servicios|services|que ofrece|que hace|what does|what do you|what can|ofreces|haces|offer|provide)/.test(t)) return "services";
+
+  return null;
+}
+
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function uid() {
@@ -323,6 +355,7 @@ export default function Chatbot() {
   const handleUserMessage = async (content: string) => {
     if (!content.trim() || isTyping) return;
 
+    const savedChips = [...chips];
     setInputValue("");
     setChips([]);
 
@@ -336,6 +369,17 @@ export default function Chatbot() {
     setMsgs(withUser);
 
     const currentStep = stepRef.current;
+
+    // Handle general questions without advancing the flow
+    if (currentStep !== "done" && currentStep !== "calendly") {
+      const intent = detectGeneralIntent(content);
+      if (intent) {
+        const response = GENERAL[lang][intent];
+        const fallbackChips = savedChips.length > 0 ? savedChips : [...s.serviceChips];
+        await botReply(response, withUser, { chips: fallbackChips });
+        return;
+      }
+    }
 
     if (currentStep === "greeting") {
       const newLead = { ...leadRef.current, service: content };
