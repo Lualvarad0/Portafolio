@@ -97,30 +97,69 @@ const LOW_BUDGET = new Set(["Under $500", "Menos de $500"]);
 
 const GENERAL: Record<"en" | "es", Record<string, string>> = {
   en: {
-    greet: "Hey! 👋 I'm Alex, David's assistant. Ask me anything or pick a service below to get started.",
-    page: "This is David Alvarado's portfolio — he's a Full Stack Developer & Security Engineer from Guayaquil, Ecuador. He builds robust web apps and audits them for security. Check out his services, projects, and security labs on the page!",
-    owner: "David Alvarado is a Full Stack Developer and Security Engineer based in Guayaquil, Ecuador. He specializes in React/Next.js frontends, Node.js/NestJS backends, cloud infrastructure, and web security audits following OWASP Top 10.",
-    services: "David offers: Frontend Development (React, Next.js, TypeScript), Backend & APIs (Node.js, NestJS, .NET), DevOps & Cloud (Docker, AWS, CI/CD), Security Audits (OWASP pentesting), and Security Consulting. Pick one below to learn more!",
+    greet:
+      "Hey! 👋 Great to meet you. I'm Alex — David Alvarado's virtual assistant. David is a Full Stack Developer & Security Engineer, and I'm here to help you figure out what you need and connect you with him.\n\nFeel free to ask me anything, or pick a service below to get started!",
+    about_alex:
+      "I'm Alex, David's AI assistant 🤖 I'm not David himself — I handle the first conversation so David can focus on building great software. I can tell you about his services, his work, or just help you figure out your next project. What do you need?",
+    page:
+      "This is David Alvarado's portfolio 💻 He's a Full Stack Developer & Security Engineer from Guayaquil, Ecuador. He builds robust web apps with security baked in from day one — then audits them to keep them that way. Explore his Services, Projects, and Security Labs on the page!",
+    owner:
+      "David Alvarado is a Full Stack Developer and Security Engineer based in Guayaquil, Ecuador 🇪🇨 He specializes in React/Next.js frontends, Node.js/NestJS backends, cloud infrastructure (AWS, Docker), and web security audits following OWASP Top 10. Want to know about his services?",
+    services:
+      "David offers 5 services:\n\n• Frontend Dev — React, Next.js, TypeScript\n• Backend & APIs — Node.js, NestJS, .NET\n• DevOps & Cloud — Docker, AWS, CI/CD\n• Security Audit — OWASP pentest + report\n• Security Consulting — threat modeling, code review\n\nPick one below to tell David what you need!",
   },
   es: {
-    greet: "¡Hola! 👋 Soy Alex, el asistente de David. Pregúntame lo que quieras o elige un servicio abajo para empezar.",
-    page: "Este es el portafolio de David Alvarado — Desarrollador Full Stack e Ingeniero de Seguridad de Guayaquil, Ecuador. Construye apps web robustas y las audita en seguridad. ¡Explora sus servicios, proyectos y labs de seguridad en la página!",
-    owner: "David Alvarado es un Desarrollador Full Stack e Ingeniero de Seguridad de Guayaquil, Ecuador. Se especializa en frontends con React/Next.js, backends con Node.js/NestJS, infraestructura cloud y auditorías de seguridad web siguiendo OWASP Top 10.",
-    services: "David ofrece: Desarrollo Frontend (React, Next.js, TypeScript), Backend y APIs (Node.js, NestJS, .NET), DevOps y Cloud (Docker, AWS, CI/CD), Auditorías de Seguridad (pentest OWASP) y Consultoría de Seguridad. ¡Elige uno abajo para saber más!",
+    greet:
+      "¡Hola! 👋 Mucho gusto. Soy Alex — el asistente virtual de David Alvarado. David es Desarrollador Full Stack e Ingeniero de Seguridad, y estoy aquí para ayudarte a entender qué necesitas y conectarte con él.\n\n¡Pregúntame lo que quieras o elige un servicio abajo para empezar!",
+    about_alex:
+      "Soy Alex, el asistente de David 🤖 No soy David — me encargo de la primera conversación para que él pueda concentrarse en construir software de calidad. Puedo contarte sobre sus servicios, su trabajo o ayudarte a definir tu próximo proyecto. ¿Qué necesitas?",
+    page:
+      "Este es el portafolio de David Alvarado 💻 Es un Desarrollador Full Stack e Ingeniero de Seguridad de Guayaquil, Ecuador. Construye apps web robustas con seguridad integrada desde el primer día — y luego las audita para mantenerlas así. ¡Explora sus Servicios, Proyectos y Labs de Seguridad en la página!",
+    owner:
+      "David Alvarado es un Desarrollador Full Stack e Ingeniero de Seguridad de Guayaquil, Ecuador 🇪🇨 Se especializa en frontends con React/Next.js, backends con Node.js/NestJS, infraestructura cloud (AWS, Docker) y auditorías de seguridad web siguiendo OWASP Top 10. ¿Quieres saber sobre sus servicios?",
+    services:
+      "David ofrece 5 servicios:\n\n• Desarrollo Frontend — React, Next.js, TypeScript\n• Backend y APIs — Node.js, NestJS, .NET\n• DevOps y Cloud — Docker, AWS, CI/CD\n• Auditoría de Seguridad — pentest OWASP + reporte\n• Consultoría de Seguridad — threat modeling, revisión de código\n\n¡Elige uno abajo para contarle a David qué necesitas!",
   },
 };
 
-function detectGeneralIntent(text: string): "greet" | "page" | "owner" | "services" | null {
+function detectGeneralIntent(
+  text: string
+): "greet" | "about_alex" | "page" | "owner" | "services" | null {
   const t = text
     .toLowerCase()
     .normalize("NFD")
     .replace(/[̀-ͯ]/g, "")
     .trim();
 
-  if (/^(hola|hello|hi|hey|buenas|buenos dias|buenas tardes|buenas noches|que tal|como estas|saludos|greetings|good morning|good afternoon|good evening|sup|what'?s up)[\s!?.]*$/.test(t)) return "greet";
-  if (/(de que trata|trata la|de que va|sobre que|que es esta|que es el|pagina|portafolio|portfolio|page|website|sitio|this site|this page|what is this|what'?s this)/.test(t)) return "page";
-  if (/(dueno|owner|david|quien es|who is|quien hizo|quien creo|who made|who built|about|acerca|sobre el)/.test(t)) return "owner";
-  if (/(servicios|services|que ofrece|que hace|what does|what do you|what can|ofreces|haces|offer|provide)/.test(t)) return "services";
+  // More specific intents first so they don't get swallowed by greet
+  if (
+    /(de que trata|trata la pagina|de que va|sobre que es|que es esta pagina|que es el portafolio|portafolio|portfolio|page|website|sitio web|this site|this page|what is this|what'?s this about)/.test(t)
+  )
+    return "page";
+
+  if (
+    /(dueno|owner|david alvarado|quien es david|who is david|quien hizo|quien creo|who made|who built|sobre david|acerca de david)/.test(t)
+  )
+    return "owner";
+
+  if (
+    /(servicios|services|que ofrece|que hace david|what does david|what do you offer|que puedes hacer|what can you do|offer|provide|precios|pricing|cuanto cuesta|how much)/.test(t)
+  )
+    return "services";
+
+  // Alex identity: "quien eres", "que eres", "eres un bot", "are you ai", etc.
+  if (
+    /(quien eres|que eres|eres un bot|eres ia|eres una ia|are you (a |an )?(bot|ai|robot|human|real)|who are you|what are you|eres real|eres humano|how do you work|como funciona[sz]?)/.test(t)
+  )
+    return "about_alex";
+
+  // Greeting: message starts with a greeting word (allows "hola alex!", "hi what do you do", etc.)
+  if (
+    /^(hola|hello|hi|hey|buenas|buenos|saludos|greetings|good (morning|afternoon|evening|day)|sup|what'?s up|howdy|yo |ey |oi |salut|ciao|ola |que tal|como (estas|andas|va)|que hay)\b/.test(
+      t
+    )
+  )
+    return "greet";
 
   return null;
 }
@@ -455,18 +494,56 @@ export default function Chatbot() {
           width: 380px;
           height: 520px;
           border-radius: 2px;
+          z-index: 9999;
         }
+        .chat-backdrop {
+          display: none;
+        }
+        /* Mobile: full-width bottom sheet that shrinks with keyboard (dvh) */
         @media (max-width: 640px) {
           .chat-panel {
-            width: 100vw;
+            width: 100%;
             right: 0;
             left: 0;
             bottom: 0;
-            height: 70vh;
-            border-radius: 12px 12px 0 0;
+            height: 85dvh;
+            max-height: 100dvh;
+            border-radius: 18px 18px 0 0;
+          }
+          .chat-backdrop {
+            display: block;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            z-index: 9998;
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
+          }
+          /* Prevent iOS auto-zoom on input focus (font must be >= 16px) */
+          .chat-input {
+            font-size: 16px !important;
+          }
+          /* Bigger touch targets for chips */
+          .chat-chip {
+            min-height: 38px !important;
+            padding: 8px 14px !important;
+            font-size: 0.78rem !important;
+          }
+          /* Bottom safe-area so input isn't under home indicator */
+          .chat-input-area {
+            padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px)) !important;
           }
         }
       `}</style>
+
+      {/* ── Mobile backdrop (tap outside to close) ────────────────── */}
+      {isOpen && (
+        <div
+          className="chat-backdrop"
+          onClick={() => setIsOpen(false)}
+          aria-hidden="true"
+        />
+      )}
 
       {/* ── Panel ─────────────────────────────────────────────────────── */}
       {isOpen && (
@@ -561,6 +638,8 @@ export default function Chatbot() {
               gap: 10,
               scrollbarWidth: "thin",
               scrollbarColor: "rgba(34,211,238,0.15) transparent",
+              WebkitOverflowScrolling: "touch",
+              overscrollBehavior: "contain",
             }}
           >
             {messages.map((msg) => (
@@ -634,6 +713,7 @@ export default function Chatbot() {
                   <button
                     key={chip}
                     onClick={() => handleUserMessage(chip)}
+                    className="chat-chip"
                     style={{
                       background: "transparent",
                       border: "1px solid rgba(34,211,238,0.5)",
@@ -645,6 +725,7 @@ export default function Chatbot() {
                       cursor: "pointer",
                       letterSpacing: "0.04em",
                       transition: "background 0.15s",
+                      touchAction: "manipulation",
                     }}
                     onMouseEnter={(e) =>
                       ((e.currentTarget as HTMLButtonElement).style.background =
@@ -665,6 +746,7 @@ export default function Chatbot() {
           {/* Input area */}
           {showEmailInput ? (
             <div
+              className="chat-input-area"
               style={{
                 borderTop: "1px solid rgba(34,211,238,0.12)",
                 padding: "10px 14px",
@@ -680,7 +762,7 @@ export default function Chatbot() {
                 onChange={(e) => setEmailValue(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSubmitEmail()}
                 placeholder={s.emailPlaceholder}
-                autoFocus
+                className="chat-input"
                 style={{
                   flex: 1,
                   background: "#0b0d12",
@@ -723,6 +805,7 @@ export default function Chatbot() {
             </div>
           ) : (
             <div
+              className="chat-input-area"
               style={{
                 borderTop: "1px solid rgba(34,211,238,0.12)",
                 padding: "10px 14px",
@@ -748,6 +831,7 @@ export default function Chatbot() {
                 placeholder={
                   isDone ? s.inputDone : isTyping ? s.typing : s.inputPlaceholder
                 }
+                className="chat-input"
                 style={{
                   flex: 1,
                   background: "#0b0d12",
@@ -783,6 +867,7 @@ export default function Chatbot() {
                       ? "#22d3ee"
                       : "rgba(34,211,238,0.15)",
                   border: "none",
+                  touchAction: "manipulation",
                   cursor:
                     inputValue.trim() && !isTyping && !isDone
                       ? "pointer"
@@ -835,7 +920,8 @@ export default function Chatbot() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          zIndex: 9999,
+          zIndex: 10000,
+          touchAction: "manipulation",
           boxShadow: isOpen
             ? "none"
             : "0 8px 32px rgba(34,211,238,0.35), 0 2px 8px rgba(0,0,0,0.4)",
