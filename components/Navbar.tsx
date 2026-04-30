@@ -71,6 +71,7 @@ export default function Navbar() {
             <button
               key={key}
               onClick={() => scrollTo(href)}
+              aria-label={locale === "es" ? `Ir a sección ${t(key as keyof typeof t)}` : `Go to ${t(key as keyof typeof t)} section`}
               className="relative text-sm font-mono tracking-widest uppercase transition-colors group"
               style={{ color: "var(--muted)" }}
             >
