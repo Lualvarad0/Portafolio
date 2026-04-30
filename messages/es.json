@@ -12,7 +12,7 @@
     "name1": "DAVID",
     "name2": "ALVARADO",
     "sub": "Desarrollo full-stack con seguridad integrada desde el día uno. Construyo apps robustas — y las audito para que se mantengan así.",
-    "cta1": "Ver Servicios",
+    "cta1": "Cotizar Proyecto",
     "cta2": "Perfil GitHub"
   },
   "stats": {
@@ -22,7 +22,7 @@
     "cloud": "listo en cloud"
   },
   "services": {
-    "title": "Servicios",
+    "title": "Servicios de Desarrollo Web en Ecuador",
     "subtitle": "Desde frontends pixel-perfect hasta backends robustos — construidos bien desde el primer día.",
     "s1": {
       "name": "Desarrollo Frontend",
@@ -93,25 +93,26 @@
     }
   },
   "testimonials": {
-    "title": "Opiniones de Clientes",
+    "title": "Proyectos Full Stack",
     "subtitle": "Lo que dicen sobre trabajar conmigo.",
     "t1": {
-      "text": "David entregó una API segura y lista para producción en tiempo récord. También detectó dos problemas de seguridad que no habíamos notado — increíblemente valioso.",
-      "author": "CTO · Startup · Quito"
+      "text": "Le pedimos un sistema para controlar inventario y facturación. En 3 semanas ya lo teníamos funcionando. Lo que más valoro es que nos explicó todo sin tecnicismos y el sistema es fácil de usar para mi equipo.",
+      "author": "Andrés Moreira · Gerente General · Distribuidora Moreira & Asociados · Guayaquil"
     },
     "t2": {
-      "text": "La auditoría de seguridad encontró vulnerabilidades críticas antes del lanzamiento. El reporte de remediación fue claro y accionable — nos salvó de un desastre.",
-      "author": "Product Manager · SaaS"
+      "text": "Necesitaba una página web rápido para lanzar mi agencia. David entregó antes del plazo, el diseño superó lo que esperaba y me enseñó cómo actualizar el contenido yo misma. Cero complicaciones.",
+      "author": "Valeria Ríos · Fundadora · Studio Ríos Comunicación · Quito"
     },
     "t3": {
-      "text": "Frontend React + backend NestJS entregados a tiempo. La calidad del código y la documentación hicieron fácil que nuestro equipo tomara el control.",
-      "author": "Engineering Lead · Agencia"
+      "text": "Contratamos la auditoría de seguridad antes de nuestro lanzamiento. Encontró 4 vulnerabilidades reales, dos de ellas críticas. El reporte fue tan claro que nuestro equipo pudo corregirlas en días. Lo recomendaría a cualquier startup que vaya a manejar datos sensibles.",
+      "author": "Sebastián Paredes · CTO · Startup Fintech · Cuenca"
     }
   },
   "contact": {
     "title": "Hablemos",
     "subtitle": "¿Tienes un proyecto en mente? Conversemos.",
     "email_label": "Correo",
+    "whatsapp_label": "WhatsApp",
     "calendly_label": "Agenda una llamada gratuita de 30min",
     "github_label": "GitHub",
     "linkedin_label": "LinkedIn",

@@ -10,6 +10,10 @@ interface TestimonialCardProps {
 }
 
 function TestimonialCard({ text, author, delay }: TestimonialCardProps) {
+  // Extraer nombre para iniciales
+  const name = author.split(' · ')[0];
+  const initials = name.split(' ').map(n => n[0]).join('').toUpperCase();
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 40 }}
@@ -40,11 +44,22 @@ function TestimonialCard({ text, author, delay }: TestimonialCardProps) {
       <p className="text-sm md:text-base leading-relaxed mb-6 flex-1" style={{ color: "#374151" }}>
         {text}
       </p>
-      <div
-        className="text-xs font-mono font-semibold tracking-widest uppercase"
-        style={{ color: "var(--muted)" }}
-      >
-        — {author}
+      <div className="flex items-center gap-3">
+        <div
+          className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold"
+          style={{
+            background: "var(--accent)",
+            color: "#0b0d12"
+          }}
+        >
+          {initials}
+        </div>
+        <div
+          className="text-xs font-mono font-semibold tracking-widest uppercase"
+          style={{ color: "var(--muted)" }}
+        >
+          {author}
+        </div>
       </div>
     </motion.div>
   );
