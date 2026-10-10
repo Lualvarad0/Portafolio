@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { Kicker, WRAP } from "@/components/ui";
 import { Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
 import { CONTROLLER, PRIVACY_LAST_UPDATED, privacyContent } from "@/lib/legal/privacy";
@@ -39,8 +40,7 @@ function withEmailLink(text: string) {
           <a
             key={i}
             href={`mailto:${CONTROLLER.email}`}
-            className="underline underline-offset-2 hover:opacity-80"
-            style={{ color: "var(--accent)" }}
+            className="font-medium text-neutral-950 underline decoration-signal decoration-2 underline-offset-4 hover:decoration-neutral-950"
           >
             {CONTROLLER.email}
           </a>,
@@ -60,41 +60,30 @@ export default async function PrivacyPage({ params }: Props) {
   return (
     <>
       <Navbar />
-      <main className="pt-[120px] pb-24 px-6 md:px-12 lg:px-24" style={{ background: "var(--bg)" }}>
-        <article className="max-w-3xl mx-auto">
-          <Link
-            href="/"
-            className="inline-block text-xs font-mono tracking-widest uppercase mb-10 hover:opacity-80"
-            style={{ color: "var(--accent)" }}
-          >
+      {/* Dark band behind the fixed navbar */}
+      <div className="bg-ink pb-20 pt-32 text-white sm:pt-40">
+        <div className={WRAP}>
+          <Link href="/" className="mb-10 inline-block text-xs font-medium uppercase tracking-[0.25em] text-white/60 hover:text-white">
             {c.backLabel}
           </Link>
-
-          <h1
-            className="text-5xl md:text-6xl font-display font-black uppercase mb-4"
-            style={{ color: "var(--text)", fontFamily: "var(--font-barlow)" }}
-          >
+          <Kicker dark>LOPDP · Ecuador</Kicker>
+          <h1 className="text-5xl font-normal leading-[0.95] sm:text-7xl" style={{ letterSpacing: "-0.06em" }}>
             {c.title}
           </h1>
-          <p className="text-xs font-mono mb-8" style={{ color: "var(--muted)" }}>
+          <p className="mt-6 text-sm text-white/55">
             {c.updatedLabel}: <time dateTime={PRIVACY_LAST_UPDATED}>{updated}</time>
           </p>
-          <p className="text-base leading-relaxed mb-10" style={{ color: "var(--text)" }}>
-            {c.intro}
-          </p>
+        </div>
+      </div>
 
-          <nav
-            aria-label={c.tocLabel}
-            className="rounded-xl p-6 mb-12"
-            style={{ background: "var(--bg3)", border: "1px solid var(--border)" }}
-          >
-            <p className="text-xs font-mono font-semibold tracking-widest uppercase mb-3" style={{ color: "var(--accent)" }}>
-              {c.tocLabel}
-            </p>
-            <ol className="grid gap-1.5 text-sm">
+      <main className="bg-white py-16 sm:py-24">
+        <div className={`${WRAP} grid gap-12 lg:grid-cols-[280px_1fr]`}>
+          <nav aria-label={c.tocLabel} className="lg:sticky lg:top-28 lg:self-start">
+            <p className="mb-4 text-xs font-medium uppercase tracking-[0.25em] text-neutral-500">{c.tocLabel}</p>
+            <ol className="grid gap-2 text-sm">
               {c.sections.map((s) => (
                 <li key={s.id}>
-                  <a href={`#${s.id}`} className="hover:underline" style={{ color: "var(--text)" }}>
+                  <a href={`#${s.id}`} className="text-neutral-600 hover:text-neutral-950">
                     {s.title}
                   </a>
                 </li>
@@ -102,69 +91,57 @@ export default async function PrivacyPage({ params }: Props) {
             </ol>
           </nav>
 
-          {c.sections.map((s) => (
-            <section key={s.id} id={s.id} className="mb-10 scroll-mt-28">
-              <h2
-                className="text-2xl font-display font-bold mb-4"
-                style={{ color: "var(--text)", fontFamily: "var(--font-barlow)" }}
-              >
-                {s.title}
-              </h2>
+          <article className="max-w-3xl text-neutral-800">
+            <p className="mb-12 text-lg leading-relaxed text-neutral-700">{c.intro}</p>
 
-              {s.paragraphs?.map((p, i) => (
-                <p key={i} className="leading-relaxed mb-4" style={{ color: "var(--text)" }}>
-                  {withEmailLink(p)}
-                </p>
-              ))}
+            {c.sections.map((s) => (
+              <section key={s.id} id={s.id} className="mb-12 scroll-mt-28 border-t border-neutral-200 pt-8">
+                <h2 className="mb-5 text-2xl font-medium text-neutral-950 sm:text-3xl" style={{ letterSpacing: "-0.04em" }}>
+                  {s.title}
+                </h2>
 
-              {s.list && (
-                <ul className="list-disc pl-6 mb-4 grid gap-2">
-                  {s.list.map((item, i) => (
-                    <li key={i} className="leading-relaxed" style={{ color: "var(--text)" }}>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              )}
+                {s.paragraphs?.map((p, i) => (
+                  <p key={i} className="mb-4 leading-relaxed">
+                    {withEmailLink(p)}
+                  </p>
+                ))}
 
-              {s.note && (
-                <p className="leading-relaxed mb-4" style={{ color: "var(--text)" }}>
-                  {s.note}
-                </p>
-              )}
+                {s.list && (
+                  <ul className="mb-4 grid gap-2 pl-5 marker:text-signal-dark [list-style:disc]">
+                    {s.list.map((item, i) => (
+                      <li key={i} className="leading-relaxed">
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                )}
 
-              {s.providers && (
-                <div className="grid gap-3">
-                  {s.providers.map((p) => (
-                    <div
-                      key={p.name}
-                      className="rounded-lg p-4"
-                      style={{ background: "var(--bg3)", border: "1px solid var(--border)" }}
-                    >
-                      <div className="flex flex-wrap items-baseline justify-between gap-2 mb-1">
-                        <a
-                          href={p.policyUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="font-semibold underline underline-offset-2 hover:opacity-80"
-                          style={{ color: "var(--accent)" }}
-                        >
-                          {p.name}
-                        </a>
-                        <span className="text-xs font-mono" style={{ color: "var(--muted)" }}>
-                          {p.location}
-                        </span>
+                {s.note && <p className="mb-4 leading-relaxed">{s.note}</p>}
+
+                {s.providers && (
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    {s.providers.map((p) => (
+                      <div key={p.name} className="rounded-3xl bg-neutral-100 p-5">
+                        <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
+                          <a
+                            href={p.policyUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-semibold text-neutral-950 underline decoration-signal decoration-2 underline-offset-4"
+                          >
+                            {p.name}
+                          </a>
+                          <span className="text-xs text-neutral-500">{p.location}</span>
+                        </div>
+                        <p className="text-sm leading-relaxed text-neutral-700">{p.purpose}</p>
                       </div>
-                      <p className="text-sm leading-relaxed" style={{ color: "var(--text)" }}>
-                        {p.purpose}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </section>
-          ))}
-        </article>
+                    ))}
+                  </div>
+                )}
+              </section>
+            ))}
+          </article>
+        </div>
       </main>
       <Footer />
     </>

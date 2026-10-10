@@ -9,5 +9,6 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next|api|.*\\..*).*)"],
+  // OG/Twitter images are already per-locale routes; redirecting them breaks social previews.
+  matcher: ["/((?!_next|api|.*opengraph-image|.*twitter-image|.*\\..*).*)"],
 };

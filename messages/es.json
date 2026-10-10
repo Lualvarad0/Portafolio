@@ -1,213 +1,171 @@
 {
+  "meta": {
+    "title": "Cornerstone Develop | Software a medida, datos y ciberseguridad en Guayaquil",
+    "description": "Cornerstone Develop, el estudio de desarrollo de David Alvarado en Guayaquil, Ecuador: sistemas web, apps móviles y de escritorio, bases de datos, cloud y auditorías de seguridad OWASP.",
+    "ogDescription": "Código que sostiene tu negocio: software a medida, datos y ciberseguridad desde Guayaquil, Ecuador.",
+    "keywords": ["desarrollo de software Guayaquil", "desarrollador web Guayaquil", "sistemas web Ecuador", "apps móviles Ecuador", "bases de datos SQL Server PostgreSQL", "Power BI Ecuador", "auditoría de seguridad web", "pentesting OWASP Ecuador", "Cornerstone Develop", "David Alvarado"]
+  },
   "nav": {
     "services": "Servicios",
+    "development": "Desarrollo",
+    "data": "Datos",
+    "security": "Ciberseguridad",
     "projects": "Proyectos",
-    "security": "Seguridad",
-    "contact": "Contacto",
-    "hire": "Contrátame"
+    "contact": "Contáctanos",
+    "home": "Cornerstone Develop, inicio",
+    "openMenu": "Abrir menú",
+    "closeMenu": "Cerrar menú",
+    "switchLocale": "Switch to English"
   },
-  "avail": "DISPONIBLE PARA NUEVOS PROYECTOS · Guayaquil, Ecuador",
   "hero": {
-    "tag": "Full Stack · Seguridad · DevOps",
-    "name1": "DAVID",
-    "name2": "ALVARADO",
-    "sub": "Desarrollo full-stack con seguridad integrada desde el día uno. Construyo apps robustas — y las audito para que se mantengan así.",
-    "cta1": "Cotizar Proyecto",
-    "cta2": "Perfil GitHub"
+    "city": "Guayaquil, Ecuador",
+    "title1": "Código que sostiene",
+    "title2": "tu negocio",
+    "kicker": "Software · Datos · Ciberseguridad",
+    "lead": "Software a medida, apps móviles y de escritorio, bases de datos, cloud y auditorías de seguridad para empresas que no pueden detenerse.",
+    "side": "Mira lo que hay detrás de cada pantalla: código limpio, datos ordenados y seguridad revisada antes de cada entrega.",
+    "cta": "Cotizar proyecto",
+    "codeBehind": "</> el código detrás"
   },
-  "stats": {
-    "repos": "repositorios",
-    "years": "años de dev",
-    "security": "enfoque seguridad",
-    "cloud": "listo en cloud"
+  "intro": {
+    "kicker": "Quiénes somos",
+    "body": "Una piedra angular es el primer bloque de una construcción: todo lo demás se alinea con ella. Eso hacemos con la tecnología de tu empresa: software, datos y seguridad sobre una base sólida.",
+    "who": "Cornerstone Develop es el estudio de desarrollo de David Alvarado, desarrollador full stack especializado en seguridad, con base en Guayaquil.",
+    "symbol": "Nuestro símbolo: una etiqueta de código </> construida con bloques de piedra. El bloque amarillo, en la esquina, es la cornerstone: la piedra angular sobre la que se levanta todo el software.",
+    "pillars": [
+      { "href": "#desarrollo", "title": "Desarrollo de software", "text": "Sistemas web, apps móviles y de escritorio hechos a la medida de cómo trabaja tu empresa." },
+      { "href": "#datos", "title": "Datos y bases de datos", "text": "Diseño, migración y optimización de tus datos, con reportes que se actualizan solos." },
+      { "href": "#seguridad", "title": "Ciberseguridad", "text": "Pentesting, revisión de código y hardening para que tu sistema resista ataques reales." }
+    ]
   },
-  "services": {
-    "title": "Servicios de Desarrollo Web en Ecuador",
-    "subtitle": "Desde frontends pixel-perfect hasta backends robustos — construidos bien desde el primer día.",
-    "s1": {
-      "name": "Desarrollo Frontend",
-      "desc": "SPAs, dashboards, landing pages y paneles admin. Interfaces rápidas, accesibles y pixel-perfect.",
-      "tags": [
-        "React",
-        "Next.js",
-        "TypeScript",
-        "Angular",
-        "Tailwind"
-      ]
-    },
-    "s2": {
-      "name": "Backend y APIs",
-      "desc": "APIs REST y GraphQL, microservicios, autenticación y diseño de bases de datos a escala.",
-      "tags": [
-        "Node.js",
-        "NestJS",
-        ".NET",
-        "PostgreSQL",
-        "REST/GraphQL"
-      ]
-    },
-    "s3": {
-      "name": "DevOps y Cloud",
-      "desc": "Pipelines CI/CD, Docker, infraestructura AWS y configuración de Nginx/Cloudflare.",
-      "tags": [
-        "Docker",
-        "AWS",
-        "CI/CD",
-        "Nginx",
-        "Cloudflare"
-      ]
-    },
-    "s4": {
-      "name": "Auditoría de Seguridad",
-      "desc": "Pentesting web siguiendo OWASP Top 10, siempre con alcance definido y autorización por escrito. Reporte detallado con pasos de remediación.",
-      "tags": [
-        "OWASP",
-        "Burp Suite",
-        "Nmap",
-        "Pentest Report"
-      ]
-    },
-    "s5": {
-      "name": "Consultoría de Seguridad",
-      "desc": "Seguridad integrada en el proceso de desarrollo — no agregada al final. Threat modeling, revisión de código, hardening y capacitación AppSec para tu equipo.",
-      "tags": [
-        "Threat Modeling",
-        "AppSec",
-        "Code Review",
-        "Hardening"
-      ]
-    }
+  "dev": {
+    "kicker": "01 · Desarrollo de software",
+    "title": "Software que <em>se adapta</em> a tu empresa",
+    "lead": "No vendemos plantillas. Entendemos cómo trabaja tu equipo y construimos la herramienta que encaja, con código limpio que cualquier desarrollador pueda mantener.",
+    "codeCaption": "Fragmento de ejemplo: emisión de una factura electrónica.",
+    "services": [
+      { "icon": "globe", "title": "Sistemas web", "text": "ERPs, portales de clientes y paneles de administración.", "tags": ["React / Next.js", "Angular", ".NET"] },
+      { "icon": "phone", "title": "Apps móviles", "text": "Pedidos, inventario y cobranzas desde el celular, con modo sin conexión.", "tags": ["Android", "iOS"] },
+      { "icon": "monitor", "title": "Escritorio", "text": "Caja, bodega y facturación, conectados a impresoras y lectores.", "tags": ["Windows", "Offline"] },
+      { "icon": "plug", "title": "APIs e integraciones", "text": "Conectamos tus sistemas entre sí y con pasarelas de pago, correo o mensajería.", "tags": ["REST", "GraphQL"] },
+      { "icon": "cloud", "title": "Cloud y DevOps", "text": "Publicación, respaldos y despliegues automáticos sin depender de una sola PC.", "tags": ["AWS", "Docker", "CI/CD"] },
+      { "icon": "wrench", "title": "Soporte y mejoras", "text": "Mantenimiento, nuevas funciones y monitoreo de sistemas que ya tienes.", "tags": ["Mantenimiento", "Monitoreo"] }
+    ]
   },
-  "process": {
-    "title": "Cómo Trabajo",
-    "subtitle": "Un proceso claro desde el inicio hasta producción.",
-    "steps": [
-      {
-        "num": "01",
-        "label": "Análisis",
-        "desc": "Alcance, objetivos y requisitos técnicos definidos."
-      },
-      {
-        "num": "02",
-        "label": "Diseño",
-        "desc": "Arquitectura, wireframes y elección del stack."
-      },
-      {
-        "num": "03",
-        "label": "Desarrollo",
-        "desc": "Desarrollo iterativo con demos semanales y retroalimentación."
-      },
-      {
-        "num": "04",
-        "label": "Auditoría",
-        "desc": "Revisión de seguridad antes de cualquier despliegue."
-      },
-      {
-        "num": "05",
-        "label": "Despliegue",
-        "desc": "Despliegue a producción + entrega + soporte continuo."
-      }
+  "data": {
+    "kicker": "02 · Datos y bases de datos",
+    "title": "Tus datos, <em>en orden</em> y a la vista",
+    "lead": "La información de tu empresa vale más cuando está ordenada, respaldada y lista para decidir.",
+    "points": [
+      { "title": "Diseño de bases de datos", "text": "Modelos claros, índices correctos y respaldos automáticos." },
+      { "title": "Migraciones sin pérdida", "text": "De Excel, Access o sistemas antiguos a SQL Server, PostgreSQL o MySQL." },
+      { "title": "Reportes y tableros", "text": "Power BI conectado a tus datos reales, actualizado sin trabajo manual." }
+    ],
+    "resultTitle": "Resultado · productos con stock bajo",
+    "sample": "Ejemplo",
+    "stock": [
+      { "product": "Pintura blanca 4 L", "qty": 3 },
+      { "product": "Tubo PVC 1/2\"", "qty": 6 },
+      { "product": "Cemento 50 kg", "qty": 8 }
+    ]
+  },
+  "security": {
+    "kicker": "03 · Ciberseguridad",
+    "title": "Encontramos las fallas <em>antes que un atacante</em>",
+    "lead": "Auditamos los sistemas que construimos y también los que ya tienes en producción. Solo probamos sistemas del cliente, con alcance definido y autorización previa por escrito.",
+    "services": [
+      { "tag": "OWASP Top 10", "title": "Pentesting web", "text": "Probamos tu aplicación como lo haría un atacante, con alcance definido y autorización por escrito." },
+      { "tag": "AppSec", "title": "Revisión de código", "text": "Buscamos inyecciones, fallas de lógica y secretos expuestos antes de producción." },
+      { "tag": "Infraestructura", "title": "Hardening", "text": "Servidores, bases de datos y Cloudflare configurados para reducir la superficie de ataque." },
+      { "tag": "Equipo", "title": "Capacitación", "text": "Threat modeling y talleres de desarrollo seguro para tu equipo." }
+    ],
+    "report": {
+      "file": "reporte-auditoria.pdf",
+      "sample": "Ejemplo",
+      "sampleNote": "Reporte ilustrativo: no corresponde a un cliente real.",
+      "footnote": "Cada hallazgo incluye evidencia, impacto y pasos para corregirlo.",
+      "cta": "Solicitar auditoría"
+    },
+    "severity": { "critical": "Crítica", "medium": "Media", "low": "Baja" },
+    "severityPlural": { "critical": "Críticas", "medium": "Media", "low": "Baja" },
+    "status": { "fixed": "Corregida", "inProgress": "En curso" },
+    "findings": [
+      { "sev": "critical", "id": "A03", "title": "Inyección SQL en /api/facturas", "status": "fixed" },
+      { "sev": "critical", "id": "A01", "title": "Acceso a facturas de otro cliente (IDOR)", "status": "fixed" },
+      { "sev": "medium", "id": "A05", "title": "Cabeceras de seguridad ausentes", "status": "fixed" },
+      { "sev": "low", "id": "A07", "title": "Sin límite de intentos en el login", "status": "inProgress" }
     ]
   },
   "projects": {
-    "title": "Proyectos",
-    "subtitle": "Una selección de trabajo open-source — más en GitHub.",
-    "more": "Más en GitHub",
-    "viewCode": "Ver Código",
-    "viewAll": "Ver Todos los Proyectos"
-  },
-  "security": {
-    "title": "Labs de Seguridad",
-    "subtitle": "Proyectos de seguridad prácticos — desde scripts de recon hasta guías OWASP.",
-    "card1": {
-      "name": "Python Security Toolkit",
-      "lang": "PYTHON · RECON",
-      "tags": [
-        "nmap",
-        "recon",
-        "python3",
-        "pentesting",
-        "automation"
-      ]
-    },
-    "card2": {
-      "name": "OWASP Top 10 Lab",
-      "lang": "NODE.JS · APPSEC",
-      "tags": [
-        "owasp",
-        "sqli",
-        "xss",
-        "broken-auth",
-        "nodejs"
-      ]
-    },
-    "card3": {
-      "name": "Web Pentest Notes",
-      "lang": "DOCS · METODOLOGÍA",
-      "tags": [
-        "writeups",
-        "burpsuite",
-        "tryhackme",
-        "metodología"
-      ]
-    },
-    "cta": {
-      "title": "¿Necesitas una Auditoría?",
-      "desc": "Pruebo tu app antes que los atacantes. Pentest basado en OWASP con reporte de remediación claro. Solo sobre sistemas propios del cliente y con autorización previa por escrito.",
-      "btn": "Solicitar Auditoría"
+    "kicker": "04 · Proyectos",
+    "title": "Trabajo real, <em>código a la vista</em>",
+    "lead": "Una selección de proyectos con el código publicado en GitHub, incluido un sistema de gestión interna para el sector público.",
+    "viewCode": "Ver código",
+    "more": "Más proyectos en GitHub",
+    "items": {
+      "sistema-gestion": { "tag": "Sector público", "title": "Sistema de gestión interna", "desc": "Gestión de colegios, luminarias CNEL, encuentros ciudadanos, trabajadores y roles de usuario para la Gobernación del Guayas." },
+      "microservice-b2b": { "tag": "Arquitectura", "title": "Microservicios B2B", "desc": "Servicios independientes comunicados entre sí, con autenticación y API Gateway." },
+      "fullstack-project": { "tag": "Facturación", "title": "Gestión de facturas", "desc": "Aplicación full stack para el ingreso y la gestión de facturas." },
+      "angular-countries": { "tag": "SPA", "title": "Explorador de países", "desc": "Dashboard de estadísticas, buscador con filtros por región, favoritos y perfil de usuario sobre REST Countries." },
+      "javaquiz": { "tag": "Frontend", "title": "Quiz interactivo", "desc": "Quiz de JavaScript con estado global en Zustand e interfaz con MUI." },
+      "csharp": { "tag": "Backend", "title": "C# y .NET", "desc": "APIs REST y fundamentos de backend sobre la plataforma .NET." }
     }
   },
-  "testimonials": {
-    "title": "Proyectos Full Stack",
-    "subtitle": "Lo que dicen sobre trabajar conmigo.",
-    "t1": {
-      "text": "Le pedimos un sistema para controlar inventario y facturación. En 3 semanas ya lo teníamos funcionando. Lo que más valoro es que nos explicó todo sin tecnicismos y el sistema es fácil de usar para mi equipo.",
-      "author": "Andrés Moreira · Gerente General · Distribuidora Moreira & Asociados · Guayaquil"
-    },
-    "t2": {
-      "text": "Necesitaba una página web rápido para lanzar mi agencia. David entregó antes del plazo, el diseño superó lo que esperaba y me enseñó cómo actualizar el contenido yo misma. Cero complicaciones.",
-      "author": "Valeria Ríos · Fundadora · Studio Ríos Comunicación · Quito"
-    },
-    "t3": {
-      "text": "Contratamos la auditoría de seguridad antes de nuestro lanzamiento. Encontró 4 vulnerabilidades reales, dos de ellas críticas. El reporte fue tan claro que nuestro equipo pudo corregirlas en días. Lo recomendaría a cualquier startup que vaya a manejar datos sensibles.",
-      "author": "Sebastián Paredes · CTO · Startup Fintech · Cuenca"
-    }
+  "process": {
+    "kicker": "05 · Cómo trabajamos",
+    "title": "Avances <em>cada semana</em>, no solo al final",
+    "steps": [
+      { "title": "Análisis", "text": "Entendemos tu operación y definimos alcance, plazos y entregables." },
+      { "title": "Diseño", "text": "Ves las pantallas antes de programar, para ajustar sin costo de código." },
+      { "title": "Desarrollo", "text": "Construimos por etapas con una demo funcionando cada semana." },
+      { "title": "Auditoría", "text": "Probamos la seguridad antes de salir a producción." },
+      { "title": "Entrega", "text": "Publicamos, capacitamos a tu equipo y seguimos disponibles." }
+    ]
   },
   "contact": {
-    "title": "Hablemos",
-    "subtitle": "¿Tienes un proyecto en mente? Conversemos.",
+    "kicker": "06 · Contacto",
+    "title": "Hablemos de<br></br>tu <em>proyecto</em>",
+    "lead": "Cuéntanos qué necesitas y te enviamos una propuesta de alcance. La primera reunión no tiene costo.",
+    "response_time": "Normalmente respondemos en menos de 24 horas",
     "email_label": "Correo",
     "whatsapp_label": "WhatsApp",
-    "calendly_label": "Agenda una llamada gratuita de 30min",
-    "github_label": "GitHub",
-    "linkedin_label": "LinkedIn",
+    "whatsapp_text": "Hola, me gustaría cotizar un proyecto",
+    "calendly_label": "Agenda una llamada gratuita de 30 min",
+    "formTitle": "Escríbenos",
     "form": {
-      "name": "Tu Nombre",
-      "email": "Tu Correo",
-      "service": "Selecciona un Servicio",
-      "message": "Tu Mensaje",
-      "submit": "Enviar Mensaje",
+      "name": "Tu nombre",
+      "email": "Tu correo",
+      "service": "Selecciona un servicio",
+      "message": "Cuéntanos sobre tu proyecto",
+      "submit": "Enviar mensaje",
       "sending": "Enviando...",
-      "success": "¡Mensaje enviado! Te responderé pronto.",
-      "error": "Algo salió mal. Por favor intenta de nuevo.",
+      "success": "¡Mensaje enviado! Te responderemos pronto.",
+      "error": "Algo salió mal. Escríbenos directamente al correo.",
+      "close": "Cerrar notificación",
+      "errors": {
+        "name": "Escribe tu nombre",
+        "email": "Escribe un correo válido",
+        "service": "Selecciona un servicio",
+        "message": "El mensaje debe tener al menos 20 caracteres"
+      },
       "services": [
-        "Desarrollo Frontend",
-        "Backend y APIs",
-        "DevOps / AWS",
-        "Auditoría de Seguridad",
-        "Consultoría",
-        "Proyecto Completo"
+        "Desarrollo de software",
+        "App móvil o de escritorio",
+        "Datos y bases de datos",
+        "Cloud y DevOps",
+        "Auditoría de seguridad",
+        "Otro"
       ],
       "consent": "He leído y acepto la <link>Política de Privacidad</link>, incluido el envío de mis datos a los proveedores que allí se indican.",
       "consent_error": "Debes aceptar la política de privacidad para enviar el mensaje."
-    },
-    "response_time": "Normalmente respondo en menos de 24h"
+    }
   },
   "footer": {
-    "tagline": "Desarrollo Full Stack · Seguridad · DevOps",
-    "rights": "Todos los derechos reservados.",
-    "builtWith": "Construido con Next.js + Tailwind CSS",
-    "privacy": "Política de privacidad"
+    "tagline": "Software · Datos · Ciberseguridad — Guayaquil, Ecuador",
+    "legal": "Cornerstone Develop es la marca comercial de David Alvarado.",
+    "privacy": "Política de privacidad",
+    "github": "GitHub",
+    "linkedin": "LinkedIn"
   },
   "chat": {
     "notice": "Asistente automatizado. Lo que escribas se envía a David para que pueda responderte. <link>Privacidad</link>"
