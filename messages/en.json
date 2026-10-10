@@ -6,7 +6,7 @@
     "contact": "Contact",
     "hire": "Hire Me"
   },
-  "avail": "AVAILABLE FOR PROJECTS — Q2 2026 · Guayaquil, Ecuador",
+  "avail": "AVAILABLE FOR NEW PROJECTS · Guayaquil, Ecuador",
   "hero": {
     "tag": "Full Stack · Security · DevOps",
     "name1": "DAVID",
@@ -27,38 +27,86 @@
     "s1": {
       "name": "Frontend Development",
       "desc": "SPAs, dashboards, landing pages and admin panels. Fast, accessible and pixel-perfect interfaces.",
-      "tags": ["React", "Next.js", "TypeScript", "Angular", "Tailwind"]
+      "tags": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Angular",
+        "Tailwind"
+      ]
     },
     "s2": {
       "name": "Backend & APIs",
       "desc": "REST and GraphQL APIs, microservices, authentication systems and database design at scale.",
-      "tags": ["Node.js", "NestJS", ".NET", "PostgreSQL", "REST/GraphQL"]
+      "tags": [
+        "Node.js",
+        "NestJS",
+        ".NET",
+        "PostgreSQL",
+        "REST/GraphQL"
+      ]
     },
     "s3": {
       "name": "DevOps & Cloud",
       "desc": "CI/CD pipelines, Docker containerization, AWS infrastructure and Nginx/Cloudflare configuration.",
-      "tags": ["Docker", "AWS", "CI/CD", "Nginx", "Cloudflare"]
+      "tags": [
+        "Docker",
+        "AWS",
+        "CI/CD",
+        "Nginx",
+        "Cloudflare"
+      ]
     },
     "s4": {
       "name": "Security Audit",
-      "desc": "Full web application pentesting following OWASP Top 10. Detailed vulnerability report with remediation steps.",
-      "tags": ["OWASP", "Burp Suite", "Nmap", "Pentest Report"]
+      "desc": "Web application pentesting following OWASP Top 10, always with a defined scope and written authorization. Detailed report with remediation steps.",
+      "tags": [
+        "OWASP",
+        "Burp Suite",
+        "Nmap",
+        "Pentest Report"
+      ]
     },
     "s5": {
       "name": "Security Consulting",
       "desc": "Security built into the dev process — not bolted on. Threat modeling, code review, hardening and AppSec training for your team.",
-      "tags": ["Threat Modeling", "AppSec", "Code Review", "Hardening"]
+      "tags": [
+        "Threat Modeling",
+        "AppSec",
+        "Code Review",
+        "Hardening"
+      ]
     }
   },
   "process": {
     "title": "How I Work",
     "subtitle": "A clear process from kickoff to production.",
     "steps": [
-      { "num": "01", "label": "Discovery", "desc": "Scope, goals and tech requirements defined." },
-      { "num": "02", "label": "Design", "desc": "Architecture, wireframes and tech stack choice." },
-      { "num": "03", "label": "Build", "desc": "Iterative dev with weekly demos and feedback." },
-      { "num": "04", "label": "Audit", "desc": "Security review before any deploy goes live." },
-      { "num": "05", "label": "Deploy", "desc": "Production deploy + handoff + ongoing support." }
+      {
+        "num": "01",
+        "label": "Discovery",
+        "desc": "Scope, goals and tech requirements defined."
+      },
+      {
+        "num": "02",
+        "label": "Design",
+        "desc": "Architecture, wireframes and tech stack choice."
+      },
+      {
+        "num": "03",
+        "label": "Build",
+        "desc": "Iterative dev with weekly demos and feedback."
+      },
+      {
+        "num": "04",
+        "label": "Audit",
+        "desc": "Security review before any deploy goes live."
+      },
+      {
+        "num": "05",
+        "label": "Deploy",
+        "desc": "Production deploy + handoff + ongoing support."
+      }
     ]
   },
   "projects": {
@@ -74,21 +122,38 @@
     "card1": {
       "name": "Python Security Toolkit",
       "lang": "PYTHON · RECON",
-      "tags": ["nmap", "recon", "python3", "pentesting", "automation"]
+      "tags": [
+        "nmap",
+        "recon",
+        "python3",
+        "pentesting",
+        "automation"
+      ]
     },
     "card2": {
       "name": "OWASP Top 10 Lab",
       "lang": "NODE.JS · APPSEC",
-      "tags": ["owasp", "sqli", "xss", "broken-auth", "nodejs"]
+      "tags": [
+        "owasp",
+        "sqli",
+        "xss",
+        "broken-auth",
+        "nodejs"
+      ]
     },
     "card3": {
       "name": "Web Pentest Notes",
       "lang": "DOCS · METHODOLOGY",
-      "tags": ["writeups", "burpsuite", "tryhackme", "methodology"]
+      "tags": [
+        "writeups",
+        "burpsuite",
+        "tryhackme",
+        "methodology"
+      ]
     },
     "cta": {
       "title": "Need a Security Audit?",
-      "desc": "I test your app before attackers do. Full OWASP-based pentest with a clear remediation report.",
+      "desc": "I test your app before attackers do. OWASP-based pentest with a clear remediation report. Only on systems the client owns and with prior written authorization.",
       "btn": "Request an Audit"
     }
   },
@@ -132,12 +197,19 @@
         "Security Audit",
         "Consulting",
         "Full Project"
-      ]
-    }
+      ],
+      "consent": "I have read and accept the <link>Privacy Policy</link>, including the transfer of my data to the providers listed there.",
+      "consent_error": "You must accept the privacy policy to send your message."
+    },
+    "response_time": "I usually reply within 24h"
   },
   "footer": {
     "tagline": "Full Stack Development · Security · DevOps",
     "rights": "All rights reserved.",
-    "builtWith": "Built with Next.js + Tailwind CSS"
+    "builtWith": "Built with Next.js + Tailwind CSS",
+    "privacy": "Privacy policy"
+  },
+  "chat": {
+    "notice": "Automated assistant. What you type is sent to David so he can reply. <link>Privacy</link>"
   }
 }

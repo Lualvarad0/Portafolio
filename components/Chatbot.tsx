@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { CONFIG } from "@/lib/config";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -51,7 +52,7 @@ interface ScriptEntry {
 
 const SCRIPT: Record<"en" | "es", ScriptEntry> = {
   en: {
-    greetIntro: "Hi! I'm Alex 👋 I'm David's assistant. Which service are you looking for?",
+    greetIntro: "Hi! I'm Alex 👋 David's virtual (automated) assistant. Which service are you looking for?",
     serviceChips: ["Frontend", "Backend", "Security Audit", "Security Consulting", "Full Project"],
     scopeQ: {
       Frontend: { q: "Is this a new site / app or improving an existing one?", chips: ["New website", "New app", "Improve existing", "Not sure"] },
@@ -64,7 +65,7 @@ const SCRIPT: Record<"en" | "es", ScriptEntry> = {
     budgetChips: ["Under $500", "$500–$2,000", "$2,000–$5,000", "$5,000+", "Not sure yet"],
     lowBudget: "David focuses on larger projects, but leave your email and we'll reach out if something fits!",
     highBudget: "David would love to connect! Book a free 30-min discovery call below 👇",
-    emailThanks: (email) => `Got it! We'll reach out to ${email} soon. David will be in touch within 24h 🙌`,
+    emailThanks: (email) => `Got it! We'll reach out to ${email} soon. David usually replies within 24h 🙌`,
     emailPlaceholder: "your@email.com",
     submitEmail: "Submit",
     typing: "Alex is typing...",
@@ -75,7 +76,7 @@ const SCRIPT: Record<"en" | "es", ScriptEntry> = {
     tooShort: "Could you tell me a bit more? At least 15 characters helps David understand your project. Give it another go:",
   },
   es: {
-    greetIntro: "¡Hola! Soy Alex 👋 el asistente de David. ¿Qué tipo de servicio buscas?",
+    greetIntro: "¡Hola! Soy Alex 👋 el asistente virtual (automatizado) de David. ¿Qué tipo de servicio buscas?",
     serviceChips: ["Frontend", "Backend", "Auditoría de Seguridad", "Consultoría de Seguridad", "Proyecto Completo"],
     scopeQ: {
       Frontend: { q: "¿Es un sitio / app nuevo o vas a mejorar uno existente?", chips: ["Sitio nuevo", "App nueva", "Mejorar existente", "No sé aún"] },
@@ -88,7 +89,7 @@ const SCRIPT: Record<"en" | "es", ScriptEntry> = {
     budgetChips: ["Menos de $500", "$500–$2,000", "$2,000–$5,000", "$5,000+", "No sé aún"],
     lowBudget: "David trabaja en proyectos medianos y grandes, pero deja tu correo y te avisamos si surge algo que encaje.",
     highBudget: "¡Genial! A David le encantaría conectar. Reserva una llamada gratuita de 30 min 👇",
-    emailThanks: (email) => `¡Listo! Nos contactaremos a ${email} pronto. David estará en contacto en menos de 24h 🙌`,
+    emailThanks: (email) => `¡Listo! Nos contactaremos a ${email} pronto. David normalmente responde en menos de 24h 🙌`,
     emailPlaceholder: "tu@email.com",
     submitEmail: "Enviar",
     typing: "Alex está escribiendo...",
@@ -231,7 +232,7 @@ function notifyLead(lead: LeadData, transcript: string): void {
   fetch("/api/chat/notify", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ ...lead, summary: transcript }),
+    body: JSON.stringify({ ...lead, summary: transcript.slice(-6000) }),
   }).catch(() => {});
 }
 
@@ -325,6 +326,7 @@ export default function Chatbot() {
   const locale = useLocale();
   const lang = locale === "es" ? "es" : "en";
   const s = SCRIPT[lang];
+  const tChat = useTranslations("chat");
 
   const [isOpen, setIsOpen] = useState(false);
   const [hasNotif, setHasNotif] = useState(true);
@@ -698,7 +700,7 @@ export default function Chatbot() {
                     letterSpacing: "0.04em",
                   }}
                 >
-                  // Alex — Assistant
+                  {locale === "es" ? "// Alex — Asistente virtual" : "// Alex — Virtual assistant"}
                 </div>
                 <div style={{ fontSize: "0.66rem", color: "#5a6478", marginTop: 1 }}>
                   {locale === "es" ? "Respondo en segundos" : "I respond in seconds"}
@@ -727,6 +729,27 @@ export default function Chatbot() {
             >
               ✕
             </button>
+          </div>
+
+          {/* Privacy notice — shown before the visitor types anything */}
+          <div
+            style={{
+              padding: "6px 14px",
+              fontSize: "0.66rem",
+              lineHeight: 1.45,
+              color: "#8b95a8",
+              background: "#0e1118",
+              borderBottom: "1px solid rgba(34,211,238,0.08)",
+              flexShrink: 0,
+            }}
+          >
+            {tChat.rich("notice", {
+              link: (chunks) => (
+                <Link href="/privacy" target="_blank" style={{ color: "#22d3ee", textDecoration: "underline" }}>
+                  {chunks}
+                </Link>
+              ),
+            })}
           </div>
 
           {/* Messages */}

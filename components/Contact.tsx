@@ -8,12 +8,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import emailjs from "@emailjs/browser";
 import { CONFIG } from "@/lib/config";
+import { Link } from "@/i18n/navigation";
 
 const schema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Invalid email address"),
   service: z.string().min(1, "Please select a service"),
-  message: z.string().min(20, "Message must be at least 20 characters"),
+  message: z.string().min(20, "Message must be at least 20 characters").max(5000),
+  website: z.string().optional(),
+  consent: z.boolean().refine((v) => v === true),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -143,26 +146,23 @@ export default function Contact() {
 
   const isConfigured = (val: string) => val !== "REPLACE_ME";
 
-  const sendWhatsApp = async (data: FormData) => {
-    if (
-      !isConfigured(CONFIG.callmebot.phone) ||
-      !isConfigured(CONFIG.callmebot.apikey)
-    )
-      return;
-
-    const text = encodeURIComponent(
-      `📬 Nuevo lead!\n👤 ${data.name} (${data.email})\n🛠 ${data.service}\n💬 ${data.message.slice(0, 200)}`
-    );
-    const url = `https://api.callmebot.com/whatsapp.php?phone=${CONFIG.callmebot.phone}&text=${text}&apikey=${CONFIG.callmebot.apikey}`;
-
-    try {
-      await fetch(url, { mode: "no-cors" });
-    } catch {
-      // Fire and forget — ignore errors
-    }
+  // WhatsApp notification goes through our API so the CallMeBot key stays server-side.
+  const notifyServer = (data: FormData) => {
+    fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    }).catch(() => {});
   };
 
   const onSubmit = async (data: FormData) => {
+    // Honeypot filled → silently drop (bots get a fake success).
+    if (data.website) {
+      reset();
+      addToast("success", t("form.success"));
+      return;
+    }
+
     setStatus("loading");
 
     try {
@@ -189,7 +189,7 @@ export default function Contact() {
       }
 
       // Fire-and-forget WhatsApp
-      sendWhatsApp(data);
+      notifyServer(data);
 
       setStatus("success");
       reset();
@@ -362,10 +362,19 @@ export default function Contact() {
                     <circle cx="12" cy="12" r="10" />
                     <polyline points="12,6 12,12 16,14" />
                   </svg>
-                  Respondo en menos de 24h
+                  {t("response_time")}
                 </div>
               </div>
               <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5" noValidate>
+                {/* Honeypot — hidden from humans and screen readers */}
+                <input
+                  {...register("website")}
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  className="absolute -left-[9999px] w-px h-px opacity-0"
+                />
                 {/* Name */}
                 <div>
                   <input
@@ -446,6 +455,35 @@ export default function Contact() {
                   />
                   {errors.message && (
                     <p style={errorStyle}>{errors.message.message}</p>
+                  )}
+                </div>
+
+                {/* Privacy consent (LOPDP: informed, explicit, never pre-ticked) */}
+                <div>
+                  <label className="flex items-start gap-3 cursor-pointer text-xs leading-relaxed" style={{ color: "var(--muted)" }}>
+                    <input
+                      {...register("consent")}
+                      type="checkbox"
+                      aria-invalid={errors.consent ? true : undefined}
+                      className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-cyan-400"
+                    />
+                    <span>
+                      {t.rich("form.consent", {
+                        link: (chunks) => (
+                          <Link
+                            href="/privacy"
+                            target="_blank"
+                            className="underline underline-offset-2"
+                            style={{ color: "var(--accent)" }}
+                          >
+                            {chunks}
+                          </Link>
+                        ),
+                      })}
+                    </span>
+                  </label>
+                  {errors.consent && (
+                    <p style={errorStyle}>{t("form.consent_error")}</p>
                   )}
                 </div>
 
