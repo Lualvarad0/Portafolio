@@ -3,7 +3,8 @@ import { Barlow, JetBrains_Mono } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { routing } from "@/i18n/routing";
+import { routing, type Locale } from "@/i18n/routing";
+import { SITE_URL, languageAlternates, localeUrl } from "@/lib/site";
 import Chatbot from "@/components/Chatbot";
 import { Analytics } from "@vercel/analytics/next";
 import "../globals.css";
@@ -24,9 +25,10 @@ const jetbrainsMono = JetBrains_Mono({
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
   const isSpanish = locale === 'es';
+  const pageUrl = localeUrl(locale as Locale);
 
   return {
-    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.alvarado-dev.com"),
+    metadataBase: new URL(SITE_URL),
     title: isSpanish
       ? "David Alvarado | Desarrollador Web Full Stack en Guayaquil, Ecuador"
       : "David Alvarado | Full Stack Web Developer in Guayaquil, Ecuador",
@@ -37,11 +39,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       ? ["desarrollador web Guayaquil", "sistemas web Ecuador", "páginas web profesionales Ecuador", "desarrollo full stack Ecuador", "auditoría seguridad web", "frontend React", "backend Node.js", "DevOps AWS"]
       : ["web developer Guayaquil", "web systems Ecuador", "professional websites Ecuador", "full stack development Ecuador", "web security audit", "React frontend", "Node.js backend", "AWS DevOps"],
     alternates: {
-      canonical: `https://www.alvarado-dev.com${locale === 'en' ? '/en' : ''}`,
-      languages: {
-        'es': 'https://www.alvarado-dev.com',
-        'en': 'https://www.alvarado-dev.com/en',
-      },
+      canonical: pageUrl,
+      languages: languageAlternates(),
     },
     openGraph: {
       title: isSpanish
@@ -54,7 +53,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       locale: isSpanish ? "es_EC" : "en_US",
       siteName: "alvarado-dev.com",
       images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "David Alvarado — Full Stack & Security" }],
-      url: `https://www.alvarado-dev.com${locale === 'en' ? '/en' : ''}`,
+      url: pageUrl,
     },
     twitter: {
       card: "summary_large_image",
@@ -66,7 +65,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
         : "Full-stack development with security baked in from day one.",
       images: ["/og-image.png"],
     },
-    authors: [{ name: "David Alvarado", url: "https://www.alvarado-dev.com" }],
+    authors: [{ name: "David Alvarado", url: SITE_URL }],
     creator: "David Alvarado",
     publisher: "David Alvarado",
     formatDetection: {
@@ -115,7 +114,7 @@ export default async function LocaleLayout({
     "@type": "Person",
     "name": "David Alvarado",
     "jobTitle": "Full Stack Web Developer",
-    "url": "https://www.alvarado-dev.com",
+    "url": SITE_URL,
     "email": "lui.alv.ron.25@gmail.com",
     "address": {
       "@type": "PostalAddress",
@@ -188,7 +187,7 @@ export default async function LocaleLayout({
       }
     ],
     "sameAs": [
-      "https://github.com/davidalvarado",
+      "https://github.com/Lualvarad0",
       "https://linkedin.com/in/david-alvarado-ronquillo"
     ]
   };

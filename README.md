@@ -11,7 +11,7 @@ cp .env.example .env.local
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). The middleware redirects `/` → `/en` automatically.
+Open [http://localhost:3000](http://localhost:3000). Spanish is served at `/` and English at `/en`.
 
 ---
 
@@ -41,15 +41,15 @@ All keys live in `.env.local` (copy from `.env.example`). The app reads them via
 
 ### CallMeBot (WhatsApp Notifications)
 
-Receive a WhatsApp message every time someone submits the contact form.
+Receive a WhatsApp message every time someone submits the contact form or the chatbot captures a lead. The key is only read server-side (`lib/notify.ts`) — never prefix it with `NEXT_PUBLIC_`.
 
 1. Add **+34 644 64 21 56** to your WhatsApp contacts as "CallMeBot"
 2. Send: `I allow callmebot to send me messages`
 3. You'll receive your API key by WhatsApp
 4. Set in `.env.local`:
    ```
-   NEXT_PUBLIC_CALLMEBOT_PHONE=593912345678   # your number with country code
-   NEXT_PUBLIC_CALLMEBOT_APIKEY=your_api_key
+   CALLMEBOT_PHONE=593912345678   # your number with country code
+   CALLMEBOT_APIKEY=your_api_key
    ```
 
 ### Calendly
