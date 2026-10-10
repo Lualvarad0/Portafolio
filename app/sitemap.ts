@@ -1,20 +1,20 @@
-import { MetadataRoute } from 'next'
+import { MetadataRoute } from "next";
+import { routing, type AppPathname } from "@/i18n/routing";
+import { languageAlternates, localeUrl } from "@/lib/site";
+
+const PAGES: { pathname: AppPathname; priority: number; changeFrequency: "monthly" | "yearly" }[] = [
+  { pathname: "/", priority: 1, changeFrequency: "monthly" },
+  { pathname: "/privacy", priority: 0.3, changeFrequency: "yearly" },
+];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://www.alvarado-dev.com'
-
-  return [
-    {
-      url: baseUrl,
+  return PAGES.flatMap(({ pathname, priority, changeFrequency }) =>
+    routing.locales.map((locale) => ({
+      url: localeUrl(locale, pathname),
       lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/en`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.9,
-    },
-  ]
+      changeFrequency,
+      priority: locale === routing.defaultLocale ? priority : priority * 0.9,
+      alternates: { languages: languageAlternates(pathname) },
+    }))
+  );
 }

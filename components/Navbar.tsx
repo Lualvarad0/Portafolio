@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { usePathname, useRouter } from "@/i18n/navigation";
+import { getPathname, usePathname, useRouter } from "@/i18n/navigation";
 import { useLocale } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -36,6 +36,8 @@ export default function Navbar() {
     setMobileOpen(false);
     const el = document.querySelector(id);
     if (el) el.scrollIntoView({ behavior: "smooth" });
+    // Section lives on the home page (e.g. we're on /privacidad) → go there.
+    else window.location.assign(`${getPathname({ href: "/", locale })}${id}`);
   };
 
   return (
@@ -56,7 +58,8 @@ export default function Navbar() {
           href="#"
           onClick={(e) => {
             e.preventDefault();
-            window.scrollTo({ top: 0, behavior: "smooth" });
+            if (pathname === "/") window.scrollTo({ top: 0, behavior: "smooth" });
+            else router.push("/");
           }}
           className="font-mono text-lg font-bold tracking-tight select-none"
           style={{ fontFamily: "var(--font-jetbrains)" }}

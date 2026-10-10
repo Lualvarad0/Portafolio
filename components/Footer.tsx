@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { CONFIG } from "@/lib/config";
+import { Link } from "@/i18n/navigation";
 
 export default function Footer() {
   const t = useTranslations("footer");
@@ -76,6 +77,9 @@ export default function Footer() {
           style={{ borderTop: "1px solid var(--border)", color: "var(--muted)" }}
         >
           <span>© {year} David Alvarado. {t("rights")}</span>
+          <Link href="/privacy" className="underline underline-offset-2 hover:text-accent transition-colors">
+            {t("privacy")}
+          </Link>
           <span>{t("builtWith")}</span>
         </div>
       </div>
