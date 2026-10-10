@@ -1,10 +1,11 @@
 import type { Locale } from "@/i18n/routing";
 
 // Bump this date whenever the policy text changes.
-export const PRIVACY_LAST_UPDATED = "2026-10-09";
+export const PRIVACY_LAST_UPDATED = "2026-10-10";
 
 export const CONTROLLER = {
   name: "David Alvarado",
+  brand: "Cornerstone Develop",
   city: "Guayaquil, Ecuador",
   email: "lui.alv.ron.25@gmail.com",
 };
@@ -38,7 +39,7 @@ export interface PrivacyContent {
 }
 
 const es: PrivacyContent = {
-  metaTitle: "Política de Privacidad | David Alvarado",
+  metaTitle: "Política de Privacidad | Cornerstone Develop",
   metaDescription:
     "Cómo se recogen, usan y protegen tus datos personales en alvarado-dev.com, conforme a la Ley Orgánica de Protección de Datos Personales del Ecuador.",
   title: "Política de Privacidad",
@@ -52,7 +53,7 @@ const es: PrivacyContent = {
       id: "responsable",
       title: "1. Responsable del tratamiento",
       paragraphs: [
-        `El responsable del tratamiento de tus datos es ${CONTROLLER.name}, desarrollador de software independiente con domicilio en ${CONTROLLER.city}.`,
+        `El responsable del tratamiento de tus datos es ${CONTROLLER.name}, desarrollador de software independiente con domicilio en ${CONTROLLER.city}, que opera bajo la marca comercial ${CONTROLLER.brand}.`,
         `Para cualquier consulta sobre privacidad o para ejercer tus derechos, escribe a ${CONTROLLER.email}. Por el tamaño de la actividad no se ha designado un delegado de protección de datos; el propio responsable atiende estas solicitudes.`,
       ],
     },
@@ -215,7 +216,7 @@ const es: PrivacyContent = {
 };
 
 const en: PrivacyContent = {
-  metaTitle: "Privacy Policy | David Alvarado",
+  metaTitle: "Privacy Policy | Cornerstone Develop",
   metaDescription:
     "How personal data is collected, used and protected on alvarado-dev.com, in line with Ecuador's Personal Data Protection Law and the GDPR.",
   title: "Privacy Policy",
@@ -229,7 +230,7 @@ const en: PrivacyContent = {
       id: "controller",
       title: "1. Data controller",
       paragraphs: [
-        `The controller of your data is ${CONTROLLER.name}, an independent software developer based in ${CONTROLLER.city}.`,
+        `The controller of your data is ${CONTROLLER.name}, an independent software developer based in ${CONTROLLER.city}, operating under the trade name ${CONTROLLER.brand}.`,
         `For any privacy question or to exercise your rights, email ${CONTROLLER.email}. Given the size of the activity, no data protection officer has been appointed; the controller handles these requests directly.`,
       ],
     },

@@ -1,73 +1,71 @@
-import type { Metadata } from "next";
-import { Barlow, JetBrains_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Inter, JetBrains_Mono, Playfair_Display } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
+import { getMessages, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing, type Locale } from "@/i18n/routing";
 import { SITE_URL, languageAlternates, localeUrl } from "@/lib/site";
+import { BRAND, CONTACT_EMAIL, LINKEDIN_URL } from "@/lib/brand";
 import Chatbot from "@/components/Chatbot";
 import { Analytics } from "@vercel/analytics/next";
 import "../globals.css";
 
-const barlow = Barlow({
-  variable: "--font-barlow",
+// Self-hosted by next/font: no requests to Google from the visitor's browser.
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["700", "800", "900"],
-  style: ["normal", "italic"],
+  weight: ["300", "400", "500", "600", "700"],
+});
+
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  style: ["italic"],
 });
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains",
   subsets: ["latin"],
-  weight: ["300", "400", "600", "700"],
+  weight: ["400", "500", "700"],
 });
+
+export const viewport: Viewport = {
+  themeColor: "#050807",
+  viewportFit: "cover",
+};
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
-  const isSpanish = locale === 'es';
+  const t = await getTranslations({ locale, namespace: "meta" });
   const pageUrl = localeUrl(locale as Locale);
 
   return {
     metadataBase: new URL(SITE_URL),
-    title: isSpanish
-      ? "David Alvarado | Desarrollador Web Full Stack en Guayaquil, Ecuador"
-      : "David Alvarado | Full Stack Web Developer in Guayaquil, Ecuador",
-    description: isSpanish
-      ? "Desarrollador web full stack en Guayaquil, Ecuador. Especialista en desarrollo de sistemas web, páginas web profesionales, auditorías de seguridad OWASP. Servicios de desarrollo frontend, backend y DevOps."
-      : "Full-stack web developer in Guayaquil, Ecuador. Specialist in web systems development, professional websites, OWASP security audits. Frontend, backend and DevOps services.",
-    keywords: isSpanish
-      ? ["desarrollador web Guayaquil", "sistemas web Ecuador", "páginas web profesionales Ecuador", "desarrollo full stack Ecuador", "auditoría seguridad web", "frontend React", "backend Node.js", "DevOps AWS"]
-      : ["web developer Guayaquil", "web systems Ecuador", "professional websites Ecuador", "full stack development Ecuador", "web security audit", "React frontend", "Node.js backend", "AWS DevOps"],
+    title: t("title"),
+    description: t("description"),
+    keywords: t.raw("keywords") as string[],
+    applicationName: BRAND,
     alternates: {
       canonical: pageUrl,
       languages: languageAlternates(),
     },
     openGraph: {
-      title: isSpanish
-        ? "David Alvarado | Desarrollador Web Full Stack en Guayaquil, Ecuador"
-        : "David Alvarado | Full Stack Web Developer in Guayaquil, Ecuador",
-      description: isSpanish
-        ? "Desarrollo full-stack con seguridad integrada desde el día uno. Construyo apps robustas y audito su seguridad."
-        : "Full-stack development with security baked in from day one. I build robust apps and audit them so they stay that way.",
+      title: t("title"),
+      description: t("ogDescription"),
       type: "website",
-      locale: isSpanish ? "es_EC" : "en_US",
-      siteName: "alvarado-dev.com",
-      images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "David Alvarado — Full Stack & Security" }],
+      locale: locale === "es" ? "es_EC" : "en_US",
+      siteName: BRAND,
       url: pageUrl,
     },
     twitter: {
       card: "summary_large_image",
-      title: isSpanish
-        ? "David Alvarado | Desarrollador Web Full Stack en Guayaquil, Ecuador"
-        : "David Alvarado | Full Stack Web Developer in Guayaquil, Ecuador",
-      description: isSpanish
-        ? "Desarrollo full-stack con seguridad integrada desde el día uno."
-        : "Full-stack development with security baked in from day one.",
-      images: ["/og-image.png"],
+      title: t("title"),
+      description: t("ogDescription"),
     },
     authors: [{ name: "David Alvarado", url: SITE_URL }],
     creator: "David Alvarado",
-    publisher: "David Alvarado",
+    publisher: BRAND,
     formatDetection: {
       email: false,
       address: false,
@@ -79,9 +77,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       googleBot: {
         index: true,
         follow: true,
-        'max-video-preview': -1,
-        'max-image-preview': 'large',
-        'max-snippet': -1,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
       },
     },
     verification: {
@@ -103,100 +101,61 @@ export default async function LocaleLayout({
 }) {
   const { locale } = await params;
 
-  if (!routing.locales.includes(locale as (typeof routing.locales)[number])) {
+  if (!routing.locales.includes(locale as Locale)) {
     notFound();
   }
 
   const messages = await getMessages();
+  const t = await getTranslations({ locale, namespace: "meta" });
+
+  const founder = {
+    "@type": "Person",
+    "@id": `${SITE_URL}/#david-alvarado`,
+    name: "David Alvarado",
+    jobTitle: "Full Stack Developer & Security Engineer",
+    url: SITE_URL,
+    sameAs: ["https://github.com/Lualvarad0", LINKEDIN_URL],
+  };
 
   const schemaData = {
     "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "David Alvarado",
-    "jobTitle": "Full Stack Web Developer",
-    "url": SITE_URL,
-    "email": "lui.alv.ron.25@gmail.com",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Guayaquil",
-      "addressCountry": "Ecuador"
-    },
-    "knowsAbout": [
-      "React",
-      "Next.js",
-      "TypeScript",
-      "Node.js",
-      "NestJS",
-      ".NET",
-      "PostgreSQL",
-      "Docker",
-      "AWS",
-      "OWASP",
-      "Security Audits",
-      "DevOps",
-      "Frontend Development",
-      "Backend Development",
-      "Web Systems",
-      "Professional Websites"
+    "@graph": [
+      founder,
+      {
+        "@type": "ProfessionalService",
+        "@id": `${SITE_URL}/#business`,
+        name: BRAND,
+        description: t("description"),
+        url: localeUrl(locale as Locale),
+        logo: `${SITE_URL}/brand/cornerstone-mark.svg`,
+        email: CONTACT_EMAIL,
+        founder: { "@id": founder["@id"] },
+        areaServed: ["EC", "Worldwide"],
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: "Guayaquil",
+          addressCountry: "EC",
+        },
+        knowsAbout: [
+          "Custom software development",
+          "Web systems",
+          "Mobile apps",
+          "Desktop apps",
+          "Databases",
+          "Power BI",
+          "Cloud",
+          "DevOps",
+          "OWASP",
+          "Penetration testing",
+          "Security audits",
+        ],
+        sameAs: ["https://github.com/Lualvarad0", LINKEDIN_URL],
+      },
     ],
-    "hasOccupation": {
-      "@type": "Occupation",
-      "name": "Full Stack Web Developer",
-      "occupationLocation": {
-        "@type": "City",
-        "name": "Guayaquil",
-        "addressCountry": "Ecuador"
-      }
-    },
-    "offers": [
-      {
-        "@type": "Service",
-        "name": "Frontend Development",
-        "description": "Development of modern, responsive web interfaces using React, Next.js, and TypeScript.",
-        "provider": {
-          "@type": "Person",
-          "name": "David Alvarado"
-        }
-      },
-      {
-        "@type": "Service",
-        "name": "Backend Development",
-        "description": "Robust API development with Node.js, NestJS, .NET, and databases.",
-        "provider": {
-          "@type": "Person",
-          "name": "David Alvarado"
-        }
-      },
-      {
-        "@type": "Service",
-        "name": "DevOps & Cloud",
-        "description": "CI/CD pipelines, Docker containers, and AWS infrastructure setup.",
-        "provider": {
-          "@type": "Person",
-          "name": "David Alvarado"
-        }
-      },
-      {
-        "@type": "Service",
-        "name": "Security Audits",
-        "description": "OWASP-compliant web application security testing and remediation reports.",
-        "provider": {
-          "@type": "Person",
-          "name": "David Alvarado"
-        }
-      }
-    ],
-    "sameAs": [
-      "https://github.com/Lualvarad0",
-      "https://linkedin.com/in/david-alvarado-ronquillo"
-    ]
   };
 
   return (
-    <html
-      lang={locale}
-      className={`${barlow.variable} ${jetbrainsMono.variable}`}
-    >
+    <html lang={locale} className={`${inter.variable} ${playfair.variable} ${jetbrainsMono.variable}`}>
       <head>
         <script
           type="application/ld+json"
@@ -205,7 +164,7 @@ export default async function LocaleLayout({
           }}
         />
       </head>
-      <body className="min-h-screen bg-bg text-text antialiased" suppressHydrationWarning>
+      <body className="min-h-screen antialiased" suppressHydrationWarning>
         <NextIntlClientProvider messages={messages}>
           {children}
           <Chatbot />

@@ -242,8 +242,8 @@ function TypingDots() {
   return (
     <div
       style={{
-        background: "#181c26",
-        borderLeft: "2px solid #22d3ee",
+        background: "#131c19",
+        borderLeft: "2px solid #f2c230",
         padding: "8px 12px",
         borderRadius: 2,
         display: "inline-flex",
@@ -258,7 +258,7 @@ function TypingDots() {
             width: 6,
             height: 6,
             borderRadius: "50%",
-            background: "#22d3ee",
+            background: "#f2c230",
             display: "inline-block",
             animation: `chatDot 1.2s ease-in-out ${i * 0.2}s infinite`,
           }}
@@ -278,17 +278,17 @@ function CalendlyCard({ locale }: { locale: string }) {
   return (
     <div
       style={{
-        border: "1px solid var(--accent)",
+        border: "1px solid #f2c230",
         borderRadius: 2,
         padding: "10px 12px",
         marginTop: 8,
-        background: "rgba(34,211,238,0.05)",
+        background: "rgba(242,194,48,0.05)",
       }}
     >
       <div
         style={{
           fontSize: "0.72rem",
-          color: "var(--accent)",
+          color: "#f2c230",
           fontFamily: "var(--font-jetbrains), monospace",
           marginBottom: 8,
           letterSpacing: "0.06em",
@@ -302,8 +302,8 @@ function CalendlyCard({ locale }: { locale: string }) {
         rel="noopener noreferrer"
         style={{
           display: "inline-block",
-          background: "var(--accent)",
-          color: "#0b0d12",
+          background: "#f2c230",
+          color: "#050807",
           fontFamily: "var(--font-jetbrains), monospace",
           fontSize: "0.72rem",
           fontWeight: 700,
@@ -589,8 +589,8 @@ export default function Chatbot() {
           to   { opacity: 1; transform: translateY(0) scale(1); }
         }
         @keyframes chatPulse {
-          0%,100% { box-shadow: 0 0 0 0 rgba(34,211,238,0.4); }
-          50% { box-shadow: 0 0 0 8px rgba(34,211,238,0); }
+          0%,100% { box-shadow: 0 0 0 0 rgba(242,194,48,0.4); }
+          50% { box-shadow: 0 0 0 8px rgba(242,194,48,0); }
         }
         .chat-panel {
           position: fixed;
@@ -657,13 +657,13 @@ export default function Chatbot() {
           aria-label="Chat assistant"
           className="chat-panel"
           style={{
-            background: "#0b0d12",
-            border: "1px solid rgba(34,211,238,0.22)",
+            background: "#050807",
+            border: "1px solid rgba(242,194,48,0.22)",
             display: "flex",
             flexDirection: "column",
             zIndex: 9999,
             boxShadow:
-              "0 24px 80px rgba(0,0,0,0.7), 0 0 40px rgba(34,211,238,0.04)",
+              "0 24px 80px rgba(0,0,0,0.7), 0 0 40px rgba(242,194,48,0.04)",
             animation: "chatSlideUp 0.22s ease-out",
             fontFamily: "var(--font-jetbrains), monospace",
           }}
@@ -671,8 +671,8 @@ export default function Chatbot() {
           {/* Header */}
           <div
             style={{
-              background: "#10131a",
-              borderBottom: "1px solid rgba(34,211,238,0.12)",
+              background: "#0b1210",
+              borderBottom: "1px solid rgba(242,194,48,0.12)",
               padding: "10px 14px",
               display: "flex",
               alignItems: "center",
@@ -686,7 +686,7 @@ export default function Chatbot() {
                   width: 8,
                   height: 8,
                   borderRadius: "50%",
-                  background: "#22d3ee",
+                  background: "#f2c230",
                   display: "inline-block",
                   animation: "chatPulse 2s ease-in-out infinite",
                 }}
@@ -696,13 +696,13 @@ export default function Chatbot() {
                   style={{
                     fontSize: "0.78rem",
                     fontWeight: 700,
-                    color: "#d4dce8",
+                    color: "#e8ece9",
                     letterSpacing: "0.04em",
                   }}
                 >
                   {locale === "es" ? "// Alex — Asistente virtual" : "// Alex — Virtual assistant"}
                 </div>
-                <div style={{ fontSize: "0.66rem", color: "#5a6478", marginTop: 1 }}>
+                <div style={{ fontSize: "0.66rem", color: "#8a958f", marginTop: 1 }}>
                   {locale === "es" ? "Respondo en segundos" : "I respond in seconds"}
                 </div>
               </div>
@@ -713,7 +713,7 @@ export default function Chatbot() {
               style={{
                 background: "none",
                 border: "none",
-                color: "#5a6478",
+                color: "#8a958f",
                 cursor: "pointer",
                 fontSize: "1rem",
                 lineHeight: 1,
@@ -721,10 +721,10 @@ export default function Chatbot() {
                 borderRadius: 2,
               }}
               onMouseEnter={(e) =>
-                ((e.currentTarget as HTMLButtonElement).style.color = "#d4dce8")
+                ((e.currentTarget as HTMLButtonElement).style.color = "#e8ece9")
               }
               onMouseLeave={(e) =>
-                ((e.currentTarget as HTMLButtonElement).style.color = "#5a6478")
+                ((e.currentTarget as HTMLButtonElement).style.color = "#8a958f")
               }
             >
               ✕
@@ -737,15 +737,15 @@ export default function Chatbot() {
               padding: "6px 14px",
               fontSize: "0.66rem",
               lineHeight: 1.45,
-              color: "#8b95a8",
-              background: "#0e1118",
-              borderBottom: "1px solid rgba(34,211,238,0.08)",
+              color: "#9aa49f",
+              background: "#08100d",
+              borderBottom: "1px solid rgba(242,194,48,0.08)",
               flexShrink: 0,
             }}
           >
             {tChat.rich("notice", {
               link: (chunks) => (
-                <Link href="/privacy" target="_blank" style={{ color: "#22d3ee", textDecoration: "underline" }}>
+                <Link href="/privacy" target="_blank" style={{ color: "#f2c230", textDecoration: "underline" }}>
                   {chunks}
                 </Link>
               ),
@@ -763,7 +763,7 @@ export default function Chatbot() {
               flexDirection: "column",
               gap: 10,
               scrollbarWidth: "thin",
-              scrollbarColor: "rgba(34,211,238,0.15) transparent",
+              scrollbarColor: "rgba(242,194,48,0.15) transparent",
               WebkitOverflowScrolling: "touch",
               overscrollBehavior: "contain",
             }}
@@ -788,14 +788,14 @@ export default function Chatbot() {
                       wordBreak: "break-word",
                       ...(msg.role === "user"
                         ? {
-                            background: "#22d3ee",
-                            color: "#0b0d12",
+                            background: "#f2c230",
+                            color: "#050807",
                             fontWeight: 500,
                           }
                         : {
-                            background: "#181c26",
-                            color: "#d4dce8",
-                            borderLeft: "2px solid #22d3ee",
+                            background: "#131c19",
+                            color: "#e8ece9",
+                            borderLeft: "2px solid #f2c230",
                           }),
                     }}
                   >
@@ -804,7 +804,7 @@ export default function Chatbot() {
                   <span
                     style={{
                       fontSize: "0.62rem",
-                      color: "#5a6478",
+                      color: "#8a958f",
                       marginTop: 3,
                       letterSpacing: "0.04em",
                     }}
@@ -842,8 +842,8 @@ export default function Chatbot() {
                     className="chat-chip"
                     style={{
                       background: "transparent",
-                      border: "1px solid rgba(34,211,238,0.5)",
-                      color: "#22d3ee",
+                      border: "1px solid rgba(242,194,48,0.5)",
+                      color: "#f2c230",
                       fontFamily: "var(--font-jetbrains), monospace",
                       fontSize: "0.72rem",
                       padding: "4px 10px",
@@ -855,7 +855,7 @@ export default function Chatbot() {
                     }}
                     onMouseEnter={(e) =>
                       ((e.currentTarget as HTMLButtonElement).style.background =
-                        "rgba(34,211,238,0.1)")
+                        "rgba(242,194,48,0.1)")
                     }
                     onMouseLeave={(e) =>
                       ((e.currentTarget as HTMLButtonElement).style.background =
@@ -874,9 +874,9 @@ export default function Chatbot() {
             <div
               className="chat-input-area"
               style={{
-                borderTop: "1px solid rgba(34,211,238,0.12)",
+                borderTop: "1px solid rgba(242,194,48,0.12)",
                 padding: "10px 14px",
-                background: "#10131a",
+                background: "#0b1210",
                 display: "flex",
                 gap: 8,
                 flexShrink: 0,
@@ -891,9 +891,9 @@ export default function Chatbot() {
                 className="chat-input"
                 style={{
                   flex: 1,
-                  background: "#0b0d12",
-                  border: "1px solid rgba(34,211,238,0.2)",
-                  color: "#d4dce8",
+                  background: "#050807",
+                  border: "1px solid rgba(242,194,48,0.2)",
+                  color: "#e8ece9",
                   fontFamily: "var(--font-jetbrains), monospace",
                   fontSize: "0.82rem",
                   padding: "8px 10px",
@@ -901,19 +901,19 @@ export default function Chatbot() {
                   outline: "none",
                 }}
                 onFocus={(e) =>
-                  ((e.target as HTMLInputElement).style.borderColor = "#22d3ee")
+                  ((e.target as HTMLInputElement).style.borderColor = "#f2c230")
                 }
                 onBlur={(e) =>
                   ((e.target as HTMLInputElement).style.borderColor =
-                    "rgba(34,211,238,0.2)")
+                    "rgba(242,194,48,0.2)")
                 }
               />
               <button
                 onClick={handleSubmitEmail}
                 disabled={!emailValue.trim()}
                 style={{
-                  background: "#22d3ee",
-                  color: "#0b0d12",
+                  background: "#f2c230",
+                  color: "#050807",
                   border: "none",
                   padding: "8px 14px",
                   borderRadius: 2,
@@ -933,9 +933,9 @@ export default function Chatbot() {
             <div
               className="chat-input-area"
               style={{
-                borderTop: "1px solid rgba(34,211,238,0.12)",
+                borderTop: "1px solid rgba(242,194,48,0.12)",
                 padding: "10px 14px",
-                background: "#10131a",
+                background: "#0b1210",
                 display: "flex",
                 gap: 8,
                 alignItems: "center",
@@ -960,9 +960,9 @@ export default function Chatbot() {
                 className="chat-input"
                 style={{
                   flex: 1,
-                  background: "#0b0d12",
-                  border: "1px solid rgba(34,211,238,0.2)",
-                  color: "#d4dce8",
+                  background: "#050807",
+                  border: "1px solid rgba(242,194,48,0.2)",
+                  color: "#e8ece9",
                   fontFamily: "var(--font-jetbrains), monospace",
                   fontSize: "0.82rem",
                   padding: "8px 10px",
@@ -973,11 +973,11 @@ export default function Chatbot() {
                 }}
                 onFocus={(e) => {
                   if (!isTyping && !isDone)
-                    (e.target as HTMLInputElement).style.borderColor = "#22d3ee";
+                    (e.target as HTMLInputElement).style.borderColor = "#f2c230";
                 }}
                 onBlur={(e) =>
                   ((e.target as HTMLInputElement).style.borderColor =
-                    "rgba(34,211,238,0.2)")
+                    "rgba(242,194,48,0.2)")
                 }
               />
               <button
@@ -990,8 +990,8 @@ export default function Chatbot() {
                   borderRadius: 2,
                   background:
                     inputValue.trim() && !isTyping && !isDone
-                      ? "#22d3ee"
-                      : "rgba(34,211,238,0.15)",
+                      ? "#f2c230"
+                      : "rgba(242,194,48,0.15)",
                   border: "none",
                   touchAction: "manipulation",
                   cursor:
@@ -1012,8 +1012,8 @@ export default function Chatbot() {
                   fill="none"
                   stroke={
                     inputValue.trim() && !isTyping && !isDone
-                      ? "#0b0d12"
-                      : "#22d3ee"
+                      ? "#050807"
+                      : "#f2c230"
                   }
                   strokeWidth="2.5"
                   strokeLinecap="round"
@@ -1040,8 +1040,8 @@ export default function Chatbot() {
           width: 56,
           height: 56,
           borderRadius: "50%",
-          background: isOpen ? "#10131a" : "#22d3ee",
-          border: isOpen ? "1px solid rgba(34,211,238,0.4)" : "none",
+          background: isOpen ? "#0b1210" : "#f2c230",
+          border: isOpen ? "1px solid rgba(242,194,48,0.4)" : "none",
           cursor: "pointer",
           display: "flex",
           alignItems: "center",
@@ -1050,7 +1050,7 @@ export default function Chatbot() {
           touchAction: "manipulation",
           boxShadow: isOpen
             ? "none"
-            : "0 8px 32px rgba(34,211,238,0.35), 0 2px 8px rgba(0,0,0,0.4)",
+            : "0 8px 32px rgba(242,194,48,0.35), 0 2px 8px rgba(0,0,0,0.4)",
           transition: "all 0.2s ease",
         }}
         onMouseEnter={(e) => {
@@ -1067,7 +1067,7 @@ export default function Chatbot() {
             height="20"
             viewBox="0 0 24 24"
             fill="none"
-            stroke="#22d3ee"
+            stroke="#f2c230"
             strokeWidth="2.5"
             strokeLinecap="round"
             aria-hidden="true"
@@ -1081,7 +1081,7 @@ export default function Chatbot() {
             height="22"
             viewBox="0 0 24 24"
             fill="none"
-            stroke="#0b0d12"
+            stroke="#050807"
             strokeWidth="2.5"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -1108,7 +1108,7 @@ export default function Chatbot() {
               alignItems: "center",
               justifyContent: "center",
               fontFamily: "var(--font-jetbrains), monospace",
-              border: "2px solid #0b0d12",
+              border: "2px solid #050807",
             }}
           >
             1

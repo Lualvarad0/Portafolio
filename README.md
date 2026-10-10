@@ -1,6 +1,6 @@
-# David Alvarado — Portfolio / Freelance Site
+# Cornerstone Develop — Landing
 
-Full-stack + security portfolio built with Next.js 16, TypeScript, Tailwind CSS 4, Framer Motion, and next-intl (ES/EN).
+Sitio de Cornerstone Develop (marca comercial de David Alvarado): software a medida, datos y ciberseguridad. Next.js 16, TypeScript, Tailwind CSS 4, lucide-react y next-intl (ES en `/`, EN en `/en`).
 
 ## Quick Start
 
@@ -83,27 +83,32 @@ Receive a WhatsApp message every time someone submits the contact form or the ch
 ```
 ├── app/
 │   ├── [locale]/
-│   │   ├── layout.tsx     — root layout (html, body, fonts, providers)
-│   │   └── page.tsx       — main page (all sections)
-│   └── globals.css        — design system variables + Tailwind import
-├── components/            — all UI components
-├── i18n/
-│   ├── routing.ts         — locale definitions
-│   ├── request.ts         — server-side i18n config
-│   └── navigation.ts      — typed Link/router helpers
+│   │   ├── layout.tsx            — html/body, fonts (next/font), metadata, JSON-LD
+│   │   ├── page.tsx              — home: hero + sections
+│   │   ├── privacy/page.tsx      — /privacidad · /en/privacy
+│   │   └── opengraph-image.tsx   — social preview image per locale
+│   ├── api/                      — /api/contact and /api/chat/notify (validated, rate limited)
+│   ├── icon.svg                  — favicon (Cornerstone mark)
+│   └── globals.css               — brand tokens (@theme) + hero/scroll animations
+├── components/
+│   ├── Hero.tsx                  — video hero with cursor spotlight (SPOTLIGHT_R)
+│   ├── Backdrops.tsx             — canvas fallbacks + LayerVideo (videos load on desktop only)
+│   ├── Sections.tsx              — Servicios, Desarrollo, Datos, Ciberseguridad, Proyectos, Proceso
+│   ├── Contact.tsx · Footer.tsx · Navbar.tsx · Chatbot.tsx · Logo.tsx · ui.tsx
 ├── lib/
-│   ├── config.ts          — integration keys (reads from env)
-│   ├── github.ts          — GitHub API fetch
-│   └── projects.ts        — project data array
-├── messages/
-│   ├── en.json            — English translations
-│   └── es.json            — Spanish translations
-└── middleware.ts          — locale detection + redirect
+│   ├── brand.ts                  — brand name, contact email, WhatsApp, video paths
+│   ├── projects.ts               — GitHub projects (texts live in messages/*.json)
+│   ├── code-samples.ts           — C# and SQL snippets shown on the page
+│   ├── legal/privacy.ts          — privacy policy content (ES/EN)
+│   └── notify.ts · api-guard.ts · schemas.ts · site.ts · config.ts
+├── messages/                     — es.json / en.json (all page copy)
+├── public/brand · public/videos  — logo files and self-hosted hero videos (Mixkit licence)
+└── proxy.ts                      — next-intl locale routing
 ```
 
 ## Customizing Content
 
-- **Projects**: edit `lib/projects.ts`
+- **Projects**: edit `lib/projects.ts` (links/stack) and `projects.items` in `messages/*.json` (texts)
 - **Translations**: edit `messages/en.json` and `messages/es.json`
 - **Colors/fonts**: edit `app/globals.css` `@theme` block
-- **Social links**: update `components/Footer.tsx` and `components/Contact.tsx`
+- **Contact data**: edit `lib/brand.ts`

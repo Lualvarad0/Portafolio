@@ -1,215 +1,152 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
+import { Menu, X } from "lucide-react";
 import { getPathname, usePathname, useRouter } from "@/i18n/navigation";
-import { useLocale } from "next-intl";
-import { motion, AnimatePresence } from "framer-motion";
+import { LogoLockup } from "./Logo";
 
-const navLinks = [
-  { key: "services", href: "#services" },
-  { key: "projects", href: "#projects" },
-  { key: "security", href: "#security" },
-  { key: "contact", href: "#contact" },
-];
+const SECTIONS = [
+  { key: "services", id: "servicios" },
+  { key: "development", id: "desarrollo" },
+  { key: "data", id: "datos" },
+  { key: "security", id: "seguridad" },
+  { key: "projects", id: "proyectos" },
+] as const;
 
-export default function Navbar() {
+/**
+ * @param overHero  true on the home page: transparent over the hero video until the
+ *                  visitor scrolls past it. Other pages get the solid bar straight away.
+ */
+export default function Navbar({ overHero = false }: { overHero?: boolean }) {
   const t = useTranslations("nav");
   const locale = useLocale();
   const pathname = usePathname();
   const router = useRouter();
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(!overHero);
+  const [active, setActive] = useState<string | null>(null);
+
+  // Same-page anchors on home; full links back to home from other pages.
+  const home = getPathname({ href: "/", locale });
+  const href = (id: string) => (pathname === "/" ? `#${id}` : `${home}#${id}`);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 60);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    if (!overHero) return;
+    const onScroll = () => setScrolled(window.scrollY > window.innerHeight * 0.8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [overHero]);
+
+  // Scroll-spy: highlight the section currently in the middle of the viewport.
+  useEffect(() => {
+    const els = SECTIONS.map((s) => document.getElementById(s.id)).filter(Boolean) as HTMLElement[];
+    if (els.length === 0) return;
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.isIntersecting && setActive(e.target.id)),
+      { rootMargin: "-45% 0px -50% 0px" }
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
   }, []);
 
-  const toggleLocale = () => {
-    const next = locale === "en" ? "es" : "en";
-    router.replace(pathname, { locale: next });
-  };
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setMenuOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [menuOpen]);
 
-  const scrollTo = (id: string) => {
-    setMobileOpen(false);
-    const el = document.querySelector(id);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
-    // Section lives on the home page (e.g. we're on /privacidad) → go there.
-    else window.location.assign(`${getPathname({ href: "/", locale })}${id}`);
-  };
+  const toggleLocale = () => router.replace(pathname, { locale: locale === "es" ? "en" : "es" });
 
   return (
-    <>
-      <nav
-        className="fixed top-0 left-0 right-0 z-50 h-[60px] flex items-center px-6 md:px-12 transition-all duration-300"
-        style={{
-          background: scrolled
-            ? "rgba(11,13,18,0.98)"
-            : "rgba(11,13,18,0.88)",
-          backdropFilter: "blur(12px)",
-          borderBottom: scrolled ? "1px solid var(--border)" : "none",
-          boxShadow: scrolled ? "0 2px 20px rgba(0,0,0,0.4)" : "none",
-        }}
-      >
-        {/* Logo */}
-        <a
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            if (pathname === "/") window.scrollTo({ top: 0, behavior: "smooth" });
-            else router.push("/");
-          }}
-          className="font-mono text-lg font-bold tracking-tight select-none"
-          style={{ fontFamily: "var(--font-jetbrains)" }}
+    <nav
+      className={`fixed left-0 right-0 top-0 z-[100] flex items-center justify-between p-4 transition-colors duration-300 sm:p-5 ${
+        scrolled || menuOpen ? "bg-ink/85 backdrop-blur-xl" : ""
+      }`}
+    >
+      <a href={pathname === "/" ? "#" : home} className="flex items-center gap-2.5" aria-label={t("home")}>
+        <LogoLockup size={22} color="#ffffff" />
+      </a>
+
+      <div className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 rounded-full border border-white/30 bg-white/15 px-2 py-2 backdrop-blur-md xl:flex">
+        {SECTIONS.map((s) => (
+          <a
+            key={s.id}
+            href={href(s.id)}
+            aria-current={active === s.id ? "true" : undefined}
+            className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
+              active === s.id ? "bg-white/25 text-white" : "text-white/85 hover:bg-white/20 hover:text-white"
+            }`}
+          >
+            {t(s.key)}
+          </a>
+        ))}
+      </div>
+
+      <div className="hidden items-center gap-2 xl:flex">
+        <button
+          type="button"
+          onClick={toggleLocale}
+          aria-label={t("switchLocale")}
+          className="rounded-full border border-white/30 px-3.5 py-2 text-xs font-semibold uppercase tracking-widest text-white transition-colors hover:bg-white/15"
         >
-          <span style={{ color: "var(--accent)" }}>•</span>{" "}
-          <span style={{ color: "var(--text)" }}>da.dev</span>
+          {locale === "es" ? "EN" : "ES"}
+        </button>
+        <a
+          href={href("contacto")}
+          className="rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-neutral-900 transition-colors hover:bg-neutral-100"
+        >
+          {t("contact")}
         </a>
+      </div>
 
-        {/* Desktop nav links */}
-        <div className="hidden md:flex items-center gap-8 mx-auto">
-          {navLinks.map(({ key, href }) => (
-            <button
-              key={key}
-              onClick={() => scrollTo(href)}
-              aria-label={locale === "es" ? `Ir a sección ${t(key as keyof typeof t)}` : `Go to ${t(key as keyof typeof t)} section`}
-              className="relative text-sm font-mono tracking-widest uppercase transition-colors group"
-              style={{ color: "var(--muted)" }}
+      <button
+        type="button"
+        className="grid h-10 w-10 place-items-center rounded-full border border-white/30 bg-white/15 text-white backdrop-blur-md xl:hidden"
+        onClick={() => setMenuOpen((o) => !o)}
+        aria-label={menuOpen ? t("closeMenu") : t("openMenu")}
+        aria-expanded={menuOpen}
+        aria-controls="mobile-menu"
+      >
+        {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+      </button>
+
+      {menuOpen && (
+        <div
+          id="mobile-menu"
+          className="absolute left-4 right-4 top-[68px] flex flex-col gap-1 rounded-3xl border border-white/20 bg-black/85 p-3 backdrop-blur-xl xl:hidden"
+        >
+          {SECTIONS.map((s) => (
+            <a
+              key={s.id}
+              href={href(s.id)}
+              onClick={() => setMenuOpen(false)}
+              className="rounded-2xl px-4 py-3 text-base font-medium text-white/90 hover:bg-white/10"
             >
-              <span className="group-hover:text-white transition-colors duration-200">
-                {t(key as keyof typeof t)}
-              </span>
-              <span
-                className="absolute -bottom-0.5 left-0 h-[1px] w-0 group-hover:w-full transition-all duration-300"
-                style={{ background: "var(--accent)" }}
-              />
-            </button>
+              {t(s.key)}
+            </a>
           ))}
+          <div className="mt-1 grid grid-cols-[auto_1fr] gap-2">
+            <button
+              type="button"
+              onClick={toggleLocale}
+              aria-label={t("switchLocale")}
+              className="rounded-2xl border border-white/25 px-4 py-3 text-sm font-semibold uppercase tracking-widest text-white"
+            >
+              {locale === "es" ? "EN" : "ES"}
+            </button>
+            <a
+              href={href("contacto")}
+              onClick={() => setMenuOpen(false)}
+              className="rounded-2xl bg-white px-4 py-3 text-center text-base font-semibold text-neutral-900"
+            >
+              {t("contact")}
+            </a>
+          </div>
         </div>
-
-        {/* Right: lang toggle + CTA */}
-        <div className="ml-auto flex items-center gap-3">
-          <button
-            onClick={toggleLocale}
-            aria-label={`Switch to ${locale === "en" ? "Spanish" : "English"}`}
-            className="hidden md:flex items-center text-xs font-mono font-semibold tracking-widest px-3 py-1.5 rounded border transition-all duration-200"
-            style={{
-              color: "var(--accent)",
-              borderColor: "var(--border)",
-              background: "transparent",
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.borderColor =
-                "var(--accent)";
-              (e.currentTarget as HTMLButtonElement).style.background =
-                "rgba(34,211,238,0.08)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.borderColor =
-                "var(--border)";
-              (e.currentTarget as HTMLButtonElement).style.background =
-                "transparent";
-            }}
-          >
-            {locale === "en" ? "ES" : "EN"}
-          </button>
-
-          <button
-            onClick={() => scrollTo("#contact")}
-            className="hidden md:flex text-xs font-mono font-bold tracking-widest uppercase px-4 py-2 rounded transition-all duration-200"
-            style={{ background: "var(--accent)", color: "#0b0d12" }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.background =
-                "var(--accent2)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.background =
-                "var(--accent)";
-            }}
-          >
-            {t("hire")}
-          </button>
-
-          {/* Mobile hamburger */}
-          <button
-            onClick={() => setMobileOpen((v) => !v)}
-            aria-label="Toggle menu"
-            className="md:hidden flex flex-col gap-1.5 p-2"
-          >
-            <span
-              className="block h-0.5 w-5 transition-all duration-300"
-              style={{
-                background: "var(--text)",
-                transform: mobileOpen
-                  ? "rotate(45deg) translate(4px,4px)"
-                  : "none",
-              }}
-            />
-            <span
-              className="block h-0.5 w-5 transition-all duration-300"
-              style={{
-                background: "var(--text)",
-                opacity: mobileOpen ? 0 : 1,
-              }}
-            />
-            <span
-              className="block h-0.5 w-5 transition-all duration-300"
-              style={{
-                background: "var(--text)",
-                transform: mobileOpen
-                  ? "rotate(-45deg) translate(4px,-4px)"
-                  : "none",
-              }}
-            />
-          </button>
-        </div>
-      </nav>
-
-      {/* Mobile menu */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            key="mobile-menu"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-40 flex flex-col pt-[60px]"
-            style={{ background: "rgba(11,13,18,0.98)", backdropFilter: "blur(20px)" }}
-          >
-            <div className="flex flex-col items-center justify-center flex-1 gap-8">
-              {navLinks.map(({ key, href }) => (
-                <button
-                  key={key}
-                  onClick={() => scrollTo(href)}
-                  className="text-2xl font-display font-bold uppercase tracking-widest"
-                  style={{ color: "var(--text)", fontFamily: "var(--font-barlow)" }}
-                >
-                  {t(key as keyof typeof t)}
-                </button>
-              ))}
-              <div className="flex gap-4 mt-4">
-                <button
-                  onClick={toggleLocale}
-                  className="text-sm font-mono px-4 py-2 rounded border"
-                  style={{ color: "var(--accent)", borderColor: "var(--accent)" }}
-                >
-                  {locale === "en" ? "ES" : "EN"}
-                </button>
-                <button
-                  onClick={() => scrollTo("#contact")}
-                  className="text-sm font-mono font-bold px-6 py-2 rounded"
-                  style={{ background: "var(--accent)", color: "#0b0d12" }}
-                >
-                  {t("hire")}
-                </button>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+      )}
+    </nav>
   );
 }

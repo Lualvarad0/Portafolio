@@ -1,32 +1,15 @@
 @import "tailwindcss";
 
+/* Cornerstone Develop — brand tokens */
 @theme {
-  --color-bg: #0b0d12;
-  --color-bg2: #10131a;
-  --color-bg3: #181c26;
-  --color-accent: #22d3ee;
-  --color-accent2: #0ea5e9;
-  --color-red: #f43f5e;
-  --color-amber: #f59e0b;
-  --color-text: #d4dce8;
-  --color-muted: #5a6478;
-  --color-border: rgba(34, 211, 238, 0.12);
+  --color-signal: #f2c230;
+  --color-signal-dark: #dcae1f;
+  --color-ink: #050807;
+  --color-ink-2: #0b1210;
 
-  --font-display: var(--font-barlow);
-  --font-mono: var(--font-jetbrains);
-}
-
-:root {
-  --bg: #0b0d12;
-  --bg2: #10131a;
-  --bg3: #181c26;
-  --accent: #22d3ee;
-  --accent2: #0ea5e9;
-  --red: #f43f5e;
-  --amber: #f59e0b;
-  --text: #d4dce8;
-  --muted: #5a6478;
-  --border: rgba(34, 211, 238, 0.12);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-playfair), ui-serif, Georgia, serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
 }
 
 html {
@@ -34,64 +17,56 @@ html {
 }
 
 body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--font-jetbrains), ui-monospace, monospace;
+  background: #ffffff;
+  color: #0a0a0a;
+  font-family: var(--font-sans);
+  letter-spacing: -0.01em;
   overflow-x: hidden;
 }
 
-/* Scanlines overlay */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9999;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.03) 0px,
-    rgba(0, 0, 0, 0.03) 1px,
-    transparent 1px,
-    transparent 2px
-  );
+/* Italic serif accent used in headings ("Código que sostiene", "proyecto"…) */
+.font-playfair {
+  font-family: var(--font-serif);
+  font-style: italic;
 }
 
-/* Marquee animation */
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+section[id] {
+  scroll-margin-top: 72px;
 }
 
-.animate-marquee {
-  animation: marquee 20s linear infinite;
+/* ── Hero entrance ─────────────────────────────────────────────────── */
+@keyframes heroReveal {
+  0% { opacity: 0; transform: translateY(28px); filter: blur(12px); }
+  100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+@keyframes heroFadeUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes heroZoom {
+  0% { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+.hero-anim {
+  opacity: 0;
+  animation-fill-mode: forwards;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hero-reveal { animation-name: heroReveal; animation-duration: 1.1s; }
+.hero-fade { animation-name: heroFadeUp; animation-duration: 1s; }
+.hero-zoom { animation: heroZoom 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+/* ── Scroll reveal (content stays visible without JS) ──────────────── */
+[data-reveal] {
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+[data-reveal].reveal-wait:not(.is-in) {
+  opacity: 0;
+  transform: translateY(28px);
 }
 
-/* Blinking cursor */
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-.animate-blink {
-  animation: blink 1s step-end infinite;
-}
-
-/* Process line draw */
-@keyframes drawLine {
-  from { width: 0; }
-  to { width: 100%; }
-}
-
-.animate-draw-line {
-  animation: drawLine 1s ease-out forwards;
-}
-
-/* Pulse dot */
-@keyframes pulse-dot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(1.3); }
-}
-
-.animate-pulse-dot {
-  animation: pulse-dot 1.5s ease-in-out infinite;
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .hero-anim, .hero-zoom { animation: none; opacity: 1; }
+  [data-reveal] { transition: none; }
 }

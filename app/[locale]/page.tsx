@@ -1,33 +1,26 @@
-import { Suspense } from "react";
 import Navbar from "@/components/Navbar";
-import AvailabilityBar from "@/components/AvailabilityBar";
 import Hero from "@/components/Hero";
-import Services from "@/components/Services";
-import Process from "@/components/Process";
-import Projects from "@/components/Projects";
-import SecurityLabs from "@/components/SecurityLabs";
-import Testimonials from "@/components/Testimonials";
+import { Data, Development, Intro, Process, Projects, Security } from "@/components/Sections";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
-import { getGitHubStats } from "@/lib/github";
+import ScrollReveal from "@/components/ScrollReveal";
 
-export default async function HomePage() {
-  const githubStats = await getGitHubStats();
-
+export default function HomePage() {
   return (
     <>
-      <Navbar />
-      <AvailabilityBar />
+      <Navbar overHero />
+      <Hero />
       <main>
-        <Hero repoCount={githubStats.public_repos} />
-        <Services />
-        <Process />
+        <Intro />
+        <Development />
+        <Data />
+        <Security />
         <Projects />
-        <SecurityLabs />
-        <Testimonials />
+        <Process />
         <Contact />
       </main>
       <Footer />
+      <ScrollReveal />
     </>
   );
 }
