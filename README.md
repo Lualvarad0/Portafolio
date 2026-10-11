@@ -17,7 +17,7 @@ Open [http://localhost:3000](http://localhost:3000). Spanish is served at `/` an
 
 ## Configuring Integrations
 
-All keys live in `.env.local` (copy from `.env.example`). The app reads them via `lib/config.ts`.
+All keys live in `.env.local` (copy from `.env.example`). Notification keys are read only on the server.
 
 ### EmailJS (Contact Form)
 
@@ -34,10 +34,15 @@ All keys live in `.env.local` (copy from `.env.example`). The app reads them via
 4. Copy the **Template ID** and your account's **Public Key** (Account → API Keys)
 5. Set in `.env.local`:
    ```
-   NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=your_public_key
-   NEXT_PUBLIC_EMAILJS_SERVICE_ID=your_service_id
-   NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=your_template_id
+   EMAILJS_PUBLIC_KEY=your_public_key
+   EMAILJS_SERVICE_ID=your_service_id
+   EMAILJS_TEMPLATE_ID=your_template_id
+   EMAILJS_PRIVATE_KEY=your_private_key
    ```
+
+6. Enable API requests from non-browser applications in EmailJS **Account → Security**. If private-key authorization is enabled, provide `EMAILJS_PRIVATE_KEY`. Existing `NEXT_PUBLIC_EMAILJS_*` values are supported as a migration fallback; replace them with the server variables above and remove the public variables from the deployment.
+
+Contact emails and WhatsApp notifications now pass through `/api/contact` before delivery. Contact and chatbot endpoints each allow **5 requests per IP every 10 minutes**, return HTTP 429 with `Retry-After`, and limit bodies to 16 KiB. The limiter is in memory per running instance: multiple serverless instances do not share counters. A shared store or hosting-level rate limit is required for a deployment-wide guarantee. IP headers must be overwritten by the trusted hosting proxy.
 
 ### CallMeBot (WhatsApp Notifications)
 
@@ -92,7 +97,7 @@ Receive a WhatsApp message every time someone submits the contact form or the ch
 │   └── globals.css               — brand tokens (@theme) + hero/scroll animations
 ├── components/
 │   ├── Hero.tsx                  — video hero with cursor spotlight (SPOTLIGHT_R)
-│   ├── Backdrops.tsx             — canvas fallbacks + LayerVideo (videos load on desktop only)
+│   ├── Backdrops.tsx             — canvas fallbacks + LayerVideo (desktop and mobile; respects Save-Data and reduced motion)
 │   ├── Sections.tsx              — Servicios, Desarrollo, Datos, Ciberseguridad, Proyectos, Proceso
 │   ├── Contact.tsx · Footer.tsx · Navbar.tsx · Chatbot.tsx · Logo.tsx · ui.tsx
 ├── lib/
