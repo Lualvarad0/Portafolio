@@ -140,6 +140,7 @@
       "submit": "Enviar mensaje",
       "sending": "Enviando...",
       "success": "¡Mensaje enviado! Te responderemos pronto.",
+      "rateLimited": "Has alcanzado el límite de envíos. Espera 10 minutos antes de intentarlo de nuevo.",
       "error": "Algo salió mal. Escríbenos directamente al correo.",
       "close": "Cerrar notificación",
       "errors": {

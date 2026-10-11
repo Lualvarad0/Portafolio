@@ -1,4 +1,4 @@
-import { notifyContact } from "@/lib/notify";
+import { notifyContact, sendContactEmail } from "@/lib/notify";
 import { guardRequest } from "@/lib/api-guard";
 import { contactSchema } from "@/lib/schemas";
 
@@ -15,6 +15,11 @@ export async function POST(request: Request) {
   // Honeypot filled → pretend success so bots don't retry.
   if (website) return Response.json({ ok: true });
 
-  await notifyContact(data);
+  try {
+    await sendContactEmail(data);
+    await notifyContact(data);
+  } catch {
+    return Response.json({ error: "Delivery failed" }, { status: 502 });
+  }
   return Response.json({ ok: true });
 }

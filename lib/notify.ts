@@ -15,6 +15,38 @@ export interface ContactData {
   message: string;
 }
 
+// Email delivery must run after the API guard, never directly in the browser.
+export async function sendContactEmail(data: ContactData): Promise<void> {
+  const publicKey = process.env.EMAILJS_PUBLIC_KEY || process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+  const serviceId = process.env.EMAILJS_SERVICE_ID || process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+  const templateId = process.env.EMAILJS_TEMPLATE_ID || process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+  if (![publicKey, serviceId, templateId].every((value) => value && !value.includes("REPLACE_ME"))) {
+    if (process.env.CALLMEBOT_PHONE && process.env.CALLMEBOT_APIKEY) return;
+    throw new Error("No contact delivery channel configured");
+  }
+  const response = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    signal: AbortSignal.timeout(8000),
+    body: JSON.stringify({
+      service_id: serviceId,
+      template_id: templateId,
+      user_id: publicKey,
+      accessToken: process.env.EMAILJS_PRIVATE_KEY,
+      template_params: {
+        ...data,
+        from_name: data.name,
+        from_email: data.email,
+        message: `Service: ${data.service}\n\n${data.message}`,
+        time: new Date().toLocaleString("es-EC", {
+          timeZone: "America/Guayaquil", dateStyle: "long", timeStyle: "short",
+        }),
+      },
+    }),
+  });
+  if (!response.ok) throw new Error(`Email delivery failed: ${response.status}`);
+}
+
 // CallMeBot sends the text in a GET query string; keep it well under URL limits.
 const MAX_MESSAGE_CHARS = 1500;
 

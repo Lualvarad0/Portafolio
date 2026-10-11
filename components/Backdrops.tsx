@@ -172,25 +172,41 @@ export function CodeCanvas() {
 /* Video de capa con respaldo                                            */
 /* ------------------------------------------------------------------ */
 /**
- * Video layer with an animated canvas fallback. The video only loads on desktop
- * (fine pointer, ≥768px), without Save-Data and without reduced motion; everywhere
- * else the lightweight canvas is shown instead, so phones never download it.
+ * Video on desktop and mobile, with a canvas fallback when playback is blocked.
+ * Respect reduced motion and Save-Data on every device.
  */
 export function LayerVideo({ src, fallback }: { src: string; fallback: ReactNode }) {
   const [ok, setOk] = useState(false)
   const [ready, setReady] = useState(false)
+  const videoRef = useRef<HTMLVideoElement>(null)
   useEffect(() => {
-    const desktop = window.matchMedia("(min-width: 768px) and (pointer: fine)").matches
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
     const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true
     // eslint-disable-next-line react-hooks/set-state-in-effect -- capability check must run on the client
-    if (src && desktop && !reduced && !saveData) setOk(true)
+    if (src && !reduced && !saveData) setOk(true)
   }, [src])
+  useEffect(() => {
+    if (!ok) return
+    const play = () => {
+      const video = videoRef.current
+      if (!video || document.hidden) return
+      video.muted = true
+      void video.play().catch(() => { /* Retry after a user gesture. */ })
+    }
+    play()
+    window.addEventListener('pointerdown', play, { passive: true })
+    document.addEventListener('visibilitychange', play)
+    return () => {
+      window.removeEventListener('pointerdown', play)
+      document.removeEventListener('visibilitychange', play)
+    }
+  }, [ok])
   return (
     <>
       {(!ok || !ready) && fallback}
       {ok && (
         <video
+          ref={videoRef}
           className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${ready ? "opacity-100" : "opacity-0"}`}
           src={src}
           autoPlay
@@ -199,7 +215,7 @@ export function LayerVideo({ src, fallback }: { src: string; fallback: ReactNode
           playsInline
           preload="auto"
           aria-hidden="true"
-          onCanPlay={() => setReady(true)}
+          onPlaying={() => setReady(true)}
           onError={() => setOk(false)}
         />
       )}

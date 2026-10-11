@@ -140,6 +140,7 @@
       "submit": "Send message",
       "sending": "Sending...",
       "success": "Message sent! We'll get back to you soon.",
+      "rateLimited": "You've reached the submission limit. Wait 10 minutes before trying again.",
       "error": "Something went wrong. Please email us directly.",
       "close": "Close notification",
       "errors": {

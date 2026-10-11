@@ -5,7 +5,6 @@ import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import emailjs from "@emailjs/browser";
 import { ArrowUpRight, CalendarDays, Mail, MessageCircle } from "lucide-react";
 import { CONFIG } from "@/lib/config";
 import { CONTACT_EMAIL, WHATSAPP_NUMBER } from "@/lib/brand";
@@ -67,15 +66,6 @@ export default function Contact() {
     formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(schema), defaultValues: { consent: false, service: "" } });
 
-  // WhatsApp notification goes through our API so the CallMeBot key stays server-side.
-  const notifyServer = (data: FormData) => {
-    fetch("/api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    }).catch(() => {});
-  };
-
   const onSubmit = async (data: FormData) => {
     // Honeypot filled → silently drop (bots get a fake success).
     if (data.website) {
@@ -86,30 +76,16 @@ export default function Contact() {
 
     setStatus("loading");
     try {
-      if (
-        isConfigured(CONFIG.emailjs.publicKey) &&
-        isConfigured(CONFIG.emailjs.serviceId) &&
-        isConfigured(CONFIG.emailjs.templateId)
-      ) {
-        await emailjs.send(
-          CONFIG.emailjs.serviceId,
-          CONFIG.emailjs.templateId,
-          {
-            name: data.name,
-            email: data.email,
-            message: `Service: ${data.service}\n\n${data.message}`,
-            time: new Date().toLocaleString("es-EC", {
-              timeZone: "America/Guayaquil",
-              dateStyle: "long",
-              timeStyle: "short",
-            }),
-          },
-          CONFIG.emailjs.publicKey
-        );
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (response.status === 429) {
+        addToast("error", t("form.rateLimited"));
+        return;
       }
-
-      // Fire-and-forget WhatsApp
-      notifyServer(data);
+      if (!response.ok) throw new Error("Contact request failed");
 
       reset();
       addToast("success", t("form.success"));
