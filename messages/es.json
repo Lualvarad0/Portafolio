@@ -86,6 +86,24 @@
       "footnote": "Cada hallazgo incluye evidencia, impacto y pasos para corregirlo.",
       "cta": "Solicitar auditoría"
     },
+    "scope": {
+      "label": "</> lo que ve un atacante",
+      "file": "escaneo-autorizado.log",
+      "sample": "Simulación",
+      "description": "Animación: un radar recorre la red de un cliente y, bajo el cursor, aparece un escaneo de seguridad autorizado con puertos abiertos y hallazgos OWASP.",
+      "lines": [
+        "$ scan --target app.cliente.com --scope autorizado",
+        "[+] 443/tcp   abierto   https   nginx 1.24",
+        "[+] 22/tcp    abierto   ssh     OpenSSH 9.6",
+        "[-] 3306/tcp  filtrado  mysql",
+        "[*] Probando OWASP Top 10…",
+        "[!] A03 Inyección SQL     /api/facturas?id=   CRÍTICA",
+        "[!] A01 IDOR              /api/facturas/1043  CRÍTICA",
+        "[~] A05 Cabeceras         falta CSP y HSTS    MEDIA",
+        "[✓] A02 TLS 1.3           certificado válido",
+        "[*] Reporte: reporte-auditoria.pdf"
+      ]
+    },
     "severity": { "critical": "Crítica", "medium": "Media", "low": "Baja" },
     "severityPlural": { "critical": "Críticas", "medium": "Media", "low": "Baja" },
     "status": { "fixed": "Corregida", "inProgress": "En curso" },

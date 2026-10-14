@@ -1,6 +1,7 @@
 import { useTranslations } from "next-intl";
 import { ArrowUpRight, Cloud, Globe, Monitor, Plug, ShieldAlert, Smartphone, Wrench } from "lucide-react";
 import CodeBlock from "./CodeBlock";
+import SecurityScope from "./SecurityScope";
 import { LogoMark } from "./Logo";
 import { Em, Kicker, Title, WRAP, richTags } from "./ui";
 import { CODE_CS, CODE_SQL } from "@/lib/code-samples";
@@ -228,6 +229,14 @@ export function Security() {
           </div>
           <p className="max-w-md text-base leading-relaxed text-white/65 md:justify-self-end">{t("lead")}</p>
         </div>
+
+        <SecurityScope
+          lines={t.raw("scope.lines") as string[]}
+          label={t("scope.label")}
+          file={t("scope.file")}
+          sample={t("scope.sample")}
+          description={t("scope.description")}
+        />
 
         <div className="grid items-start gap-6 lg:grid-cols-[1fr_1.1fr]">
           <div className="grid gap-4 sm:grid-cols-2">

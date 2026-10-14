@@ -1,20 +1,18 @@
 "use client";
 
-import { useEffect, useRef, type CSSProperties, type RefObject } from "react";
+import { useRef, type CSSProperties, type RefObject } from "react";
 import { useTranslations } from "next-intl";
 import { ArrowUpRight } from "lucide-react";
 import { CodeCanvas, LayerVideo, NetworkCanvas } from "./Backdrops";
 import { LogoMark } from "./Logo";
+import { spotlightMask, useSpotlight } from "./useSpotlight";
 import { BRAND, VIDEOS } from "@/lib/brand";
 
 const SPOTLIGHT_R = 260;
 
-/* Revealed layer: radial mask that follows the cursor.
-   Opacity curve: 0→1, .4→1, .6→.75, .75→.4, .88→.12, 1→0 */
+/* Revealed layer: radial mask that follows the cursor. */
 function RevealLayer({ maskRef }: { maskRef: RefObject<HTMLDivElement | null> }) {
-  const mask = `radial-gradient(circle ${SPOTLIGHT_R}px at var(--x) var(--y),
-    rgba(255,255,255,1) 0%, rgba(255,255,255,1) 40%, rgba(255,255,255,.75) 60%,
-    rgba(255,255,255,.4) 75%, rgba(255,255,255,.12) 88%, rgba(255,255,255,0) 100%)`;
+  const mask = spotlightMask(SPOTLIGHT_R);
   return (
     <div
       ref={maskRef}
@@ -43,56 +41,7 @@ export default function Hero() {
   const maskRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-    const mouse = { x: -999, y: -999, last: 0 };
-    const smooth = { x: -999, y: -999 };
-    let raf = 0;
-
-    const place = (x: number, y: number) => {
-      maskRef.current?.style.setProperty("--x", `${x}px`);
-      maskRef.current?.style.setProperty("--y", `${y}px`);
-      if (ringRef.current) ringRef.current.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-    };
-
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      const r = section.getBoundingClientRect();
-      place(r.width * 0.72, r.height * 0.5);
-      return;
-    }
-
-    const onMove = (e: PointerEvent) => {
-      const r = section.getBoundingClientRect();
-      mouse.x = e.clientX - r.left;
-      mouse.y = e.clientY - r.top;
-      mouse.last = performance.now();
-    };
-
-    const tick = (time: number) => {
-      const r = section.getBoundingClientRect();
-      // Off-screen: skip the work but keep the loop alive cheaply.
-      if (r.bottom > 0) {
-        // No cursor (touch) or idle for 2.5 s: the spotlight wanders on its own.
-        const idle = time - mouse.last > 2500;
-        const target = idle
-          ? { x: r.width * (0.5 + 0.3 * Math.sin(time * 0.00035)), y: r.height * (0.55 + 0.18 * Math.sin(time * 0.0006)) }
-          : mouse;
-        if (smooth.x < -500) Object.assign(smooth, { x: target.x, y: target.y });
-        smooth.x += (target.x - smooth.x) * 0.1;
-        smooth.y += (target.y - smooth.y) * 0.1;
-        place(smooth.x, smooth.y);
-      }
-      raf = requestAnimationFrame(tick);
-    };
-
-    window.addEventListener("pointermove", onMove, { passive: true });
-    raf = requestAnimationFrame(tick);
-    return () => {
-      window.removeEventListener("pointermove", onMove);
-      cancelAnimationFrame(raf);
-    };
-  }, []);
+  useSpotlight(sectionRef, maskRef, ringRef);
 
   return (
     <section

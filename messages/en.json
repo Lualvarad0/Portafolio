@@ -86,6 +86,24 @@
       "footnote": "Every finding includes evidence, impact and steps to fix it.",
       "cta": "Request an audit"
     },
+    "scope": {
+      "label": "</> what an attacker sees",
+      "file": "authorized-scan.log",
+      "sample": "Simulation",
+      "description": "Animation: a radar sweeps a client network and, under the cursor, an authorized security scan shows open ports and OWASP findings.",
+      "lines": [
+        "$ scan --target app.client.com --scope authorized",
+        "[+] 443/tcp   open      https   nginx 1.24",
+        "[+] 22/tcp    open      ssh     OpenSSH 9.6",
+        "[-] 3306/tcp  filtered  mysql",
+        "[*] Testing OWASP Top 10…",
+        "[!] A03 SQL injection     /api/invoices?id=   CRITICAL",
+        "[!] A01 IDOR              /api/invoices/1043  CRITICAL",
+        "[~] A05 Headers           missing CSP, HSTS   MEDIUM",
+        "[✓] A02 TLS 1.3           valid certificate",
+        "[*] Report: audit-report.pdf"
+      ]
+    },
     "severity": { "critical": "Critical", "medium": "Medium", "low": "Low" },
     "severityPlural": { "critical": "Critical", "medium": "Medium", "low": "Low" },
     "status": { "fixed": "Fixed", "inProgress": "In progress" },
