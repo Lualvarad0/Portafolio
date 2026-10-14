@@ -624,6 +624,11 @@ export default function Chatbot() {
             backdrop-filter: blur(2px);
             -webkit-backdrop-filter: blur(2px);
           }
+          /* The sheet covers the bottom of the screen: the FAB would sit on top of
+             the send button and swallow the tap. Close via header ✕ or backdrop. */
+          .chat-fab[data-open="true"] {
+            display: none !important;
+          }
           /* Prevent iOS auto-zoom on input focus (font must be >= 16px) */
           .chat-input {
             font-size: 16px !important;
@@ -871,7 +876,11 @@ export default function Chatbot() {
 
           {/* Input area */}
           {showEmailInput ? (
-            <div
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSubmitEmail();
+              }}
               className="chat-input-area"
               style={{
                 borderTop: "1px solid rgba(242,194,48,0.12)",
@@ -886,7 +895,8 @@ export default function Chatbot() {
                 type="email"
                 value={emailValue}
                 onChange={(e) => setEmailValue(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleSubmitEmail()}
+                enterKeyHint="send"
+                autoComplete="email"
                 placeholder={s.emailPlaceholder}
                 className="chat-input"
                 style={{
@@ -909,7 +919,7 @@ export default function Chatbot() {
                 }
               />
               <button
-                onClick={handleSubmitEmail}
+                type="submit"
                 disabled={!emailValue.trim()}
                 style={{
                   background: "#f2c230",
@@ -928,9 +938,13 @@ export default function Chatbot() {
               >
                 {s.submitEmail}
               </button>
-            </div>
+            </form>
           ) : (
-            <div
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleUserMessage(inputValue);
+              }}
               className="chat-input-area"
               style={{
                 borderTop: "1px solid rgba(242,194,48,0.12)",
@@ -947,12 +961,7 @@ export default function Chatbot() {
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) {
-                    e.preventDefault();
-                    handleUserMessage(inputValue);
-                  }
-                }}
+                enterKeyHint="send"
                 disabled={isTyping || isDone}
                 placeholder={
                   isDone ? s.inputDone : isTyping ? s.typing : s.inputPlaceholder
@@ -981,7 +990,7 @@ export default function Chatbot() {
                 }
               />
               <button
-                onClick={() => handleUserMessage(inputValue)}
+                type="submit"
                 disabled={!inputValue.trim() || isTyping || isDone}
                 aria-label="Send message"
                 style={{
@@ -1024,7 +1033,7 @@ export default function Chatbot() {
                   <polygon points="22 2 15 22 11 13 2 9 22 2" />
                 </svg>
               </button>
-            </div>
+            </form>
           )}
         </div>
       )}
@@ -1033,6 +1042,8 @@ export default function Chatbot() {
       <button
         onClick={handleToggle}
         aria-label={isOpen ? "Close chat" : "Open chat"}
+        className="chat-fab"
+        data-open={isOpen ? "true" : undefined}
         style={{
           position: "fixed",
           bottom: 24,

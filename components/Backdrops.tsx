@@ -8,7 +8,7 @@ import { CODE_CS } from '@/lib/code-samples'
 /* ------------------------------------------------------------------ */
 type Draw = (ctx: CanvasRenderingContext2D, w: number, h: number, t: number) => void
 
-function useCanvas(draw: Draw) {
+export function useCanvas(draw: Draw) {
   const ref = useRef<HTMLCanvasElement>(null)
   useEffect(() => {
     const canvas = ref.current
@@ -34,10 +34,16 @@ function useCanvas(draw: Draw) {
     const ro = new ResizeObserver(resize)
     ro.observe(canvas)
     resize()
-    if (!reduced) raf = requestAnimationFrame(loop)
+    // Only animate while on screen: several canvases share the page.
+    const io = new IntersectionObserver(([entry]) => {
+      cancelAnimationFrame(raf)
+      if (entry.isIntersecting && !reduced) raf = requestAnimationFrame(loop)
+    })
+    io.observe(canvas)
     return () => {
       cancelAnimationFrame(raf)
       ro.disconnect()
+      io.disconnect()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -120,7 +126,7 @@ function paintLine(ctx: CanvasRenderingContext2D, line: string, x: number, y: nu
 
 // next/font hashes the family name; read the real one from the CSS variable.
 let cachedMono = ""
-function monoFamily() {
+export function monoFamily() {
   if (!cachedMono) {
     const v = getComputedStyle(document.documentElement).getPropertyValue("--font-jetbrains").trim()
     cachedMono = v ? `${v}, ui-monospace, Menlo, monospace` : "ui-monospace, Menlo, monospace"
