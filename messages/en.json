@@ -119,6 +119,7 @@
     "title": "Real work, <em>in production</em>",
     "lead": "Products we built that are already live: you can open them and try them right now.",
     "visit": "View project",
+    "previewAlt": "Screenshot of the {name} home page",
     "items": {
       "nudo": { "tag": "Finance · SRI", "title": "Nudo", "desc": "Invoices, expenses and deductions in one place: pull receipts from your inbox, verify them with the SRI and estimate your income-tax rebate." },
       "unisono": { "tag": "Android app", "title": "Unísono", "desc": "Lyrics, chords and keys for worship teams, synced live and available offline." }

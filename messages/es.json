@@ -119,6 +119,7 @@
     "title": "Trabajo real, <em>en producción</em>",
     "lead": "Productos que construimos y que ya están desplegados: puedes abrirlos y probarlos ahora mismo.",
     "visit": "Ver proyecto",
+    "previewAlt": "Captura de la página de inicio de {name}",
     "items": {
       "nudo": { "tag": "Finanzas · SRI", "title": "Nudo", "desc": "Facturas, gastos y deducibles en un solo lugar: recibe tus comprobantes desde el correo, verifícalos con el SRI y calcula tu rebaja del impuesto a la renta." },
       "unisono": { "tag": "App Android", "title": "Unísono", "desc": "Letra, acordes y tonalidades para equipos de alabanza, sincronizados en vivo y disponibles sin internet." }

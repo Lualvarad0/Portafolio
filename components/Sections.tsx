@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { ArrowUpRight, Cloud, Globe, Monitor, Plug, ShieldAlert, Smartphone, Wrench } from "lucide-react";
 import CodeBlock from "./CodeBlock";
@@ -331,7 +332,7 @@ export function Projects() {
                 target="_blank"
                 rel="noopener noreferrer"
                 data-reveal
-                className={`group flex min-h-[280px] flex-col rounded-3xl p-8 transition-transform hover:-translate-y-1 ${
+                className={`group flex flex-col rounded-3xl p-6 transition-transform hover:-translate-y-1 sm:p-8 ${
                   featured ? "bg-signal text-neutral-950" : "bg-neutral-100 text-neutral-950"
                 }`}
               >
@@ -347,8 +348,27 @@ export function Projects() {
                     <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
                   </span>
                 </div>
+                <div className="mt-6 overflow-hidden rounded-2xl bg-neutral-950 shadow-[0_18px_40px_-20px_rgba(0,0,0,0.55)] ring-1 ring-black/10">
+                  <div className="flex items-center gap-1.5 px-3 py-2" aria-hidden="true">
+                    <span className="h-2 w-2 rounded-full bg-white/25" />
+                    <span className="h-2 w-2 rounded-full bg-white/25" />
+                    <span className="h-2 w-2 rounded-full bg-white/25" />
+                    <span className="ml-2 truncate rounded-full bg-white/10 px-3 py-0.5 font-mono text-[10px] text-white/60">
+                      {p.host}
+                    </span>
+                  </div>
+                  <div className="relative aspect-[16/10] overflow-hidden">
+                    <Image
+                      src={p.image}
+                      alt={t("previewAlt", { name: p.name })}
+                      fill
+                      sizes="(min-width: 768px) 560px, 100vw"
+                      className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                    />
+                  </div>
+                </div>
                 <h3
-                  className="mt-auto pt-10 font-playfair text-3xl leading-none sm:text-4xl"
+                  className="mt-8 font-playfair text-3xl leading-none sm:text-4xl"
                   style={{ letterSpacing: "-0.05em" }}
                 >
                   {t(`items.${p.id}.title`)}
