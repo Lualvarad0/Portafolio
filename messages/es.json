@@ -116,17 +116,13 @@
   },
   "projects": {
     "kicker": "04 · Proyectos",
-    "title": "Trabajo real, <em>código a la vista</em>",
-    "lead": "Una selección de proyectos con el código publicado en GitHub, incluido un sistema de gestión interna para el sector público.",
-    "viewCode": "Ver código",
-    "more": "Más proyectos en GitHub",
+    "title": "Trabajo real, <em>en producción</em>",
+    "lead": "Productos que construimos y que ya están desplegados: puedes abrirlos y probarlos ahora mismo.",
+    "visit": "Ver proyecto",
+    "previewAlt": "Captura de la página de inicio de {name}",
     "items": {
-      "sistema-gestion": { "tag": "Sector público", "title": "Sistema de gestión interna", "desc": "Gestión de colegios, luminarias CNEL, encuentros ciudadanos, trabajadores y roles de usuario para la Gobernación del Guayas." },
-      "microservice-b2b": { "tag": "Arquitectura", "title": "Microservicios B2B", "desc": "Servicios independientes comunicados entre sí, con autenticación y API Gateway." },
-      "fullstack-project": { "tag": "Facturación", "title": "Gestión de facturas", "desc": "Aplicación full stack para el ingreso y la gestión de facturas." },
-      "angular-countries": { "tag": "SPA", "title": "Explorador de países", "desc": "Dashboard de estadísticas, buscador con filtros por región, favoritos y perfil de usuario sobre REST Countries." },
-      "javaquiz": { "tag": "Frontend", "title": "Quiz interactivo", "desc": "Quiz de JavaScript con estado global en Zustand e interfaz con MUI." },
-      "csharp": { "tag": "Backend", "title": "C# y .NET", "desc": "APIs REST y fundamentos de backend sobre la plataforma .NET." }
+      "nudo": { "tag": "Finanzas · SRI", "title": "Nudo", "desc": "Facturas, gastos y deducibles en un solo lugar: recibe tus comprobantes desde el correo, verifícalos con el SRI y calcula tu rebaja del impuesto a la renta." },
+      "unisono": { "tag": "App Android", "title": "Unísono", "desc": "Letra, acordes y tonalidades para equipos de alabanza, sincronizados en vivo y disponibles sin internet." }
     }
   },
   "process": {

@@ -3,7 +3,9 @@
 import { useState, useRef, useEffect } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { ArrowUpRight, Calendar, MessageCircle, SendHorizontal, ShieldCheck, X } from "lucide-react";
 import { CONFIG } from "@/lib/config";
+import { LogoMark } from "./Logo";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -72,7 +74,7 @@ const SCRIPT: Record<"en" | "es", ScriptEntry> = {
     inputPlaceholder: "Type your message...",
     inputDone: "Conversation ended",
     selectPrompt: "Type a number or tap an option to select.",
-    invalidChoice: "Please pick one of the options — type a number or tap a chip:",
+    invalidChoice: "Please pick one of the options below — type its number or tap it.",
     tooShort: "Could you tell me a bit more? At least 15 characters helps David understand your project. Give it another go:",
   },
   es: {
@@ -96,7 +98,7 @@ const SCRIPT: Record<"en" | "es", ScriptEntry> = {
     inputPlaceholder: "Escribe tu mensaje...",
     inputDone: "Conversación finalizada",
     selectPrompt: "Escribe un número o toca una opción para elegir.",
-    invalidChoice: "Por favor elige una de las opciones — escribe un número o toca un chip:",
+    invalidChoice: "Por favor elige una de las opciones de abajo: escribe su número o tócala.",
     tooShort: "¿Puedes contarme un poco más? Al menos 15 caracteres ayudan a David a entender tu proyecto. Inténtalo de nuevo:",
   },
 };
@@ -194,10 +196,6 @@ function formatTime(d: Date) {
   return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 }
 
-function numberedList(items: string[]): string {
-  return items.map((item, i) => `${i + 1}. ${item}`).join("\n");
-}
-
 function resolveChoice(input: string, options: string[]): string | null {
   const trimmed = input.trim();
   if (options.includes(trimmed)) return trimmed;
@@ -238,30 +236,26 @@ function notifyLead(lead: LeadData, transcript: string): void {
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
+function BotAvatar({ size = 28 }: { size?: number }) {
+  return (
+    <span
+      className="grid shrink-0 place-items-center rounded-full bg-ink"
+      style={{ width: size, height: size }}
+      aria-hidden="true"
+    >
+      <LogoMark size={Math.round(size * 0.36)} color="#ffffff" />
+    </span>
+  );
+}
+
 function TypingDots() {
   return (
-    <div
-      style={{
-        background: "#131c19",
-        borderLeft: "2px solid #f2c230",
-        padding: "8px 12px",
-        borderRadius: 2,
-        display: "inline-flex",
-        alignItems: "center",
-        gap: 5,
-      }}
-    >
+    <div className="inline-flex items-center gap-1 rounded-2xl rounded-bl-md bg-neutral-100 px-4 py-3">
       {[0, 1, 2].map((i) => (
         <span
           key={i}
-          style={{
-            width: 6,
-            height: 6,
-            borderRadius: "50%",
-            background: "#f2c230",
-            display: "inline-block",
-            animation: `chatDot 1.2s ease-in-out ${i * 0.2}s infinite`,
-          }}
+          className="inline-block h-1.5 w-1.5 rounded-full bg-neutral-500"
+          style={{ animation: `chatDot 1.2s ease-in-out ${i * 0.2}s infinite` }}
         />
       ))}
     </div>
@@ -273,48 +267,21 @@ function CalendlyCard({ locale }: { locale: string }) {
     locale === "es"
       ? "Agenda tu llamada gratuita de 30 min"
       : "Book your free 30-min call";
-  const btnLabel = locale === "es" ? "Agendar ahora →" : "Schedule now →";
+  const btnLabel = locale === "es" ? "Agendar ahora" : "Schedule now";
 
   return (
-    <div
-      style={{
-        border: "1px solid #f2c230",
-        borderRadius: 2,
-        padding: "10px 12px",
-        marginTop: 8,
-        background: "rgba(242,194,48,0.05)",
-      }}
-    >
-      <div
-        style={{
-          fontSize: "0.72rem",
-          color: "#f2c230",
-          fontFamily: "var(--font-jetbrains), monospace",
-          marginBottom: 8,
-          letterSpacing: "0.06em",
-        }}
-      >
-        📅 {label}
+    <div className="mt-2 ml-9 max-w-[85%] rounded-2xl bg-ink p-4 text-white">
+      <div className="flex items-center gap-2 text-sm font-semibold">
+        <Calendar className="h-4 w-4 text-signal" aria-hidden="true" />
+        {label}
       </div>
       <a
         href={CONFIG.calendly}
         target="_blank"
         rel="noopener noreferrer"
-        style={{
-          display: "inline-block",
-          background: "#f2c230",
-          color: "#050807",
-          fontFamily: "var(--font-jetbrains), monospace",
-          fontSize: "0.72rem",
-          fontWeight: 700,
-          letterSpacing: "0.1em",
-          textTransform: "uppercase",
-          padding: "6px 14px",
-          borderRadius: 2,
-          textDecoration: "none",
-        }}
+        className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-signal px-4 py-2 text-xs font-semibold text-ink transition-colors hover:bg-signal-dark"
       >
-        {btnLabel}
+        {btnLabel} <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
       </a>
     </div>
   );
@@ -413,11 +380,10 @@ export default function Chatbot() {
     setIsTyping(true);
     setTimeout(() => {
       setIsTyping(false);
-      const list = numberedList(s.serviceChips);
       const msg: ChatMessage = {
         id: uid(),
         role: "bot",
-        content: `${s.greetIntro}\n\n${list}\n\n${s.selectPrompt}`,
+        content: `${s.greetIntro}\n\n${s.selectPrompt}`,
         timestamp: new Date(),
       };
       setMsgs([msg]);
@@ -477,7 +443,7 @@ export default function Chatbot() {
       if (!resolved) {
         const chips2 = savedChips.length > 0 ? savedChips : [...s.serviceChips];
         await botReply(
-          `${s.invalidChoice}\n\n${numberedList(s.serviceChips)}`,
+          s.invalidChoice,
           withUser,
           { chips: chips2 }
         );
@@ -489,7 +455,7 @@ export default function Chatbot() {
         s.scopeQ[resolved] ?? s.scopeQ["Full Project"] ?? s.scopeQ["Proyecto Completo"];
       const scopeMsg =
         scopeEntry.chips.length > 0
-          ? `${scopeEntry.q}\n\n${numberedList(scopeEntry.chips)}\n\n${s.selectPrompt}`
+          ? `${scopeEntry.q}\n\n${s.selectPrompt}`
           : scopeEntry.q;
       await botReply(scopeMsg, withUser, {
         chips: [...scopeEntry.chips],
@@ -507,7 +473,7 @@ export default function Chatbot() {
         if (!resolved) {
           const chips2 = savedChips.length > 0 ? savedChips : [...scopeEntry.chips];
           await botReply(
-            `${s.invalidChoice}\n\n${numberedList(scopeEntry.chips)}`,
+            s.invalidChoice,
             withUser,
             { chips: chips2 }
           );
@@ -525,7 +491,7 @@ export default function Chatbot() {
 
       const newLead = { ...leadRef.current, scope: resolvedScope };
       setLead(newLead);
-      const budgetMsg = `${s.budgetIntro}\n\n${numberedList(s.budgetChips)}\n\n${s.selectPrompt}`;
+      const budgetMsg = `${s.budgetIntro}\n\n${s.selectPrompt}`;
       await botReply(budgetMsg, withUser, {
         chips: [...s.budgetChips],
         nextStep: "budget",
@@ -536,7 +502,7 @@ export default function Chatbot() {
       if (!resolved) {
         const chips2 = savedChips.length > 0 ? savedChips : [...s.budgetChips];
         await botReply(
-          `${s.invalidChoice}\n\n${numberedList(s.budgetChips)}`,
+          s.invalidChoice,
           withUser,
           { chips: chips2 }
         );
@@ -575,6 +541,7 @@ export default function Chatbot() {
   };
 
   const isDone = step === "calendly" || step === "done";
+  const canSend = !!inputValue.trim() && !isTyping && !isDone;
 
   return (
     <>
@@ -588,17 +555,22 @@ export default function Chatbot() {
           from { opacity: 0; transform: translateY(16px) scale(0.97); }
           to   { opacity: 1; transform: translateY(0) scale(1); }
         }
-        @keyframes chatPulse {
-          0%,100% { box-shadow: 0 0 0 0 rgba(242,194,48,0.4); }
-          50% { box-shadow: 0 0 0 8px rgba(242,194,48,0); }
+        @keyframes chatMsgIn {
+          from { opacity: 0; transform: translateY(6px); }
+          to   { opacity: 1; transform: translateY(0); }
         }
+        @keyframes chatPulse {
+          0%,100% { box-shadow: 0 0 0 0 rgba(242,194,48,0.45); }
+          50% { box-shadow: 0 0 0 10px rgba(242,194,48,0); }
+        }
+        .chat-msg { animation: chatMsgIn 0.25s ease-out; }
         .chat-panel {
           position: fixed;
-          bottom: 90px;
+          bottom: 96px;
           right: 24px;
-          width: 380px;
-          height: 520px;
-          border-radius: 2px;
+          width: 392px;
+          height: min(600px, calc(100dvh - 120px));
+          border-radius: 24px;
           z-index: 9999;
         }
         .chat-backdrop {
@@ -611,9 +583,9 @@ export default function Chatbot() {
             right: 0;
             left: 0;
             bottom: 0;
-            height: 85dvh;
+            height: 88dvh;
             max-height: 100dvh;
-            border-radius: 18px 18px 0 0;
+            border-radius: 24px 24px 0 0;
           }
           .chat-backdrop {
             display: block;
@@ -633,16 +605,13 @@ export default function Chatbot() {
           .chat-input {
             font-size: 16px !important;
           }
-          /* Bigger touch targets for chips */
-          .chat-chip {
-            min-height: 38px !important;
-            padding: 8px 14px !important;
-            font-size: 0.78rem !important;
-          }
           /* Bottom safe-area so input isn't under home indicator */
           .chat-input-area {
-            padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px)) !important;
+            padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px)) !important;
           }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .chat-msg, .chat-panel { animation: none !important; }
         }
       `}</style>
 
@@ -660,213 +629,109 @@ export default function Chatbot() {
         <div
           role="dialog"
           aria-label="Chat assistant"
-          className="chat-panel"
-          style={{
-            background: "#050807",
-            border: "1px solid rgba(242,194,48,0.22)",
-            display: "flex",
-            flexDirection: "column",
-            zIndex: 9999,
-            boxShadow:
-              "0 24px 80px rgba(0,0,0,0.7), 0 0 40px rgba(242,194,48,0.04)",
-            animation: "chatSlideUp 0.22s ease-out",
-            fontFamily: "var(--font-jetbrains), monospace",
-          }}
+          className="chat-panel flex flex-col overflow-hidden bg-white font-sans text-neutral-900 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.45)] ring-1 ring-black/5"
+          style={{ animation: "chatSlideUp 0.22s ease-out" }}
         >
           {/* Header */}
-          <div
-            style={{
-              background: "#0b1210",
-              borderBottom: "1px solid rgba(242,194,48,0.12)",
-              padding: "10px 14px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              flexShrink: 0,
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <span
-                style={{
-                  width: 8,
-                  height: 8,
-                  borderRadius: "50%",
-                  background: "#f2c230",
-                  display: "inline-block",
-                  animation: "chatPulse 2s ease-in-out infinite",
-                }}
-              />
+          <div className="flex shrink-0 items-center justify-between gap-3 bg-ink px-5 py-4 text-white">
+            <div className="flex items-center gap-3">
+              <span className="relative">
+                <span className="grid h-10 w-10 place-items-center rounded-full bg-white/10 ring-1 ring-white/15">
+                  <LogoMark size={14} color="#ffffff" />
+                </span>
+                <span className="absolute -right-0.5 -bottom-0.5 h-3 w-3 rounded-full border-2 border-ink bg-emerald-400" />
+              </span>
               <div>
-                <div
-                  style={{
-                    fontSize: "0.78rem",
-                    fontWeight: 700,
-                    color: "#e8ece9",
-                    letterSpacing: "0.04em",
-                  }}
-                >
-                  {locale === "es" ? "// Alex — Asistente virtual" : "// Alex — Virtual assistant"}
+                <div className="text-sm font-semibold">
+                  {locale === "es" ? "Alex · Asistente virtual" : "Alex · Virtual assistant"}
                 </div>
-                <div style={{ fontSize: "0.66rem", color: "#8a958f", marginTop: 1 }}>
-                  {locale === "es" ? "Respondo en segundos" : "I respond in seconds"}
+                <div className="mt-0.5 text-xs text-white/60">
+                  {locale === "es" ? "Cornerstone Develop · Respondo en segundos" : "Cornerstone Develop · Replies in seconds"}
                 </div>
               </div>
             </div>
             <button
               onClick={() => setIsOpen(false)}
               aria-label="Close chat"
-              style={{
-                background: "none",
-                border: "none",
-                color: "#8a958f",
-                cursor: "pointer",
-                fontSize: "1rem",
-                lineHeight: 1,
-                padding: 4,
-                borderRadius: 2,
-              }}
-              onMouseEnter={(e) =>
-                ((e.currentTarget as HTMLButtonElement).style.color = "#e8ece9")
-              }
-              onMouseLeave={(e) =>
-                ((e.currentTarget as HTMLButtonElement).style.color = "#8a958f")
-              }
+              className="grid h-9 w-9 place-items-center rounded-full text-white/70 transition-colors hover:bg-white/10 hover:text-white"
             >
-              ✕
+              <X className="h-4 w-4" aria-hidden="true" />
             </button>
           </div>
 
           {/* Privacy notice — shown before the visitor types anything */}
-          <div
-            style={{
-              padding: "6px 14px",
-              fontSize: "0.66rem",
-              lineHeight: 1.45,
-              color: "#9aa49f",
-              background: "#08100d",
-              borderBottom: "1px solid rgba(242,194,48,0.08)",
-              flexShrink: 0,
-            }}
-          >
-            {tChat.rich("notice", {
-              link: (chunks) => (
-                <Link href="/privacy" target="_blank" style={{ color: "#f2c230", textDecoration: "underline" }}>
-                  {chunks}
-                </Link>
-              ),
-            })}
+          <div className="flex shrink-0 items-start gap-2 border-b border-neutral-100 bg-neutral-50 px-5 py-2.5 text-[11px] leading-snug text-neutral-500">
+            <ShieldCheck className="mt-px h-3.5 w-3.5 shrink-0 text-neutral-400" aria-hidden="true" />
+            <span>
+              {tChat.rich("notice", {
+                link: (chunks) => (
+                  <Link href="/privacy" target="_blank" className="font-medium text-neutral-800 underline underline-offset-2">
+                    {chunks}
+                  </Link>
+                ),
+              })}
+            </span>
           </div>
 
           {/* Messages */}
           <div
             ref={scrollRef}
+            className="flex flex-1 flex-col gap-3 overflow-y-auto px-4 py-5"
             style={{
-              flex: 1,
-              overflowY: "auto",
-              padding: "12px 14px",
-              display: "flex",
-              flexDirection: "column",
-              gap: 10,
               scrollbarWidth: "thin",
-              scrollbarColor: "rgba(242,194,48,0.15) transparent",
+              scrollbarColor: "rgba(0,0,0,0.15) transparent",
               WebkitOverflowScrolling: "touch",
               overscrollBehavior: "contain",
             }}
           >
-            {messages.map((msg) => (
-              <div key={msg.id}>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: msg.role === "user" ? "flex-end" : "flex-start",
-                  }}
-                >
-                  <div
-                    style={{
-                      maxWidth: "85%",
-                      padding: "8px 10px",
-                      borderRadius: 2,
-                      fontSize: "0.82rem",
-                      lineHeight: 1.6,
-                      whiteSpace: "pre-wrap",
-                      wordBreak: "break-word",
-                      ...(msg.role === "user"
-                        ? {
-                            background: "#f2c230",
-                            color: "#050807",
-                            fontWeight: 500,
-                          }
-                        : {
-                            background: "#131c19",
-                            color: "#e8ece9",
-                            borderLeft: "2px solid #f2c230",
-                          }),
-                    }}
-                  >
-                    {msg.content}
+            {messages.map((msg, i) => {
+              const isUser = msg.role === "user";
+              // Group consecutive bot messages: avatar only on the last one of a run
+              const showAvatar = !isUser && messages[i + 1]?.role !== "bot";
+              return (
+                <div key={msg.id} className="chat-msg">
+                  <div className={`flex items-end gap-2 ${isUser ? "justify-end" : "justify-start"}`}>
+                    {!isUser && (showAvatar ? <BotAvatar /> : <span className="w-7 shrink-0" />)}
+                    <div
+                      className={`max-w-[80%] whitespace-pre-wrap break-words px-4 py-2.5 text-sm leading-relaxed ${
+                        isUser
+                          ? "rounded-2xl rounded-br-md bg-ink text-white"
+                          : "rounded-2xl rounded-bl-md bg-neutral-100 text-neutral-800"
+                      }`}
+                    >
+                      {msg.content}
+                    </div>
                   </div>
-                  <span
-                    style={{
-                      fontSize: "0.62rem",
-                      color: "#8a958f",
-                      marginTop: 3,
-                      letterSpacing: "0.04em",
-                    }}
-                  >
+                  <div className={`mt-1 text-[10px] text-neutral-400 ${isUser ? "text-right" : "pl-9"}`}>
                     {formatTime(msg.timestamp)}
-                  </span>
-                </div>
+                  </div>
 
-                {msg.showCalendly && <CalendlyCard locale={locale} />}
-              </div>
-            ))}
+                  {msg.showCalendly && <CalendlyCard locale={locale} />}
+                </div>
+              );
+            })}
 
             {/* Typing indicator */}
             {isTyping && (
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-start",
-                }}
-              >
+              <div className="chat-msg flex items-end gap-2">
+                <BotAvatar />
                 <TypingDots />
               </div>
             )}
 
-            {/* Quick reply chips */}
+            {/* Quick reply options (also selectable by typing their number) */}
             {chips.length > 0 && !isTyping && (
-              <div
-                style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 4 }}
-              >
-                {chips.map((chip) => (
+              <div className="chat-msg ml-9 flex flex-col gap-2">
+                {chips.map((chip, idx) => (
                   <button
                     key={chip}
                     onClick={() => handleUserMessage(chip)}
-                    className="chat-chip"
-                    style={{
-                      background: "transparent",
-                      border: "1px solid rgba(242,194,48,0.5)",
-                      color: "#f2c230",
-                      fontFamily: "var(--font-jetbrains), monospace",
-                      fontSize: "0.72rem",
-                      padding: "4px 10px",
-                      borderRadius: 2,
-                      cursor: "pointer",
-                      letterSpacing: "0.04em",
-                      transition: "background 0.15s",
-                      touchAction: "manipulation",
-                    }}
-                    onMouseEnter={(e) =>
-                      ((e.currentTarget as HTMLButtonElement).style.background =
-                        "rgba(242,194,48,0.1)")
-                    }
-                    onMouseLeave={(e) =>
-                      ((e.currentTarget as HTMLButtonElement).style.background =
-                        "transparent")
-                    }
+                    className="group flex min-h-11 items-center gap-3 rounded-xl border border-neutral-200 bg-white px-3 py-2 text-left text-sm font-medium text-neutral-800 transition-colors hover:border-ink hover:bg-ink hover:text-white"
+                    style={{ touchAction: "manipulation" }}
                   >
+                    <span className="grid h-6 w-6 shrink-0 place-items-center rounded-md bg-neutral-100 font-mono text-[11px] text-neutral-500 transition-colors group-hover:bg-signal group-hover:text-ink">
+                      {idx + 1}
+                    </span>
                     {chip}
                   </button>
                 ))}
@@ -881,15 +746,7 @@ export default function Chatbot() {
                 e.preventDefault();
                 handleSubmitEmail();
               }}
-              className="chat-input-area"
-              style={{
-                borderTop: "1px solid rgba(242,194,48,0.12)",
-                padding: "10px 14px",
-                background: "#0b1210",
-                display: "flex",
-                gap: 8,
-                flexShrink: 0,
-              }}
+              className="chat-input-area flex shrink-0 gap-2 border-t border-neutral-100 bg-white px-4 py-3"
             >
               <input
                 type="email"
@@ -898,43 +755,12 @@ export default function Chatbot() {
                 enterKeyHint="send"
                 autoComplete="email"
                 placeholder={s.emailPlaceholder}
-                className="chat-input"
-                style={{
-                  flex: 1,
-                  background: "#050807",
-                  border: "1px solid rgba(242,194,48,0.2)",
-                  color: "#e8ece9",
-                  fontFamily: "var(--font-jetbrains), monospace",
-                  fontSize: "0.82rem",
-                  padding: "8px 10px",
-                  borderRadius: 2,
-                  outline: "none",
-                }}
-                onFocus={(e) =>
-                  ((e.target as HTMLInputElement).style.borderColor = "#f2c230")
-                }
-                onBlur={(e) =>
-                  ((e.target as HTMLInputElement).style.borderColor =
-                    "rgba(242,194,48,0.2)")
-                }
+                className="chat-input min-w-0 flex-1 rounded-full border border-neutral-200 bg-neutral-50 px-4 py-2.5 text-sm outline-none transition-colors placeholder:text-neutral-400 focus:border-ink focus:bg-white"
               />
               <button
                 type="submit"
                 disabled={!emailValue.trim()}
-                style={{
-                  background: "#f2c230",
-                  color: "#050807",
-                  border: "none",
-                  padding: "8px 14px",
-                  borderRadius: 2,
-                  fontFamily: "var(--font-jetbrains), monospace",
-                  fontSize: "0.72rem",
-                  fontWeight: 700,
-                  letterSpacing: "0.08em",
-                  textTransform: "uppercase",
-                  cursor: emailValue.trim() ? "pointer" : "not-allowed",
-                  opacity: emailValue.trim() ? 1 : 0.5,
-                }}
+                className="shrink-0 rounded-full bg-ink px-5 text-sm font-semibold text-white transition-opacity disabled:cursor-not-allowed disabled:opacity-40"
               >
                 {s.submitEmail}
               </button>
@@ -945,16 +771,7 @@ export default function Chatbot() {
                 e.preventDefault();
                 handleUserMessage(inputValue);
               }}
-              className="chat-input-area"
-              style={{
-                borderTop: "1px solid rgba(242,194,48,0.12)",
-                padding: "10px 14px",
-                background: "#0b1210",
-                display: "flex",
-                gap: 8,
-                alignItems: "center",
-                flexShrink: 0,
-              }}
+              className="chat-input-area flex shrink-0 items-center gap-2 border-t border-neutral-100 bg-white px-4 py-3"
             >
               <input
                 ref={inputRef}
@@ -966,72 +783,18 @@ export default function Chatbot() {
                 placeholder={
                   isDone ? s.inputDone : isTyping ? s.typing : s.inputPlaceholder
                 }
-                className="chat-input"
-                style={{
-                  flex: 1,
-                  background: "#050807",
-                  border: "1px solid rgba(242,194,48,0.2)",
-                  color: "#e8ece9",
-                  fontFamily: "var(--font-jetbrains), monospace",
-                  fontSize: "0.82rem",
-                  padding: "8px 10px",
-                  borderRadius: 0,
-                  outline: "none",
-                  opacity: isTyping || isDone ? 0.5 : 1,
-                  transition: "border-color 0.15s",
-                }}
-                onFocus={(e) => {
-                  if (!isTyping && !isDone)
-                    (e.target as HTMLInputElement).style.borderColor = "#f2c230";
-                }}
-                onBlur={(e) =>
-                  ((e.target as HTMLInputElement).style.borderColor =
-                    "rgba(242,194,48,0.2)")
-                }
+                className="chat-input min-w-0 flex-1 rounded-full border border-neutral-200 bg-neutral-50 px-4 py-2.5 text-sm outline-none transition-colors placeholder:text-neutral-400 focus:border-ink focus:bg-white disabled:opacity-60"
               />
               <button
                 type="submit"
-                disabled={!inputValue.trim() || isTyping || isDone}
+                disabled={!canSend}
                 aria-label="Send message"
-                style={{
-                  width: 36,
-                  height: 36,
-                  borderRadius: 2,
-                  background:
-                    inputValue.trim() && !isTyping && !isDone
-                      ? "#f2c230"
-                      : "rgba(242,194,48,0.15)",
-                  border: "none",
-                  touchAction: "manipulation",
-                  cursor:
-                    inputValue.trim() && !isTyping && !isDone
-                      ? "pointer"
-                      : "not-allowed",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  transition: "all 0.15s",
-                  flexShrink: 0,
-                }}
+                className={`grid h-10 w-10 shrink-0 place-items-center rounded-full transition-colors ${
+                  canSend ? "bg-signal text-ink hover:bg-signal-dark" : "cursor-not-allowed bg-neutral-100 text-neutral-400"
+                }`}
+                style={{ touchAction: "manipulation" }}
               >
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke={
-                    inputValue.trim() && !isTyping && !isDone
-                      ? "#050807"
-                      : "#f2c230"
-                  }
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <line x1="22" y1="2" x2="11" y2="13" />
-                  <polygon points="22 2 15 22 11 13 2 9 22 2" />
-                </svg>
+                <SendHorizontal className="h-4 w-4" aria-hidden="true" />
               </button>
             </form>
           )}
@@ -1042,86 +805,25 @@ export default function Chatbot() {
       <button
         onClick={handleToggle}
         aria-label={isOpen ? "Close chat" : "Open chat"}
-        className="chat-fab"
+        className={`chat-fab fixed right-6 bottom-6 z-[10000] grid h-14 w-14 place-items-center rounded-full transition-all duration-200 hover:scale-105 ${
+          isOpen
+            ? "bg-ink text-white shadow-lg ring-1 ring-white/10"
+            : "bg-signal text-ink shadow-[0_10px_30px_-6px_rgba(242,194,48,0.6)]"
+        }`}
         data-open={isOpen ? "true" : undefined}
         style={{
-          position: "fixed",
-          bottom: 24,
-          right: 24,
-          width: 56,
-          height: 56,
-          borderRadius: "50%",
-          background: isOpen ? "#0b1210" : "#f2c230",
-          border: isOpen ? "1px solid rgba(242,194,48,0.4)" : "none",
-          cursor: "pointer",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          zIndex: 10000,
           touchAction: "manipulation",
-          boxShadow: isOpen
-            ? "none"
-            : "0 8px 32px rgba(242,194,48,0.35), 0 2px 8px rgba(0,0,0,0.4)",
-          transition: "all 0.2s ease",
-        }}
-        onMouseEnter={(e) => {
-          if (!isOpen)
-            (e.currentTarget as HTMLButtonElement).style.transform = "scale(1.08)";
-        }}
-        onMouseLeave={(e) => {
-          (e.currentTarget as HTMLButtonElement).style.transform = "scale(1)";
+          animation: hasNotif && !isOpen ? "chatPulse 2.4s ease-in-out infinite" : undefined,
         }}
       >
         {isOpen ? (
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#f2c230"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            aria-hidden="true"
-          >
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
-          </svg>
+          <X className="h-5 w-5" aria-hidden="true" />
         ) : (
-          <svg
-            width="22"
-            height="22"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#050807"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-          </svg>
+          <MessageCircle className="h-6 w-6" aria-hidden="true" />
         )}
 
         {hasNotif && !isOpen && (
-          <span
-            style={{
-              position: "absolute",
-              top: -2,
-              right: -2,
-              width: 18,
-              height: 18,
-              borderRadius: "50%",
-              background: "#f43f5e",
-              color: "#fff",
-              fontSize: "0.6rem",
-              fontWeight: 700,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontFamily: "var(--font-jetbrains), monospace",
-              border: "2px solid #050807",
-            }}
-          >
+          <span className="absolute -top-0.5 -right-0.5 grid h-5 w-5 place-items-center rounded-full border-2 border-white bg-rose-500 text-[10px] font-bold text-white">
             1
           </span>
         )}

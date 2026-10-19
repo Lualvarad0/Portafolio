@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { ArrowUpRight, Cloud, Globe, Monitor, Plug, ShieldAlert, Smartphone, Wrench } from "lucide-react";
 import CodeBlock from "./CodeBlock";
@@ -305,7 +306,7 @@ export function Security() {
 }
 
 /* ------------------------------------------------------------------ */
-/* 04 · Proyectos (repos reales en GitHub)                              */
+/* 04 · Proyectos (productos desplegados)                               */
 /* ------------------------------------------------------------------ */
 export function Projects() {
   const t = useTranslations("projects");
@@ -321,7 +322,7 @@ export function Projects() {
           <p className="max-w-md text-base leading-relaxed text-neutral-600 md:justify-self-end">{t("lead")}</p>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-2">
           {projects.map((p, i) => {
             const featured = i === 0;
             return (
@@ -331,7 +332,7 @@ export function Projects() {
                 target="_blank"
                 rel="noopener noreferrer"
                 data-reveal
-                className={`group flex min-h-[280px] flex-col rounded-3xl p-8 transition-transform hover:-translate-y-1 ${
+                className={`group flex flex-col rounded-3xl p-6 transition-transform hover:-translate-y-1 sm:p-8 ${
                   featured ? "bg-signal text-neutral-950" : "bg-neutral-100 text-neutral-950"
                 }`}
               >
@@ -347,33 +348,41 @@ export function Projects() {
                     <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
                   </span>
                 </div>
+                <div className="mt-6 overflow-hidden rounded-2xl bg-neutral-950 shadow-[0_18px_40px_-20px_rgba(0,0,0,0.55)] ring-1 ring-black/10">
+                  <div className="flex items-center gap-1.5 px-3 py-2" aria-hidden="true">
+                    <span className="h-2 w-2 rounded-full bg-white/25" />
+                    <span className="h-2 w-2 rounded-full bg-white/25" />
+                    <span className="h-2 w-2 rounded-full bg-white/25" />
+                    <span className="ml-2 truncate rounded-full bg-white/10 px-3 py-0.5 font-mono text-[10px] text-white/60">
+                      {p.host}
+                    </span>
+                  </div>
+                  <div className="relative aspect-[16/10] overflow-hidden">
+                    <Image
+                      src={p.image}
+                      alt={t("previewAlt", { name: p.name })}
+                      fill
+                      sizes="(min-width: 768px) 560px, 100vw"
+                      className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                    />
+                  </div>
+                </div>
                 <h3
-                  className="mt-auto pt-10 font-playfair text-3xl leading-none sm:text-4xl"
+                  className="mt-8 font-playfair text-3xl leading-none sm:text-4xl"
                   style={{ letterSpacing: "-0.05em" }}
                 >
                   {t(`items.${p.id}.title`)}
                 </h3>
                 <p className="mt-3 text-sm opacity-75">{t(`items.${p.id}.desc`)}</p>
                 <p className="mt-6 flex flex-wrap items-center justify-between gap-2 border-t border-black/10 pt-4 text-xs">
-                  <span className="font-mono opacity-70">{p.stack}</span>
+                  <span className="font-mono opacity-70">{p.host}</span>
                   <span className="font-medium">
-                    {t("viewCode")} <span className="sr-only">— {p.repo}</span>
+                    {t("visit")} <span className="sr-only">— {p.name}</span>
                   </span>
                 </p>
               </a>
             );
           })}
-        </div>
-
-        <div className="mt-8 flex justify-center">
-          <a
-            href="https://github.com/Lualvarad0"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-neutral-300 px-6 py-3 text-sm font-semibold text-neutral-900 transition-colors hover:border-neutral-950"
-          >
-            {t("more")} <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-          </a>
         </div>
       </div>
     </section>

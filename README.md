@@ -102,7 +102,7 @@ Receive a WhatsApp message every time someone submits the contact form or the ch
 │   ├── Contact.tsx · Footer.tsx · Navbar.tsx · Chatbot.tsx · Logo.tsx · ui.tsx
 ├── lib/
 │   ├── brand.ts                  — brand name, contact email, WhatsApp, video paths
-│   ├── projects.ts               — GitHub projects (texts live in messages/*.json)
+│   ├── projects.ts               — deployed projects (texts live in messages/*.json)
 │   ├── code-samples.ts           — C# and SQL snippets shown on the page
 │   ├── legal/privacy.ts          — privacy policy content (ES/EN)
 │   └── notify.ts · api-guard.ts · schemas.ts · site.ts · config.ts
