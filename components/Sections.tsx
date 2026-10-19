@@ -305,7 +305,7 @@ export function Security() {
 }
 
 /* ------------------------------------------------------------------ */
-/* 04 · Proyectos (repos reales en GitHub)                              */
+/* 04 · Proyectos (productos desplegados)                               */
 /* ------------------------------------------------------------------ */
 export function Projects() {
   const t = useTranslations("projects");
@@ -321,7 +321,7 @@ export function Projects() {
           <p className="max-w-md text-base leading-relaxed text-neutral-600 md:justify-self-end">{t("lead")}</p>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-2">
           {projects.map((p, i) => {
             const featured = i === 0;
             return (
@@ -355,25 +355,14 @@ export function Projects() {
                 </h3>
                 <p className="mt-3 text-sm opacity-75">{t(`items.${p.id}.desc`)}</p>
                 <p className="mt-6 flex flex-wrap items-center justify-between gap-2 border-t border-black/10 pt-4 text-xs">
-                  <span className="font-mono opacity-70">{p.stack}</span>
+                  <span className="font-mono opacity-70">{p.host}</span>
                   <span className="font-medium">
-                    {t("viewCode")} <span className="sr-only">— {p.repo}</span>
+                    {t("visit")} <span className="sr-only">— {p.name}</span>
                   </span>
                 </p>
               </a>
             );
           })}
-        </div>
-
-        <div className="mt-8 flex justify-center">
-          <a
-            href="https://github.com/Lualvarad0"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-neutral-300 px-6 py-3 text-sm font-semibold text-neutral-900 transition-colors hover:border-neutral-950"
-          >
-            {t("more")} <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-          </a>
         </div>
       </div>
     </section>

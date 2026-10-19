@@ -116,17 +116,12 @@
   },
   "projects": {
     "kicker": "04 · Projects",
-    "title": "Real work, <em>open code</em>",
-    "lead": "A selection of projects with their code published on GitHub, including an internal management system for the public sector.",
-    "viewCode": "View code",
-    "more": "More projects on GitHub",
+    "title": "Real work, <em>in production</em>",
+    "lead": "Products we built that are already live: you can open them and try them right now.",
+    "visit": "View project",
     "items": {
-      "sistema-gestion": { "tag": "Public sector", "title": "Internal management system", "desc": "Management of schools, CNEL street lighting, citizen meetings, staff and user roles for the Guayas Provincial Government." },
-      "microservice-b2b": { "tag": "Architecture", "title": "B2B microservices", "desc": "Independent services talking to each other, with authentication and an API Gateway." },
-      "fullstack-project": { "tag": "Invoicing", "title": "Invoice management", "desc": "Full-stack application for entering and managing invoices." },
-      "angular-countries": { "tag": "SPA", "title": "Country explorer", "desc": "Statistics dashboard, region-filtered search, favourites and user profile on top of REST Countries." },
-      "javaquiz": { "tag": "Frontend", "title": "Interactive quiz", "desc": "JavaScript quiz with global state in Zustand and a MUI interface." },
-      "csharp": { "tag": "Backend", "title": "C# and .NET", "desc": "REST APIs and backend fundamentals on the .NET platform." }
+      "nudo": { "tag": "Finance · SRI", "title": "Nudo", "desc": "Invoices, expenses and deductions in one place: pull receipts from your inbox, verify them with the SRI and estimate your income-tax rebate." },
+      "unisono": { "tag": "Android app", "title": "Unísono", "desc": "Lyrics, chords and keys for worship teams, synced live and available offline." }
     }
   },
   "process": {
