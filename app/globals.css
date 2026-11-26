@@ -68,6 +68,18 @@ section[id] {
   }
 }
 
+/* ── "In progress" project card ─────────────────────────────────────── */
+.building-stripes {
+  background-image: repeating-linear-gradient(-45deg, #f2c230 0 14px, transparent 14px 28px);
+  background-size: 40px 40px;
+  animation: buildingStripes 2.4s linear infinite;
+}
+@keyframes buildingStripes { to { background-position: 40px 0; } }
+.building-bar { animation: buildingBar 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
+@keyframes buildingBar { 0% { transform: translateX(-100%); } 100% { transform: translateX(300%); } }
+.building-dot { animation: buildingDot 1.4s ease-in-out infinite; }
+@keyframes buildingDot { 50% { opacity: 0.25; } }
+
 /* ── Scroll reveal (content stays visible without JS) ──────────────── */
 [data-reveal] {
   transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
@@ -81,4 +93,5 @@ section[id] {
   html { scroll-behavior: auto; }
   .hero-anim, .hero-zoom { animation: none; opacity: 1; }
   [data-reveal] { transition: none; }
+  .building-stripes, .building-bar, .building-dot { animation: none; }
 }

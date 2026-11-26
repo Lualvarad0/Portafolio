@@ -4,9 +4,10 @@ export interface Project {
   id: string;
   name: string;
   host: string;
-  url: string;
+  /** Omitted while the product is still being built: the card shows "in progress" instead of a link. */
+  url?: string;
   // Screenshot of the live site (1440×900) in public/projects/
-  image: string;
+  image?: string;
 }
 
 export const projects: Project[] = [
@@ -23,5 +24,10 @@ export const projects: Project[] = [
     host: "app-alabanzas.web.app",
     url: "https://app-alabanzas.web.app/",
     image: "/projects/unisono.png",
+  },
+  {
+    id: "talleros",
+    name: "TallerOS",
+    host: "talleros",
   },
 ];

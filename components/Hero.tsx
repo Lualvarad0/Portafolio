@@ -63,7 +63,7 @@ export default function Hero() {
       <RevealLayer maskRef={maskRef} />
 
       {/* touch screens have no cursor: a scanner beam sweeps the hero instead */}
-      <HeroScan maskRef={maskRef} label={t.raw("codeBehind") as string} />
+      <HeroScan maskRef={maskRef} label={t("codeBehind")} />
 
       {/* on mobile, darken the base so the bottom text reads over the code */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[45] h-[42%] bg-gradient-to-t from-black via-black/85 to-transparent sm:hidden" />

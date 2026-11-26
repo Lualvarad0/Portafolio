@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import { getTranslations } from "next-intl/server";
 
-export const alt = "Cornerstone Develop — Software, datos y ciberseguridad";
+export const alt = "David Alvarado Ronquillo · Cornerstone Develop — Software, datos y ciberseguridad";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -37,7 +37,7 @@ export default async function OpengraphImage({ params }: { params: Promise<{ loc
           <div style={{ fontSize: 96, lineHeight: 1, letterSpacing: "-0.06em", color: "#f2c230" }}>{t("title2")}</div>
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", fontSize: 26, color: "rgba(255,255,255,0.65)" }}>
-          <span>{t("kicker")}</span>
+          <span>David Alvarado Ronquillo · {t("kicker")}</span>
           <span>{t("city")}</span>
         </div>
       </div>
