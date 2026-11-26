@@ -2,11 +2,12 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { ArrowUpRight, Cloud, Globe, Monitor, Plug, ShieldAlert, Smartphone, Wrench } from "lucide-react";
 import CodeBlock from "./CodeBlock";
+import DataScan from "./DataScan";
 import SecurityScope from "./SecurityScope";
 import { LogoMark } from "./Logo";
 import { Em, Kicker, Title, WRAP, richTags } from "./ui";
 import { CODE_CS, CODE_SQL } from "@/lib/code-samples";
-import { projects } from "@/lib/projects";
+import { projects, type Project } from "@/lib/projects";
 
 type Pillar = { href: string; title: string; text: string };
 type DevService = { icon: keyof typeof ICONS; title: string; text: string; tags: string[] };
@@ -183,6 +184,14 @@ export function Data() {
             </div>
           </div>
         </div>
+
+        <DataScan
+          file={t("scope.file")}
+          sample={t("scope.sample")}
+          beamLabel={t("scope.beam")}
+          result={t("scope.result")}
+          description={t("scope.description")}
+        />
       </div>
     </section>
   );
@@ -325,6 +334,7 @@ export function Projects() {
         <div className="grid gap-4 md:grid-cols-2">
           {projects.map((p, i) => {
             const featured = i === 0;
+            if (!p.url) return <BuildingCard key={p.id} project={p} />;
             return (
               <a
                 key={p.id}
@@ -359,7 +369,7 @@ export function Projects() {
                   </div>
                   <div className="relative aspect-[16/10] overflow-hidden">
                     <Image
-                      src={p.image}
+                      src={p.image ?? ""}
                       alt={t("previewAlt", { name: p.name })}
                       fill
                       sizes="(min-width: 768px) 560px, 100vw"
@@ -386,6 +396,50 @@ export function Projects() {
         </div>
       </div>
     </section>
+  );
+}
+
+/* A product still being built: no link, an animated placeholder instead of a screenshot. */
+function BuildingCard({ project }: { project: Project }) {
+  const t = useTranslations("projects");
+  return (
+    <article data-reveal className="flex flex-col rounded-3xl border border-dashed border-neutral-300 bg-white p-6 text-neutral-950 sm:p-8">
+      <div className="flex items-start justify-between gap-4">
+        <span className="w-fit rounded-full bg-neutral-100 px-3 py-1 text-[11px] font-medium uppercase tracking-widest text-neutral-600">
+          {t(`items.${project.id}.tag`)}
+        </span>
+        <span className="inline-flex shrink-0 items-center gap-2 rounded-full bg-neutral-950 px-3 py-1.5 font-mono text-[10px] uppercase tracking-widest text-signal">
+          <span className="building-dot h-1.5 w-1.5 rounded-full bg-signal" aria-hidden="true" />
+          {t("building")}
+        </span>
+      </div>
+      <div className="mt-6 overflow-hidden rounded-2xl bg-neutral-950 ring-1 ring-black/10" aria-hidden="true">
+        <div className="flex items-center gap-1.5 px-3 py-2">
+          <span className="h-2 w-2 rounded-full bg-white/25" />
+          <span className="h-2 w-2 rounded-full bg-white/25" />
+          <span className="h-2 w-2 rounded-full bg-white/25" />
+          <span className="ml-2 truncate rounded-full bg-white/10 px-3 py-0.5 font-mono text-[10px] text-white/60">{project.host}</span>
+        </div>
+        <div className="relative grid aspect-[16/10] place-items-center overflow-hidden">
+          <div className="building-stripes absolute inset-0 opacity-[0.12]" />
+          <div className="relative flex flex-col items-center gap-4 px-6 text-center">
+            <LogoMark size={44} color="#f2c230" />
+            <span className="font-mono text-xs uppercase tracking-[0.3em] text-white/70">{project.name}</span>
+            <span className="h-1 w-40 overflow-hidden rounded-full bg-white/10">
+              <span className="building-bar block h-full w-1/3 rounded-full bg-signal" />
+            </span>
+          </div>
+        </div>
+      </div>
+      <h3 className="mt-8 font-playfair text-3xl leading-none sm:text-4xl" style={{ letterSpacing: "-0.05em" }}>
+        {t(`items.${project.id}.title`)}
+      </h3>
+      <p className="mt-3 text-sm text-neutral-600">{t(`items.${project.id}.desc`)}</p>
+      <p className="mt-6 flex flex-wrap items-center justify-between gap-2 border-t border-black/10 pt-4 text-xs">
+        <span className="font-mono text-neutral-500">{project.host}</span>
+        <span className="font-medium text-neutral-500">{t("building")}</span>
+      </p>
+    </article>
   );
 }
 

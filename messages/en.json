@@ -25,13 +25,13 @@
     "lead": "Custom software, mobile and desktop apps, databases, cloud and security audits for companies that can't afford to stop.",
     "side": "See what's behind every screen: clean code, organised data and security reviewed before every release.",
     "cta": "Get a quote",
-    "codeBehind": "</> the code behind"
+    "codeBehind": "'</>' the code behind"
   },
   "intro": {
     "kicker": "Who we are",
     "body": "A cornerstone is the first block of a building: everything else lines up with it. That's what we do with your company's technology: software, data and security on a solid foundation.",
     "who": "Cornerstone Develop is the development studio of David Alvarado, a full-stack developer specialised in security, based in Guayaquil, Ecuador.",
-    "symbol": "Our symbol: a </> code tag built from stone blocks. The yellow block in the corner is the cornerstone — the stone every piece of software is built on.",
+    "symbol": "Our symbol: a '</>' code tag built from stone blocks. The yellow block in the corner is the cornerstone — the stone every piece of software is built on.",
     "pillars": [
       { "href": "#desarrollo", "title": "Software development", "text": "Web systems, mobile and desktop apps built around the way your company works." },
       { "href": "#datos", "title": "Data and databases", "text": "Design, migration and optimisation of your data, with reports that update themselves." },
@@ -56,6 +56,13 @@
     "kicker": "02 · Data and databases",
     "title": "Your data, <em>in order</em> and in sight",
     "lead": "Your company's information is worth more when it's organised, backed up and ready to drive decisions.",
+    "scope": {
+      "file": "inventory.csv",
+      "sample": "Simulation",
+      "beam": "data in order",
+      "result": "3 products below minimum",
+      "description": "Animation: a scan line sweeps messy inventory records; as it passes, null and duplicate rows are dropped and the rest are sorted into a bar chart that highlights low-stock products."
+    },
     "points": [
       { "title": "Database design", "text": "Clear models, the right indexes and automatic backups." },
       { "title": "Lossless migrations", "text": "From Excel, Access or legacy systems to SQL Server, PostgreSQL or MySQL." },
@@ -87,7 +94,7 @@
       "cta": "Request an audit"
     },
     "scope": {
-      "label": "</> what an attacker sees",
+      "label": "'</>' what an attacker sees",
       "file": "authorized-scan.log",
       "sample": "Simulation",
       "description": "Animation: a radar sweeps a client network and, under the cursor, an authorized security scan shows open ports and OWASP findings.",
@@ -119,10 +126,12 @@
     "title": "Real work, <em>in production</em>",
     "lead": "Products we built that are already live: you can open them and try them right now.",
     "visit": "View project",
+    "building": "In progress",
     "previewAlt": "Screenshot of the {name} home page",
     "items": {
       "nudo": { "tag": "Finance · SRI", "title": "Nudo", "desc": "Invoices, expenses and deductions in one place: pull receipts from your inbox, verify them with the SRI and estimate your income-tax rebate." },
-      "unisono": { "tag": "Android app", "title": "Unísono", "desc": "Lyrics, chords and keys for worship teams, synced live and available offline." }
+      "unisono": { "tag": "Android app", "title": "Unísono", "desc": "Lyrics, chords and keys for worship teams, synced live and available offline." },
+      "talleros": { "tag": "SaaS · Workshops", "title": "TallerOS", "desc": "Management for car and motorcycle repair shops: work orders, time per mechanic, inventory with margins and customer notifications. Web and desktop." }
     }
   },
   "process": {

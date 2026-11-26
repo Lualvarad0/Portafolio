@@ -25,13 +25,13 @@
     "lead": "Software a medida, apps móviles y de escritorio, bases de datos, cloud y auditorías de seguridad para empresas que no pueden detenerse.",
     "side": "Mira lo que hay detrás de cada pantalla: código limpio, datos ordenados y seguridad revisada antes de cada entrega.",
     "cta": "Cotizar proyecto",
-    "codeBehind": "</> el código detrás"
+    "codeBehind": "'</>' el código detrás"
   },
   "intro": {
     "kicker": "Quiénes somos",
     "body": "Una piedra angular es el primer bloque de una construcción: todo lo demás se alinea con ella. Eso hacemos con la tecnología de tu empresa: software, datos y seguridad sobre una base sólida.",
     "who": "Cornerstone Develop es el estudio de desarrollo de David Alvarado, desarrollador full stack especializado en seguridad, con base en Guayaquil.",
-    "symbol": "Nuestro símbolo: una etiqueta de código </> construida con bloques de piedra. El bloque amarillo, en la esquina, es la cornerstone: la piedra angular sobre la que se levanta todo el software.",
+    "symbol": "Nuestro símbolo: una etiqueta de código '</>' construida con bloques de piedra. El bloque amarillo, en la esquina, es la cornerstone: la piedra angular sobre la que se levanta todo el software.",
     "pillars": [
       { "href": "#desarrollo", "title": "Desarrollo de software", "text": "Sistemas web, apps móviles y de escritorio hechos a la medida de cómo trabaja tu empresa." },
       { "href": "#datos", "title": "Datos y bases de datos", "text": "Diseño, migración y optimización de tus datos, con reportes que se actualizan solos." },
@@ -56,6 +56,13 @@
     "kicker": "02 · Datos y bases de datos",
     "title": "Tus datos, <em>en orden</em> y a la vista",
     "lead": "La información de tu empresa vale más cuando está ordenada, respaldada y lista para decidir.",
+    "scope": {
+      "file": "inventario.csv",
+      "sample": "Simulación",
+      "beam": "datos en orden",
+      "result": "3 productos bajo el mínimo",
+      "description": "Animación: una línea de escaneo recorre registros desordenados del inventario; a su paso, los datos nulos y duplicados se descartan y el resto se ordena en un gráfico de barras que resalta los productos con stock bajo."
+    },
     "points": [
       { "title": "Diseño de bases de datos", "text": "Modelos claros, índices correctos y respaldos automáticos." },
       { "title": "Migraciones sin pérdida", "text": "De Excel, Access o sistemas antiguos a SQL Server, PostgreSQL o MySQL." },
@@ -87,7 +94,7 @@
       "cta": "Solicitar auditoría"
     },
     "scope": {
-      "label": "</> lo que ve un atacante",
+      "label": "'</>' lo que ve un atacante",
       "file": "escaneo-autorizado.log",
       "sample": "Simulación",
       "description": "Animación: un radar recorre la red de un cliente y, bajo el cursor, aparece un escaneo de seguridad autorizado con puertos abiertos y hallazgos OWASP.",
@@ -119,10 +126,12 @@
     "title": "Trabajo real, <em>en producción</em>",
     "lead": "Productos que construimos y que ya están desplegados: puedes abrirlos y probarlos ahora mismo.",
     "visit": "Ver proyecto",
+    "building": "En construcción",
     "previewAlt": "Captura de la página de inicio de {name}",
     "items": {
       "nudo": { "tag": "Finanzas · SRI", "title": "Nudo", "desc": "Facturas, gastos y deducibles en un solo lugar: recibe tus comprobantes desde el correo, verifícalos con el SRI y calcula tu rebaja del impuesto a la renta." },
-      "unisono": { "tag": "App Android", "title": "Unísono", "desc": "Letra, acordes y tonalidades para equipos de alabanza, sincronizados en vivo y disponibles sin internet." }
+      "unisono": { "tag": "App Android", "title": "Unísono", "desc": "Letra, acordes y tonalidades para equipos de alabanza, sincronizados en vivo y disponibles sin internet." },
+      "talleros": { "tag": "SaaS · Talleres", "title": "TallerOS", "desc": "Gestión para talleres mecánicos de autos y motos: órdenes de trabajo, tiempo por mecánico, inventario con margen y avisos a clientes. Web y escritorio." }
     }
   },
   "process": {
