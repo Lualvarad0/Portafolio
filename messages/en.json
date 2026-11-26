@@ -25,7 +25,8 @@
     "lead": "Custom software, mobile and desktop apps, databases, cloud and security audits for companies that can't afford to stop.",
     "side": "See what's behind every screen: clean code, organised data and security reviewed before every release.",
     "cta": "Get a quote",
-    "codeBehind": "'</>' the code behind"
+    "codeBehind": "'</>' the code behind",
+    "build": { "title": "Sales", "button": "Export", "compiling": "compiling…", "done": "ready in 0.8 s", "preview": "preview" }
   },
   "intro": {
     "kicker": "Who we are",
@@ -57,11 +58,10 @@
     "title": "Your data, <em>in order</em> and in sight",
     "lead": "Your company's information is worth more when it's organised, backed up and ready to drive decisions.",
     "scope": {
-      "file": "inventory.csv",
+      "file": "inventory.db",
       "sample": "Simulation",
-      "beam": "data in order",
-      "result": "3 products below minimum",
-      "description": "Animation: a scan line sweeps messy inventory records; as it passes, null and duplicate rows are dropped and the rest are sorted into a bar chart that highlights low-stock products."
+      "schema": { "result": "result · low stock", "running": "running", "done": "3 rows · 12 ms", "plan": "execution plan", "rows": "rows" },
+      "description": "Animation: a relational database with products, movements and warehouses tables; the low-stock query runs through its execution plan (index seek, join, aggregate and filter) and returns the products below minimum."
     },
     "points": [
       { "title": "Database design", "text": "Clear models, the right indexes and automatic backups." },
@@ -95,6 +95,7 @@
     },
     "scope": {
       "label": "'</>' what an attacker sees",
+      "shield": { "blocked": "blocked", "allowed": "allowed", "blockedTag": "BLOCKED" },
       "file": "authorized-scan.log",
       "sample": "Simulation",
       "description": "Animation: a radar sweeps a client network and, under the cursor, an authorized security scan shows open ports and OWASP findings.",

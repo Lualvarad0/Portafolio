@@ -25,7 +25,8 @@
     "lead": "Software a medida, apps móviles y de escritorio, bases de datos, cloud y auditorías de seguridad para empresas que no pueden detenerse.",
     "side": "Mira lo que hay detrás de cada pantalla: código limpio, datos ordenados y seguridad revisada antes de cada entrega.",
     "cta": "Cotizar proyecto",
-    "codeBehind": "'</>' el código detrás"
+    "codeBehind": "'</>' el código detrás",
+    "build": { "title": "Ventas", "button": "Exportar", "compiling": "compilando…", "done": "listo en 0,8 s", "preview": "vista previa" }
   },
   "intro": {
     "kicker": "Quiénes somos",
@@ -57,11 +58,10 @@
     "title": "Tus datos, <em>en orden</em> y a la vista",
     "lead": "La información de tu empresa vale más cuando está ordenada, respaldada y lista para decidir.",
     "scope": {
-      "file": "inventario.csv",
+      "file": "inventario.db",
       "sample": "Simulación",
-      "beam": "datos en orden",
-      "result": "3 productos bajo el mínimo",
-      "description": "Animación: una línea de escaneo recorre registros desordenados del inventario; a su paso, los datos nulos y duplicados se descartan y el resto se ordena en un gráfico de barras que resalta los productos con stock bajo."
+      "schema": { "result": "resultado · stock bajo", "running": "ejecutando", "done": "3 filas · 12 ms", "plan": "plan de ejecución", "rows": "filas" },
+      "description": "Animación: una base de datos relacional con las tablas productos, movimientos y bodegas; la consulta de stock bajo recorre su plan de ejecución (búsqueda por índice, unión, agregación y filtro) y devuelve los productos bajo el mínimo."
     },
     "points": [
       { "title": "Diseño de bases de datos", "text": "Modelos claros, índices correctos y respaldos automáticos." },
@@ -95,6 +95,7 @@
     },
     "scope": {
       "label": "'</>' lo que ve un atacante",
+      "shield": { "blocked": "bloqueados", "allowed": "permitidos", "blockedTag": "BLOQUEADO" },
       "file": "escaneo-autorizado.log",
       "sample": "Simulación",
       "description": "Animación: un radar recorre la red de un cliente y, bajo el cursor, aparece un escaneo de seguridad autorizado con puertos abiertos y hallazgos OWASP.",

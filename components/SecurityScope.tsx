@@ -2,6 +2,7 @@
 
 import { useRef, type CSSProperties } from "react";
 import { monoFamily, useCanvas } from "./Backdrops";
+import ShieldCanvas from "./ShieldCanvas";
 import { spotlightMask, useSpotlight } from "./useSpotlight";
 
 const SPOTLIGHT_R = 190;
@@ -175,6 +176,7 @@ export default function SecurityScope({
   file,
   sample,
   description,
+  shield,
 }: {
   lines: string[];
   label: string;
@@ -182,11 +184,13 @@ export default function SecurityScope({
   sample: string;
   /** Text alternative for screen readers (the canvases are decorative). */
   description: string;
+  /** Labels for the touch-screen animation (requests blocked by a shield). */
+  shield: { blocked: string; allowed: string; blockedTag: string };
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const maskRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
-  useSpotlight(containerRef, maskRef, ringRef, { x: 0.5, y: 0.5 });
+  useSpotlight(containerRef, maskRef, ringRef, { x: 0.5, y: 0.5 }, { skipTouch: true });
 
   const mask = spotlightMask(SPOTLIGHT_R);
 
@@ -198,6 +202,11 @@ export default function SecurityScope({
     >
       <figcaption className="sr-only">{description}</figcaption>
 
+      {/* touch screens: requests blocked by a shield */}
+      <ShieldCanvas {...shield} />
+
+      {/* devices with a cursor: radar + scan revealed under the spotlight */}
+      <div className="touch-hide absolute inset-0">
       <RadarCanvas />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30" />
 
@@ -236,6 +245,7 @@ export default function SecurityScope({
         >
           {label}
         </span>
+      </div>
       </div>
 
       <div className="pointer-events-none absolute inset-x-0 top-0 flex items-center justify-between p-4 text-xs sm:p-5">

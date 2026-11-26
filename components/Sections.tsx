@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { ArrowUpRight, Cloud, Globe, Monitor, Plug, ShieldAlert, Smartphone, Wrench } from "lucide-react";
 import CodeBlock from "./CodeBlock";
-import DataScan from "./DataScan";
+import DataFigure from "./DataFigure";
 import SecurityScope from "./SecurityScope";
 import { LogoMark } from "./Logo";
 import { Em, Kicker, Title, WRAP, richTags } from "./ui";
@@ -185,12 +185,18 @@ export function Data() {
           </div>
         </div>
 
-        <DataScan
+        <DataFigure
           file={t("scope.file")}
           sample={t("scope.sample")}
-          beamLabel={t("scope.beam")}
-          result={t("scope.result")}
           description={t("scope.description")}
+          schema={{
+            rows: stock,
+            resultTitle: t("scope.schema.result"),
+            running: t("scope.schema.running"),
+            done: t("scope.schema.done"),
+            planTitle: t("scope.schema.plan"),
+            rowsLabel: t("scope.schema.rows"),
+          }}
         />
       </div>
     </section>
@@ -246,6 +252,11 @@ export function Security() {
           file={t("scope.file")}
           sample={t("scope.sample")}
           description={t("scope.description")}
+          shield={{
+            blocked: t("scope.shield.blocked"),
+            allowed: t("scope.shield.allowed"),
+            blockedTag: t("scope.shield.blockedTag"),
+          }}
         />
 
         <div className="grid items-start gap-6 lg:grid-cols-[1fr_1.1fr]">
