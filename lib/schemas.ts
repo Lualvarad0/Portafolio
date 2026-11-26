@@ -6,7 +6,7 @@ export const leadSchema = z.object({
   service: optionalField,
   scope: optionalField,
   budget: optionalField,
-  email: z.string().trim().max(254).optional(),
+  email: z.string().trim().max(254).email().optional(),
   summary: z.string().trim().min(1).max(6000),
 });
 
