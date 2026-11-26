@@ -4,6 +4,7 @@ import { useRef, type CSSProperties, type RefObject } from "react";
 import { useTranslations } from "next-intl";
 import { ArrowUpRight } from "lucide-react";
 import { CodeCanvas, LayerVideo, NetworkCanvas } from "./Backdrops";
+import HeroScan from "./HeroScan";
 import { LogoMark } from "./Logo";
 import { spotlightMask, useSpotlight } from "./useSpotlight";
 import { BRAND, VIDEOS } from "@/lib/brand";
@@ -16,7 +17,7 @@ function RevealLayer({ maskRef }: { maskRef: RefObject<HTMLDivElement | null> })
   return (
     <div
       ref={maskRef}
-      className="pointer-events-none absolute inset-0 z-30"
+      className="hero-reveal-mask pointer-events-none absolute inset-0 z-30"
       style={
         {
           "--x": "-999px",
@@ -41,7 +42,7 @@ export default function Hero() {
   const maskRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
 
-  useSpotlight(sectionRef, maskRef, ringRef);
+  useSpotlight(sectionRef, maskRef, ringRef, undefined, { skipTouch: true });
 
   return (
     <section
@@ -61,13 +62,16 @@ export default function Hero() {
       {/* 2. Revealed layer (the code behind) */}
       <RevealLayer maskRef={maskRef} />
 
+      {/* touch screens have no cursor: a scanner beam sweeps the hero instead */}
+      <HeroScan maskRef={maskRef} label={t.raw("codeBehind") as string} />
+
       {/* on mobile, darken the base so the bottom text reads over the code */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[45] h-[42%] bg-gradient-to-t from-black via-black/85 to-transparent sm:hidden" />
 
       {/* ring marking the spotlight */}
       <div
         ref={ringRef}
-        className="pointer-events-none absolute left-0 top-0 z-40 hidden sm:block"
+        className="hero-touch-hide pointer-events-none absolute left-0 top-0 z-40 hidden sm:block"
         style={{ transform: "translate3d(-999px,-999px,0)" }}
         aria-hidden="true"
       >

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, type RefObject } from "react";
+import { TOUCH_QUERY } from "./HeroScan";
 
 /** CSS mask for the revealed layer. Opacity curve: 0→1, .4→1, .6→.75, .75→.4, .88→.12, 1→0 */
 export const spotlightMask = (radius: number) =>
@@ -13,16 +14,19 @@ export const spotlightMask = (radius: number) =>
  * Writes --x/--y on the mask element and moves the ring with lerp smoothing (0.1).
  * With no cursor (touch) or after 2.5 s idle, the spotlight wanders on its own.
  * Pauses while the container is off-screen; static under reduced motion.
+ * With `skipTouch`, does nothing on touch screens (the caller animates them another way).
  */
 export function useSpotlight(
   containerRef: RefObject<HTMLElement | null>,
   maskRef: RefObject<HTMLElement | null>,
   ringRef: RefObject<HTMLElement | null>,
-  rest: { x: number; y: number } = { x: 0.72, y: 0.5 }
+  rest: { x: number; y: number } = { x: 0.72, y: 0.5 },
+  { skipTouch = false }: { skipTouch?: boolean } = {}
 ) {
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
+    if (skipTouch && window.matchMedia(TOUCH_QUERY).matches) return;
     const mouse = { x: -999, y: -999, last: 0 };
     const smooth = { x: -999, y: -999 };
     let raf = 0;
