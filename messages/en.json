@@ -1,9 +1,9 @@
 {
   "meta": {
-    "title": "Cornerstone Develop | Custom software, data and cybersecurity in Guayaquil",
-    "description": "Cornerstone Develop, David Alvarado's development studio in Guayaquil, Ecuador: web systems, mobile and desktop apps, databases, cloud and OWASP security audits.",
+    "title": "David Alvarado Ronquillo | Software developer in Guayaquil · Cornerstone Develop",
+    "description": "David Alvarado Ronquillo, full-stack developer and security engineer in Guayaquil, Ecuador, founder of Cornerstone Develop: web systems, mobile and desktop apps, databases, cloud and OWASP security audits.",
     "ogDescription": "Code that holds your business together: custom software, data and cybersecurity from Guayaquil, Ecuador.",
-    "keywords": ["software development Ecuador", "web developer Guayaquil", "custom web systems", "mobile apps Ecuador", "SQL Server PostgreSQL databases", "Power BI", "web security audit", "OWASP pentesting", "Cornerstone Develop", "David Alvarado"]
+    "keywords": ["software development Ecuador", "web developer Guayaquil", "custom web systems", "mobile apps Ecuador", "SQL Server PostgreSQL databases", "Power BI", "web security audit", "OWASP pentesting", "Cornerstone Develop", "David Alvarado", "David Alvarado Ronquillo", "David Alvarado developer"]
   },
   "nav": {
     "services": "Services",
@@ -30,7 +30,7 @@
   "intro": {
     "kicker": "Who we are",
     "body": "A cornerstone is the first block of a building: everything else lines up with it. That's what we do with your company's technology: software, data and security on a solid foundation.",
-    "who": "Cornerstone Develop is the development studio of David Alvarado, a full-stack developer specialised in security, based in Guayaquil, Ecuador.",
+    "who": "Cornerstone Develop is the development studio of David Alvarado Ronquillo, a full-stack developer specialised in security, based in Guayaquil, Ecuador.",
     "symbol": "Our symbol: a '</>' code tag built from stone blocks. The yellow block in the corner is the cornerstone — the stone every piece of software is built on.",
     "pillars": [
       { "href": "#desarrollo", "title": "Software development", "text": "Web systems, mobile and desktop apps built around the way your company works." },
@@ -186,7 +186,7 @@
   },
   "footer": {
     "tagline": "Software · Data · Cybersecurity — Guayaquil, Ecuador",
-    "legal": "Cornerstone Develop is a trade name of David Alvarado.",
+    "legal": "Cornerstone Develop is a trade name of David Alvarado Ronquillo.",
     "privacy": "Privacy policy",
     "github": "GitHub",
     "linkedin": "LinkedIn"

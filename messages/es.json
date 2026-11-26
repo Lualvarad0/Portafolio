@@ -1,9 +1,9 @@
 {
   "meta": {
-    "title": "Cornerstone Develop | Software a medida, datos y ciberseguridad en Guayaquil",
-    "description": "Cornerstone Develop, el estudio de desarrollo de David Alvarado en Guayaquil, Ecuador: sistemas web, apps móviles y de escritorio, bases de datos, cloud y auditorías de seguridad OWASP.",
+    "title": "David Alvarado Ronquillo | Desarrollador de software en Guayaquil · Cornerstone Develop",
+    "description": "David Alvarado Ronquillo, desarrollador full stack y de ciberseguridad en Guayaquil, Ecuador. Su estudio, Cornerstone Develop, hace sistemas web, apps móviles y de escritorio, bases de datos, cloud y auditorías de seguridad OWASP.",
     "ogDescription": "Código que sostiene tu negocio: software a medida, datos y ciberseguridad desde Guayaquil, Ecuador.",
-    "keywords": ["desarrollo de software Guayaquil", "desarrollador web Guayaquil", "sistemas web Ecuador", "apps móviles Ecuador", "bases de datos SQL Server PostgreSQL", "Power BI Ecuador", "auditoría de seguridad web", "pentesting OWASP Ecuador", "Cornerstone Develop", "David Alvarado"]
+    "keywords": ["desarrollo de software Guayaquil", "desarrollador web Guayaquil", "sistemas web Ecuador", "apps móviles Ecuador", "bases de datos SQL Server PostgreSQL", "Power BI Ecuador", "auditoría de seguridad web", "pentesting OWASP Ecuador", "Cornerstone Develop", "David Alvarado", "David Alvarado Ronquillo", "David Alvarado desarrollador"]
   },
   "nav": {
     "services": "Servicios",
@@ -30,7 +30,7 @@
   "intro": {
     "kicker": "Quiénes somos",
     "body": "Una piedra angular es el primer bloque de una construcción: todo lo demás se alinea con ella. Eso hacemos con la tecnología de tu empresa: software, datos y seguridad sobre una base sólida.",
-    "who": "Cornerstone Develop es el estudio de desarrollo de David Alvarado, desarrollador full stack especializado en seguridad, con base en Guayaquil.",
+    "who": "Cornerstone Develop es el estudio de desarrollo de David Alvarado Ronquillo, desarrollador full stack especializado en seguridad, con base en Guayaquil.",
     "symbol": "Nuestro símbolo: una etiqueta de código '</>' construida con bloques de piedra. El bloque amarillo, en la esquina, es la cornerstone: la piedra angular sobre la que se levanta todo el software.",
     "pillars": [
       { "href": "#desarrollo", "title": "Desarrollo de software", "text": "Sistemas web, apps móviles y de escritorio hechos a la medida de cómo trabaja tu empresa." },
@@ -186,7 +186,7 @@
   },
   "footer": {
     "tagline": "Software · Datos · Ciberseguridad — Guayaquil, Ecuador",
-    "legal": "Cornerstone Develop es la marca comercial de David Alvarado.",
+    "legal": "Cornerstone Develop es la marca comercial de David Alvarado Ronquillo.",
     "privacy": "Política de privacidad",
     "github": "GitHub",
     "linkedin": "LinkedIn"

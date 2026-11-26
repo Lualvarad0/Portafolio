@@ -5,7 +5,7 @@ import { getMessages, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing, type Locale } from "@/i18n/routing";
 import { SITE_URL, languageAlternates, localeUrl } from "@/lib/site";
-import { BRAND, CONTACT_EMAIL, LINKEDIN_URL } from "@/lib/brand";
+import { BRAND, CONTACT_EMAIL, GITHUB_URL, LINKEDIN_URL, OWNER, OWNER_SHORT } from "@/lib/brand";
 import Chatbot from "@/components/Chatbot";
 import { Analytics } from "@vercel/analytics/next";
 import "../globals.css";
@@ -63,8 +63,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       title: t("title"),
       description: t("ogDescription"),
     },
-    authors: [{ name: "David Alvarado", url: SITE_URL }],
-    creator: "David Alvarado",
+    authors: [{ name: OWNER, url: SITE_URL }],
+    creator: OWNER,
     publisher: BRAND,
     formatDetection: {
       email: false,
@@ -108,13 +108,22 @@ export default async function LocaleLayout({
   const messages = await getMessages();
   const t = await getTranslations({ locale, namespace: "meta" });
 
+  const pageUrl = localeUrl(locale as Locale);
   const founder = {
     "@type": "Person",
     "@id": `${SITE_URL}/#david-alvarado`,
-    name: "David Alvarado",
-    jobTitle: "Full Stack Developer & Security Engineer",
+    name: OWNER,
+    alternateName: OWNER_SHORT,
+    jobTitle: locale === "es" ? "Desarrollador Full Stack e Ingeniero de Seguridad" : "Full Stack Developer & Security Engineer",
+    description: t("description"),
     url: SITE_URL,
-    sameAs: ["https://github.com/Lualvarad0", LINKEDIN_URL],
+    image: `${SITE_URL}/${locale}/opengraph-image`,
+    email: CONTACT_EMAIL,
+    worksFor: { "@id": `${SITE_URL}/#business` },
+    address: { "@type": "PostalAddress", addressLocality: "Guayaquil", addressCountry: "EC" },
+    nationality: { "@type": "Country", name: "Ecuador" },
+    knowsAbout: ["Software development", "Next.js", "React", ".NET", "Flutter", "SQL Server", "PostgreSQL", "Cybersecurity", "OWASP"],
+    sameAs: [GITHUB_URL, LINKEDIN_URL],
   };
 
   const schemaData = {
@@ -122,11 +131,30 @@ export default async function LocaleLayout({
     "@graph": [
       founder,
       {
+        "@type": "WebSite",
+        "@id": `${SITE_URL}/#website`,
+        url: SITE_URL,
+        name: `${OWNER} · ${BRAND}`,
+        alternateName: [OWNER_SHORT, BRAND],
+        inLanguage: locale,
+        author: { "@id": founder["@id"] },
+        publisher: { "@id": founder["@id"] },
+      },
+      {
+        "@type": "ProfilePage",
+        "@id": `${pageUrl}#profile`,
+        url: pageUrl,
+        name: t("title"),
+        inLanguage: locale,
+        isPartOf: { "@id": `${SITE_URL}/#website` },
+        mainEntity: { "@id": founder["@id"] },
+      },
+      {
         "@type": "ProfessionalService",
         "@id": `${SITE_URL}/#business`,
         name: BRAND,
         description: t("description"),
-        url: localeUrl(locale as Locale),
+        url: pageUrl,
         logo: `${SITE_URL}/brand/cornerstone-mark.svg`,
         email: CONTACT_EMAIL,
         founder: { "@id": founder["@id"] },
@@ -149,7 +177,7 @@ export default async function LocaleLayout({
           "Penetration testing",
           "Security audits",
         ],
-        sameAs: ["https://github.com/Lualvarad0", LINKEDIN_URL],
+        sameAs: [GITHUB_URL, LINKEDIN_URL],
       },
     ],
   };
