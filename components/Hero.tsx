@@ -4,7 +4,7 @@ import { useRef, type CSSProperties, type RefObject } from "react";
 import { useTranslations } from "next-intl";
 import { ArrowUpRight } from "lucide-react";
 import { CodeCanvas, LayerVideo, NetworkCanvas } from "./Backdrops";
-import HeroScan from "./HeroScan";
+import HeroBuild from "./HeroBuild";
 import { LogoMark } from "./Logo";
 import { spotlightMask, useSpotlight } from "./useSpotlight";
 import { BRAND, VIDEOS } from "@/lib/brand";
@@ -17,7 +17,7 @@ function RevealLayer({ maskRef }: { maskRef: RefObject<HTMLDivElement | null> })
   return (
     <div
       ref={maskRef}
-      className="hero-reveal-mask pointer-events-none absolute inset-0 z-30"
+      className="touch-hide pointer-events-none absolute inset-0 z-30"
       style={
         {
           "--x": "-999px",
@@ -62,8 +62,16 @@ export default function Hero() {
       {/* 2. Revealed layer (the code behind) */}
       <RevealLayer maskRef={maskRef} />
 
-      {/* touch screens have no cursor: a scanner beam sweeps the hero instead */}
-      <HeroScan maskRef={maskRef} label={t("codeBehind")} />
+      {/* touch screens have no cursor: code types itself and builds an interface instead */}
+      <HeroBuild
+        labels={{
+          title: t("build.title"),
+          button: t("build.button"),
+          compiling: t("build.compiling"),
+          done: t("build.done"),
+          preview: t("build.preview"),
+        }}
+      />
 
       {/* on mobile, darken the base so the bottom text reads over the code */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[45] h-[42%] bg-gradient-to-t from-black via-black/85 to-transparent sm:hidden" />
@@ -71,7 +79,7 @@ export default function Hero() {
       {/* ring marking the spotlight */}
       <div
         ref={ringRef}
-        className="hero-touch-hide pointer-events-none absolute left-0 top-0 z-40 hidden sm:block"
+        className="touch-hide pointer-events-none absolute left-0 top-0 z-40 hidden sm:block"
         style={{ transform: "translate3d(-999px,-999px,0)" }}
         aria-hidden="true"
       >

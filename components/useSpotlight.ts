@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, type RefObject } from "react";
-import { TOUCH_QUERY } from "./HeroScan";
+import { TOUCH_QUERY } from "./touch";
 
 /** CSS mask for the revealed layer. Opacity curve: 0→1, .4→1, .6→.75, .75→.4, .88→.12, 1→0 */
 export const spotlightMask = (radius: number) =>
