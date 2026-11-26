@@ -56,6 +56,18 @@ section[id] {
 .hero-fade { animation-name: heroFadeUp; animation-duration: 1s; }
 .hero-zoom { animation: heroZoom 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
+/* ── Hero on touch screens: scanner beam instead of the spotlight ──── */
+.hero-touch-only { display: none; }
+@media (hover: none), (pointer: coarse) {
+  .hero-touch-only { display: block; }
+  .hero-touch-hide { display: none !important; }
+  /* band around the beam; HeroScan writes --sy0..--sy3 every frame */
+  .hero-reveal-mask {
+    mask-image: linear-gradient(to bottom, transparent var(--sy0, -40%), #fff var(--sy1, -30%), #fff var(--sy2, -25%), transparent var(--sy3, -20%)) !important;
+    -webkit-mask-image: linear-gradient(to bottom, transparent var(--sy0, -40%), #fff var(--sy1, -30%), #fff var(--sy2, -25%), transparent var(--sy3, -20%)) !important;
+  }
+}
+
 /* ── Scroll reveal (content stays visible without JS) ──────────────── */
 [data-reveal] {
   transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
