@@ -44,6 +44,55 @@
     "title": "Software that <em>fits</em> your company",
     "lead": "We don't sell templates. We learn how your team works and build the tool that fits, with clean code any developer can maintain.",
     "codeCaption": "Sample snippet: issuing an electronic invoice.",
+    "scenes": {
+      "phone": {
+        "title": "Orders",
+        "orders": [
+          {
+            "client": "Ríos Hardware",
+            "amount": "$184.50"
+          },
+          {
+            "client": "Vera Trading",
+            "amount": "$92.00"
+          },
+          {
+            "client": "North Warehouse",
+            "amount": "$310.75"
+          }
+        ],
+        "offline": "No internet",
+        "offlineHint": "Orders are saved on the phone and never lost.",
+        "syncing": "Sending…",
+        "synced": "Synced",
+        "syncedHint": "When the signal is back they reach the office on their own."
+      },
+      "desktop": {
+        "title": "Till 1 · Billing",
+        "items": [
+          {
+            "name": "White paint 4 L",
+            "price": "$22.50"
+          },
+          {
+            "name": "PVC pipe 1/2\"",
+            "price": "$3.80"
+          },
+          {
+            "name": "Cement 50 kg",
+            "price": "$9.90"
+          },
+          {
+            "name": "Brush 3\"",
+            "price": "$2.00"
+          }
+        ],
+        "total": "Total",
+        "totalValue": "$38.20",
+        "charge": "Charge",
+        "printed": "Receipt printed"
+      }
+    },
     "services": [
       { "icon": "globe", "title": "Web systems", "text": "ERPs, customer portals and admin dashboards.", "tags": ["React / Next.js", "Angular", ".NET"] },
       { "icon": "phone", "title": "Mobile apps", "text": "Orders, inventory and collections from your phone, with offline mode.", "tags": ["Android", "iOS"] },
@@ -94,23 +143,52 @@
       "cta": "Request an audit"
     },
     "scope": {
-      "label": "'</>' what an attacker sees",
-      "shield": { "blocked": "blocked", "allowed": "allowed", "blockedTag": "BLOCKED" },
-      "file": "authorized-scan.log",
+      "review": { "file": "invoices.ts", "reviewing": "reviewing", "done": "3/3 fixed", "problems": "problems", "findings": ["A03 · SQL injection", "A03 · XSS", "A02 · Exposed secret"], "fixes": ["parameterized", "escaped", "in env var"], "footer": "0 vulnerabilities · ready for production" },
+      "live": {
+        "store": "El Puerto Hardware",
+        "login": "Sign in",
+        "user": "User",
+        "password": "Password",
+        "enter": "Sign in",
+        "product": "White paint 4 L",
+        "price": "$22.50",
+        "comments": "Comments",
+        "post": "Post",
+        "attacker": "Attacker",
+        "customer": "Customer",
+        "panel": "Security panel",
+        "blocked": "Attacks blocked",
+        "allowed": "Legitimate logins",
+        "protection": "Protection",
+        "log": "Live log",
+        "attempt": "Attempt",
+        "results": {
+          "blocked": "BLOCKED",
+          "allowed": "ALLOWED",
+          "neutralized": "NEUTRALISED"
+        },
+        "scenarios": [
+          {
+            "type": "SQL injection",
+            "banner": "Blocked: SQL injection attempt on the login"
+          },
+          {
+            "type": "Brute force",
+            "banner": "Blocked: too many attempts, the account is protected"
+          },
+          {
+            "type": "XSS",
+            "banner": "Neutralised: the script is shown as text and never runs"
+          },
+          {
+            "type": "Sign in",
+            "banner": "Welcome, María: real customers get in without trouble"
+          }
+        ]
+      },
+      "file": "store.client.com · live",
       "sample": "Simulation",
-      "description": "Animation: a radar sweeps a client network and, under the cursor, an authorized security scan shows open ports and OWASP findings.",
-      "lines": [
-        "$ scan --target app.client.com --scope authorized",
-        "[+] 443/tcp   open      https   nginx 1.24",
-        "[+] 22/tcp    open      ssh     OpenSSH 9.6",
-        "[-] 3306/tcp  filtered  mysql",
-        "[*] Testing OWASP Top 10…",
-        "[!] A03 SQL injection     /api/invoices?id=   CRITICAL",
-        "[!] A01 IDOR              /api/invoices/1043  CRITICAL",
-        "[~] A05 Headers           missing CSP, HSTS   MEDIUM",
-        "[✓] A02 TLS 1.3           valid certificate",
-        "[*] Report: audit-report.pdf"
-      ]
+      "description": "Animation: a client's online store receives live attacks (SQL injection, brute force and XSS) and blocks them, while a real customer signs in without trouble; a security panel logs every attempt."
     },
     "severity": { "critical": "Critical", "medium": "Medium", "low": "Low" },
     "severityPlural": { "critical": "Critical", "medium": "Medium", "low": "Low" },
