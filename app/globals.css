@@ -58,7 +58,7 @@ section[id] {
 
 /* ── Touch screens: own animations instead of the cursor spotlight ── */
 .touch-only { display: none; }
-@media (hover: none), (pointer: coarse) {
+@media (hover: none), (pointer: coarse), (max-width: 767px) {
   .touch-only { display: block; }
   .touch-hide { display: none !important; }
 }

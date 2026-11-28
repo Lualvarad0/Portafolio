@@ -3,7 +3,10 @@ import { useTranslations } from "next-intl";
 import { ArrowUpRight, Cloud, Globe, Monitor, Plug, ShieldAlert, Smartphone, Wrench } from "lucide-react";
 import CodeBlock from "./CodeBlock";
 import DataFigure from "./DataFigure";
+import ServiceTerminal from "./ServiceTerminal";
 import SecurityScope from "./SecurityScope";
+import type { AttackLabels } from "./AttackLive";
+import type { DesktopLabels, PhoneLabels } from "./ServiceApps";
 import { LogoMark } from "./Logo";
 import { Em, Kicker, Title, WRAP, richTags } from "./ui";
 import { CODE_CS, CODE_SQL } from "@/lib/code-samples";
@@ -103,9 +106,16 @@ export function Development() {
               const Icon = ICONS[s.icon];
               return (
                 <article key={s.title} data-reveal className="flex flex-col gap-3 rounded-3xl bg-white p-6">
-                  <span className="grid h-11 w-11 place-items-center rounded-2xl bg-neutral-950 text-signal">
+                  <span className="touch-hide grid h-11 w-11 place-items-center rounded-2xl bg-neutral-950 text-signal">
                     <Icon className="h-5 w-5" aria-hidden="true" />
                   </span>
+                  {/* phones: a terminal running the commands of this kind of project */}
+                  <ServiceTerminal
+                    kind={s.icon}
+                    icon={<Icon className="h-3.5 w-3.5" aria-hidden="true" />}
+                    phone={t.raw("scenes.phone") as PhoneLabels}
+                    desktop={t.raw("scenes.desktop") as DesktopLabels}
+                  />
                   <h3 className="text-lg font-semibold text-neutral-950" style={{ letterSpacing: "-0.03em" }}>
                     {s.title}
                   </h3>
@@ -247,16 +257,19 @@ export function Security() {
         </div>
 
         <SecurityScope
-          lines={t.raw("scope.lines") as string[]}
-          label={t("scope.label")}
           file={t("scope.file")}
           sample={t("scope.sample")}
           description={t("scope.description")}
-          shield={{
-            blocked: t("scope.shield.blocked"),
-            allowed: t("scope.shield.allowed"),
-            blockedTag: t("scope.shield.blockedTag"),
+          review={{
+            file: t("scope.review.file"),
+            reviewing: t("scope.review.reviewing"),
+            done: t("scope.review.done"),
+            problems: t("scope.review.problems"),
+            findings: t.raw("scope.review.findings") as string[],
+            fixes: t.raw("scope.review.fixes") as string[],
+            footer: t("scope.review.footer"),
           }}
+          live={t.raw("scope.live") as AttackLabels}
         />
 
         <div className="grid items-start gap-6 lg:grid-cols-[1fr_1.1fr]">

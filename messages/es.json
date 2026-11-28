@@ -44,6 +44,55 @@
     "title": "Software que <em>se adapta</em> a tu empresa",
     "lead": "No vendemos plantillas. Entendemos cómo trabaja tu equipo y construimos la herramienta que encaja, con código limpio que cualquier desarrollador pueda mantener.",
     "codeCaption": "Fragmento de ejemplo: emisión de una factura electrónica.",
+    "scenes": {
+      "phone": {
+        "title": "Pedidos",
+        "orders": [
+          {
+            "client": "Ferretería Ríos",
+            "amount": "$184.50"
+          },
+          {
+            "client": "Comercial Vera",
+            "amount": "$92.00"
+          },
+          {
+            "client": "Bodega Norte",
+            "amount": "$310.75"
+          }
+        ],
+        "offline": "Sin internet",
+        "offlineHint": "Los pedidos se guardan en el celular y no se pierden.",
+        "syncing": "Enviando…",
+        "synced": "Sincronizado",
+        "syncedHint": "Al volver la señal llegan solos a la oficina."
+      },
+      "desktop": {
+        "title": "Caja 1 · Facturación",
+        "items": [
+          {
+            "name": "Pintura blanca 4 L",
+            "price": "$22.50"
+          },
+          {
+            "name": "Tubo PVC 1/2\"",
+            "price": "$3.80"
+          },
+          {
+            "name": "Cemento 50 kg",
+            "price": "$9.90"
+          },
+          {
+            "name": "Brocha 3\"",
+            "price": "$2.00"
+          }
+        ],
+        "total": "Total",
+        "totalValue": "$38.20",
+        "charge": "Cobrar",
+        "printed": "Ticket impreso"
+      }
+    },
     "services": [
       { "icon": "globe", "title": "Sistemas web", "text": "ERPs, portales de clientes y paneles de administración.", "tags": ["React / Next.js", "Angular", ".NET"] },
       { "icon": "phone", "title": "Apps móviles", "text": "Pedidos, inventario y cobranzas desde el celular, con modo sin conexión.", "tags": ["Android", "iOS"] },
@@ -94,23 +143,52 @@
       "cta": "Solicitar auditoría"
     },
     "scope": {
-      "label": "'</>' lo que ve un atacante",
-      "shield": { "blocked": "bloqueados", "allowed": "permitidos", "blockedTag": "BLOQUEADO" },
-      "file": "escaneo-autorizado.log",
+      "review": { "file": "facturas.ts", "reviewing": "revisando", "done": "3/3 corregidos", "problems": "problemas", "findings": ["A03 · Inyección SQL", "A03 · XSS", "A02 · Secreto expuesto"], "fixes": ["parametrizada", "escapada", "en variable"], "footer": "0 vulnerabilidades · listo para producción" },
+      "live": {
+        "store": "Ferretería El Puerto",
+        "login": "Iniciar sesión",
+        "user": "Usuario",
+        "password": "Contraseña",
+        "enter": "Entrar",
+        "product": "Pintura blanca 4 L",
+        "price": "$22.50",
+        "comments": "Comentarios",
+        "post": "Publicar",
+        "attacker": "Atacante",
+        "customer": "Cliente",
+        "panel": "Panel de seguridad",
+        "blocked": "Ataques bloqueados",
+        "allowed": "Accesos legítimos",
+        "protection": "Protección",
+        "log": "Registro en vivo",
+        "attempt": "Intento",
+        "results": {
+          "blocked": "BLOQUEADO",
+          "allowed": "PERMITIDO",
+          "neutralized": "NEUTRALIZADO"
+        },
+        "scenarios": [
+          {
+            "type": "Inyección SQL",
+            "banner": "Bloqueado: intento de inyección SQL en el login"
+          },
+          {
+            "type": "Fuerza bruta",
+            "banner": "Bloqueado: demasiados intentos, la cuenta queda protegida"
+          },
+          {
+            "type": "XSS",
+            "banner": "Neutralizado: el script se muestra como texto y no se ejecuta"
+          },
+          {
+            "type": "Inicio de sesión",
+            "banner": "Bienvenida, María: los clientes reales entran sin problemas"
+          }
+        ]
+      },
+      "file": "tienda.cliente.com · en vivo",
       "sample": "Simulación",
-      "description": "Animación: un radar recorre la red de un cliente y, bajo el cursor, aparece un escaneo de seguridad autorizado con puertos abiertos y hallazgos OWASP.",
-      "lines": [
-        "$ scan --target app.cliente.com --scope autorizado",
-        "[+] 443/tcp   abierto   https   nginx 1.24",
-        "[+] 22/tcp    abierto   ssh     OpenSSH 9.6",
-        "[-] 3306/tcp  filtrado  mysql",
-        "[*] Probando OWASP Top 10…",
-        "[!] A03 Inyección SQL     /api/facturas?id=   CRÍTICA",
-        "[!] A01 IDOR              /api/facturas/1043  CRÍTICA",
-        "[~] A05 Cabeceras         falta CSP y HSTS    MEDIA",
-        "[✓] A02 TLS 1.3           certificado válido",
-        "[*] Reporte: reporte-auditoria.pdf"
-      ]
+      "description": "Animación: la tienda en línea de un cliente recibe ataques en vivo (inyección SQL, fuerza bruta y XSS) y los bloquea, mientras una clienta real inicia sesión sin problemas; un panel de seguridad registra cada intento."
     },
     "severity": { "critical": "Crítica", "medium": "Media", "low": "Baja" },
     "severityPlural": { "critical": "Críticas", "medium": "Media", "low": "Baja" },

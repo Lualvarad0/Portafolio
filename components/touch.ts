@@ -1,5 +1,5 @@
-/** Devices with no hovering cursor: they get their own animations instead of the cursor spotlight. */
-export const TOUCH_QUERY = "(hover: none), (pointer: coarse)";
+/** Phones and tablets (no hovering cursor) and narrow screens: they get their own animations instead of the cursor spotlight. */
+export const TOUCH_QUERY = "(hover: none), (pointer: coarse), (max-width: 767px)";
 
 /** Shared canvas helpers for the touch animations. */
 export const SIGNAL = "242,194,48";
